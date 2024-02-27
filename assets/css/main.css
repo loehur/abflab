@@ -1,0 +1,87 @@
+@font-face {
+  font-family: "fontku";
+  src: url("../font/Titillium-Regular.otf");
+}
+
+html .table {
+  font-family: 'fontku', sans-serif;
+}
+
+html .content {
+  font-family: 'fontku', sans-serif;
+}
+
+html body {
+  font-family: 'fontku', sans-serif;
+}
+
+@media print {
+  p div {
+    font-family: 'fontku', sans-serif;
+    font-size: 14px;
+  }
+}
+
+.modal-backdrop {
+  opacity: 0.1 !important;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+.img-zoom:hover {
+  -ms-transform: scale(1.1); /* IE 9 */
+  -webkit-transform: scale(1.1); /* Safari 3-8 */
+  transform: scale(1.1); 
+}
+
+.img-zoom {
+  z-index: -9999;
+  transition: transform 0.5s;
+}
+
+.img-zoom-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.img-logo-home{
+  height: 40px;
+  object-fit: cover;
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+
+.float-green{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:#25d366;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+  font-size:30px;
+	box-shadow: 2px 2px 3px #999;
+  z-index:100;
+}
+
+.float-center{
+  margin-top:16px;
+}
