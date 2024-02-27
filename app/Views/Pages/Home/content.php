@@ -1,11 +1,6 @@
 <div class="container-fluid border-0">
     <div class="container">
         <div id="carBanner" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carBanner" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carBanner" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carBanner" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
             <div class="carousel-inner rounded-3">
                 <?php
                 for ($x = 1; $x <= $data['banner']; $x++) { ?>
@@ -29,7 +24,7 @@
 <style>
     .wrapper {
         display: flex;
-        height: 220px;
+        height: auto;
         overflow-x: auto;
         overflow-y: hidden;
         margin-bottom: 6px;
@@ -41,7 +36,7 @@
     }
 
     .wrapper .item {
-        min-width: 180px;
+        min-width: 80px;
         text-align: center;
     }
 </style>
@@ -50,15 +45,15 @@
 <div class="container-fluid py-3">
     <div class="container pb-2">
         <div id="mobile">
-            <div class="mb-1">
+            <div>
                 <label class="fw-bold">Produk Kami</label>
             </div>
             <div class="wrapper mb-2">
                 <?php foreach ($data['product'] as $p) { ?>
                     <div class="rounded item me-1 my-1 shadow-sm me-2">
-                        <a href="<?= ($p['link'] == 0) ? $this->BASE_URL . 'Detail/index/' . $p['id'] : $p['link'] ?>" target="<?= $p['target'] ?>">
+                        <a href="<?= ($p['link'] == 0) ? $this->BASE_URL . 'Detail/index/' . $k : $p['link'] ?>" target="<?= $p['target'] ?>">
                             <img class="w-100 rounded bg-light" id="image<?= $p['img'] ?>0" onerror="no_image(<?= $p['img'] ?>0)" src="<?= $this->ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" alt="">
-                            <div class="fw-bold py-1 text-dark"><?= $p['produk'] ?></div>
+                            <div class="py-1 px-1 text-dark"><small><?= $p['produk'] ?></small></div>
                         </a>
                     </div>
                 <?php } ?>
