@@ -148,7 +148,7 @@ class D_Produk
                 "mal" => ['10 sheet.rar', '15 sheet.rar', '20 sheet.rar'],
                 "link" => 0,
                 "target" => "_self",
-                "varian" => "Apg",
+                "varian" => "APG",
                 "detail" => ['apg'],
                 "berat" => 0,
                 "harga" => 0
