@@ -13,315 +13,314 @@ $d = $data['data'][$id_produk];
 </style>
 
 <div class="container mb-4">
-    <div class="row">
-        <div class="col">
-            <div class="row">
-                <div class="col-md-4">
-                    <div id="carBanner" class="carousel">
-                        <div class="carousel-inner rounded-3 border">
-                            <?php
-                            $no = 0;
-                            $files = scandir(__DIR__ . "/../../../../assets/img/produk_detail/" . $d['img_detail']);
-                            foreach ($files as $f) {
-                                if (str_contains($f, ".webp")) {
-                                    $no += 1; ?>
-                                    <div style="cursor: zoom-in;" class="carousel-item <?= substr($f, 0, -5) ?> <?= ($main_img == substr($f, 0, -5)) ? 'active' : '' ?> zoom">
-                                        <img id="image<?= $f ?>" onerror="no_image(<?= $f ?>)" class="d-block w-100" src="<?= $this->ASSETS_URL ?>img/produk_detail/<?= $d['img_detail'] ?>/<?= $f ?>">
-                                    </div>
-                            <?php }
-                            } ?>
-                        </div>
-                        <?php if ($no > 1) { ?>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carBanner" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carBanner" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        <?php } ?>
-                    </div>
+
+    <div class="row mb-2">
+        <div class="col-md-4 px-1 mb-2">
+            <div id="carBanner" class="carousel">
+                <div class="carousel-inner rounded-3 border">
+                    <?php
+                    $no = 0;
+                    $files = scandir(__DIR__ . "/../../../../assets/img/produk_detail/" . $d['img_detail']);
+                    foreach ($files as $f) {
+                        if (str_contains($f, ".webp")) {
+                            $no += 1; ?>
+                            <div style="cursor: zoom-in;" class="carousel-item <?= substr($f, 0, -5) ?> <?= ($main_img == substr($f, 0, -5)) ? 'active' : '' ?> zoom">
+                                <img id="image<?= $f ?>" onerror="no_image(<?= $f ?>)" class="d-block w-100" src="<?= $this->ASSETS_URL ?>img/produk_detail/<?= $d['img_detail'] ?>/<?= $f ?>">
+                            </div>
+                    <?php }
+                    } ?>
                 </div>
-                <div class="col pt-2 border rounded">
-                    <form class="upload me-0 pe-0 form-floating" action="<?= $this->BASE_URL ?>Detail/upload" method="POST">
-                        <h6 class="text-success"><b><?= $d['produk'] ?></b></h6>
-                        <div class="row mb-2 d-none">
-                            <div class="col-auto">
-                                <div class="text-start border rounded border-light shadow-sm border-start-0 px-3 py-1">
-                                    <span class="text-success">Harga</span>
-                                    <br>
-                                    Rp <input name="harga" value="<?= $d['harga'] ?>" class="border-0 opHarga" style="pointer-events: none;" type="text" readonly id="harga" />
-                                </div>
-                            </div>
-                        </div>
-                        <?php
-                        $varian = $this->varian($d['varian'])->main();;
-                        foreach ($varian as $k => $dv) {
-                            $k0_ok = str_replace(' ', '-', $k);
-                            $k0_ok = preg_replace('/[^A-Za-z0-9\-]/', '', $k0_ok);
-                        ?>
-                            <div class="row mb-1">
-                                <div class="col-auto pe-0">
-                                    <label class=""><small><?= $k ?>:</small></label>
-                                    <select name="v1_<?= $k ?>" id="sel_<?= $k0_ok ?>" class="form-select shadow-none opHarga selVarian" data-id="v<?= $k ?>" required>
-                                        <option data-img="0" value="" selected>-</option>
-                                        <?php foreach ($dv as $k_ => $dh) { ?>
-                                            <option data-img="<?= (isset($dh['img'])) ? $dh['img'] : 0 ?>" value="<?= $k_ ?>" data-harga="<?= $dh['harga'] ?>" data-v='<?= base64_encode(serialize($dh)) ?>'><?= $k_ ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row mb-1" id="v<?= $k ?>"></div>
-                        <?php
-                        } ?>
-                        <input name="produk" type="hidden" value="<?= $id_produk ?>">
-                        <div class="row mb-2">
-                            <div class="col">
-                                <div class="form-floating">
-                                    <textarea class="form-control form-control-sm shadow-none" name="note" id="floatingTextarea"></textarea>
-                                    <label for="floatingTextarea">Tinggalkan catatan disini...</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-auto">
-                                <label><small>Max 25MB</small></label> <small class="text-danger">(.jpg .jpeg .png .zip .rar)</small>
-                                <div class="mb-3">
-                                    <input id="file" name="order" class="form-control form-control-sm" type="file">
-                                    <small>Upload process <span id="persen">0</span><b> %</b></small>
-                                </div>
-                            </div>
-                            <?php
-                            if (isset($d['mal']) && is_array($d['mal'])) { ?>
-                                <div class="col-auto">
-                                    <label class=""><small>Template/Mal</small></label>
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-outline-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Download <i class="fa-regular fa-circle-down"></i>
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <?php foreach ($d['mal'] as $m) { ?>
-                                                <li><a class="dropdown-item" href="<?= $this->ASSETS_URL ?>img/mal/<?= $m ?>" download=""><?= $m ?></a></li>
-                                            <?php } ?>
-                                        </ul>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <table>
-                                    <tr>
-                                        <td colspan="3" class="text-center"> <label>Jumlah (pcs)</label></td>
-                                    </tr>
-                                    <tr class="border">
-                                        <td class="px-2 cursor-pointer prevent-select" onclick="gantiJumlah(0)">-</td>
-                                        <td><input required id="jumlah" name="jumlah" type="number" min="1" class="form form-control shadow-none form-control-sm text-center border-0" value="1" style="width: 70px;" /></td>
-                                        <td class="px-2 cursor-pointer prevent-select" onclick="gantiJumlah()">+</td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="col text-end">
-                                <span class="text-success">Total Harga</span><br>
-                                <b>Rp <span id="harga_total">0</span></b>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col text-end pt-4">
-                                <div class="">
-                                    <button type="submit" id="add_cart" class="btn btn-sm btn-success">(+) Tambah</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                <?php if ($no > 1) { ?>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carBanner" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carBanner" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                <?php } ?>
             </div>
-            <div class="row mt-3">
-                <div class="col">
-                    <ul class="nav nav-tabs" id="pills-tab" role="tablist">
-                        <?php
-                        if (is_array($d['detail'])) {
-                            $tab = 0;
-                            foreach ($d['detail'] as $k => $dd) {
-                                $tab += 1;
-                        ?>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link <?= ($tab == 1) ? 'active' : '' ?>" id="pills-<?= $k ?>-tab" data-bs-toggle="pill" data-bs-target="#pills-<?= $k ?>" type="button" role="tab" aria-controls="pills-<?= $k ?>" aria-selected="true"><?= $dd['judul'] ?></button>
-                                </li>
-                        <?php }
-                        }
-                        ?>
-                    </ul>
-                    <div class="tab-content p-2 border-start border-end border-bottom" id="pills-tabContent">
-                        <?php
-                        $tab = 0;
-                        foreach ($d['detail'] as $k => $dd) {
-                            $tab += 1; ?>
-                            <div class="tab-pane <?= ($tab == 1) ? 'show active' : '' ?>" id="pills-<?= $k ?>" role="tabpanel" aria-labelledby="pills-<?= $k ?>-tab">
-                                <small id="detail_<?= $k ?>"></small>
-                            </div>
-                        <?php } ?>
+        </div>
+        <div class="col p-2 mx-1 border rounded">
+            <form class="upload me-0 pe-0 form-floating" action="<?= $this->BASE_URL ?>Detail/upload" method="POST">
+                <h6 class="text-success"><b><?= $d['produk'] ?></b></h6>
+                <div class="row mb-2 d-none">
+                    <div class="col-auto">
+                        <div class="text-start border rounded border-light shadow-sm border-start-0 px-3 py-1">
+                            <span class="text-success">Harga</span>
+                            <br>
+                            Rp <input name="harga" value="<?= $d['harga'] ?>" class="border-0 opHarga" style="pointer-events: none;" type="text" readonly id="harga" />
+                        </div>
                     </div>
                 </div>
+                <?php
+                $varian = $this->varian($d['varian'])->main();;
+                foreach ($varian as $k => $dv) {
+                    $k0_ok = str_replace(' ', '-', $k);
+                    $k0_ok = preg_replace('/[^A-Za-z0-9\-]/', '', $k0_ok);
+                ?>
+                    <div class="row mb-1">
+                        <div class="col-auto pe-0">
+                            <label class=""><small><?= $k ?>:</small></label>
+                            <select name="v1_<?= $k ?>" id="sel_<?= $k0_ok ?>" class="form-select shadow-none opHarga selVarian" data-id="v<?= $k ?>" required>
+                                <option data-img="0" value="" selected>-</option>
+                                <?php foreach ($dv as $k_ => $dh) { ?>
+                                    <option data-img="<?= (isset($dh['img'])) ? $dh['img'] : 0 ?>" value="<?= $k_ ?>" data-harga="<?= $dh['harga'] ?>" data-v='<?= base64_encode(serialize($dh)) ?>'><?= $k_ ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-1" id="v<?= $k ?>"></div>
+                <?php
+                } ?>
+                <input name="produk" type="hidden" value="<?= $id_produk ?>">
+                <div class="row mb-2">
+                    <div class="col">
+                        <div class="form-floating">
+                            <textarea class="form-control form-control-sm shadow-none" name="note" id="floatingTextarea"></textarea>
+                            <label for="floatingTextarea">Tinggalkan catatan disini...</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-auto text-end">
+                        <label><small>Max 25MB</small></label> <small class="text-danger">(.jpg .jpeg .png .zip .rar)</small>
+                        <div class="">
+                            <input id="file" name="order" class="form-control form-control-sm" type="file">
+                            <small>Upload process <span id="persen">0</span><b> %</b></small>
+                        </div>
+                    </div>
+                    <?php
+                    if (isset($d['mal']) && is_array($d['mal'])) { ?>
+                        <div class="col-auto">
+                            <label class=""><small>Template/Mal</small></label>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Download <i class="fa-regular fa-circle-down"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <?php foreach ($d['mal'] as $m) { ?>
+                                        <li><a class="dropdown-item" href="<?= $this->ASSETS_URL ?>img/mal/<?= $m ?>" download=""><?= $m ?></a></li>
+                                    <?php } ?>
+                                </ul>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <table class="">
+                            <tr>
+                                <td colspan="3" class="text-center"> <label>Jumlah (pcs)</label></td>
+                            </tr>
+                            <tr class="border">
+                                <td class="px-2 cursor-pointer prevent-select" onclick="gantiJumlah(0)">-</td>
+                                <td><input required id="jumlah" name="jumlah" type="number" min="1" class="form form-control shadow-none form-control-sm text-center border-0" value="1" style="width: 70px;" /></td>
+                                <td class="px-2 cursor-pointer prevent-select" onclick="gantiJumlah()">+</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-auto me-3">
+                        <span class="text-success">Total Harga</span><br>
+                        <b>Rp <span id="harga_total">0</span></b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-end">
+                        <div class="">
+                            <button type="submit" id="add_cart" class="btn btn-success">(+) Tambah</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col px-1">
+            <ul class="nav nav-tabs" id="pills-tab" role="tablist">
+                <?php
+                if (is_array($d['detail'])) {
+                    $tab = 0;
+                    foreach ($d['detail'] as $k => $dd) {
+                        $tab += 1;
+                ?>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link <?= ($tab == 1) ? 'active' : '' ?>" id="pills-<?= $k ?>-tab" data-bs-toggle="pill" data-bs-target="#pills-<?= $k ?>" type="button" role="tab" aria-controls="pills-<?= $k ?>" aria-selected="true"><?= $dd['judul'] ?></button>
+                        </li>
+                <?php }
+                }
+                ?>
+            </ul>
+            <div class="tab-content p-2 border-start border-end border-bottom" id="pills-tabContent">
+                <?php
+                $tab = 0;
+                foreach ($d['detail'] as $k => $dd) {
+                    $tab += 1; ?>
+                    <div class="tab-pane <?= ($tab == 1) ? 'show active' : '' ?>" id="pills-<?= $k ?>" role="tabpanel" aria-labelledby="pills-<?= $k ?>-tab">
+                        <small id="detail_<?= $k ?>"></small>
+                    </div>
+                <?php } ?>
             </div>
         </div>
     </div>
-    <script src="<?= $this->ASSETS_URL ?>js/jquery.zoom.js"></script>
-    <script>
-        $(document).ready(function() {
-            totalHarga();
-            var detail = <?= (is_array($d['detail'])) ? json_encode($d['detail']) : 0 ?>;
+</div>
 
-            if (detail != 0) {
-                for (const x in detail) {
-                    $("#detail_" + x).load("<?= $this->BASE_URL ?>Load/Produk_Deskripsi/" + detail[x]['konten']);
-                }
+<script src="<?= $this->ASSETS_URL ?>js/jquery.zoom.js"></script>
+<script>
+    $(document).ready(function() {
+        totalHarga();
+        var detail = <?= (is_array($d['detail'])) ? json_encode($d['detail']) : 0 ?>;
+
+        if (detail != 0) {
+            for (const x in detail) {
+                $("#detail_" + x).load("<?= $this->BASE_URL ?>Load/Produk_Deskripsi/" + detail[x]['konten']);
             }
-
-            $('.zoom').zoom({
-                magnify: 1,
-            });
-            spinner(0);
-        });
-
-        function no_image(x) {
-            $("#image" + x).prop("src", "<?= $this->ASSETS_URL ?>img/guide/no_image.webp");
         }
 
-        $("form.upload").on("submit", function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-            var file = $('#file')[0].files[0];
-            formData.append('file', file);
+        $('.zoom').zoom({
+            magnify: 1,
+        });
+        spinner(0);
+    });
 
-            $.ajax({
-                xhr: function() {
-                    var xhr = new window.XMLHttpRequest();
-                    xhr.upload.addEventListener("progress", function(evt) {
-                        if (evt.lengthComputable) {
-                            var percentComplete = (evt.loaded / evt.total) * 100;
-                            $('#persen').html('<b>' + Math.round(percentComplete) + '</b>');
-                        }
-                    }, false);
-                    return xhr;
-                },
-                url: $(this).attr('action'),
-                type: 'POST',
-                data: formData,
-                contentType: "application/octet-stream",
-                enctype: 'multipart/form-data',
+    function no_image(x) {
+        $("#image" + x).prop("src", "<?= $this->ASSETS_URL ?>img/guide/no_image.webp");
+    }
 
-                contentType: false,
-                processData: false,
+    $("form.upload").on("submit", function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        var file = $('#file')[0].files[0];
+        formData.append('file', file);
 
-                beforeSend: function() {
-                    $("#add_cart").hide();
-                },
-
-                success: function(dataRespon) {
-                    if (dataRespon == 1) {
-                        alert("Berhasil menambah order ke keranjang!");
-                        cart_count();
-                        content(<?= $id_produk ?>);
-                    } else {
-                        alert(dataRespon);
+        $.ajax({
+            xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = (evt.loaded / evt.total) * 100;
+                        $('#persen').html('<b>' + Math.round(percentComplete) + '</b>');
                     }
-                },
+                }, false);
+                return xhr;
+            },
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: formData,
+            contentType: "application/octet-stream",
+            enctype: 'multipart/form-data',
+
+            contentType: false,
+            processData: false,
+
+            beforeSend: function() {
+                $("#add_cart").hide();
+            },
+
+            success: function(dataRespon) {
+                if (dataRespon == 1) {
+                    alert("Berhasil menambah order ke keranjang!");
+                    cart_count();
+                    content(<?= $id_produk ?>);
+                } else {
+                    alert(dataRespon);
+                }
+            },
+        });
+    });
+
+    $('select.opHarga').change(function() {
+        totalHarga();
+        ubahGambar();
+    });
+
+    function ubahGambar() {
+        var img = "<?= $main_img ?>";
+        $('select.opHarga').each(function() {
+            img_each = $(this).find(':selected').data('img');
+            if (img_each != 0) {
+                img += "_" + img_each;
+            }
+        })
+
+        //$("div#img_varian").html(img);
+
+        if ($(".carousel-item").hasClass(img)) {
+            $(".carousel-item").each(function() {
+                $(this).removeClass("active");
             });
-        });
 
-        $('select.opHarga').change(function() {
-            totalHarga();
-            ubahGambar();
-        });
+            $("." + img).addClass("active");
+        }
+    }
 
-        function ubahGambar() {
-            var img = "<?= $main_img ?>";
-            $('select.opHarga').each(function() {
-                img_each = $(this).find(':selected').data('img');
-                if (img_each != 0) {
-                    img += "_" + img_each;
+    function totalHarga() {
+        var total = 0;
+        var qty = $("input#jumlah").val();
+        var val = $('select.opHarga').val();
+
+        var harga_awal = <?= $d['harga'] ?>;
+        total += (harga_awal * qty);
+
+        if (val != '') {
+            $('.opHarga').each(function() {
+                val_each = $(this).find(':selected').data('harga');
+                if (Number.isInteger(val_each) == true) {
+                    total += val_each;
                 }
             })
-
-            //$("div#img_varian").html(img);
-
-            if ($(".carousel-item").hasClass(img)) {
-                $(".carousel-item").each(function() {
-                    $(this).removeClass("active");
-                });
-
-                $("." + img).addClass("active");
-            }
         }
 
-        function totalHarga() {
-            var total = 0;
-            var qty = $("input#jumlah").val();
-            var val = $('select.opHarga').val();
+        harga(total);
+    }
 
-            var harga_awal = <?= $d['harga'] ?>;
-            total += (harga_awal * qty);
+    $('select.selVarian').change(function() {
+        var id_ = $(this).attr('data-id');
+        var data_ = $(this).find(':selected').data('v')
 
-            if (val != '') {
-                $('.opHarga').each(function() {
-                    val_each = $(this).find(':selected').data('harga');
-                    if (Number.isInteger(val_each) == true) {
-                        total += val_each;
-                    }
-                })
+        if ($(this).val() == "") {
+            $("div#" + id_).html("");
+        } else {
+            $("div#" + id_).html("");
+            $("div#" + id_).load("<?= $this->BASE_URL ?>Detail/loadVarian", {
+                data: data_
+            });
+        }
+    });
+
+    function harga(total) {
+        var qty = $("input#jumlah").val();
+        var harga = $("input#harga").val();
+        $("input#harga").val(addCommas(total));
+        $("span#harga_total").html(addCommas(total * qty));
+    }
+
+    function gantiJumlah(mode = 1) {
+        qty = $("input#jumlah").val()
+
+        if (mode == 0) {
+            if (qty > 1) {
+                qty -= 1;
             }
-
-            harga(total);
+        } else {
+            qty = parseInt(qty) + 1;
         }
 
-        $('select.selVarian').change(function() {
-            var id_ = $(this).attr('data-id');
-            var data_ = $(this).find(':selected').data('v')
+        $("input#jumlah").val(qty);
 
-            if ($(this).val() == "") {
-                $("div#" + id_).html("");
-            } else {
-                $("div#" + id_).html("");
-                $("div#" + id_).load("<?= $this->BASE_URL ?>Detail/loadVarian", {
-                    data: data_
-                });
-            }
-        });
+        totalHarga();
+    }
 
-        function harga(total) {
-            var qty = $("input#jumlah").val();
-            var harga = $("input#harga").val();
-            $("input#harga").val(addCommas(total));
-            $("span#harga_total").html(addCommas(total * qty));
+    function addCommas(nStr) {
+        nStr += '';
+        x = nStr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
         }
-
-        function gantiJumlah(mode = 1) {
-            qty = $("input#jumlah").val()
-
-            if (mode == 0) {
-                if (qty > 1) {
-                    qty -= 1;
-                }
-            } else {
-                qty = parseInt(qty) + 1;
-            }
-
-            $("input#jumlah").val(qty);
-
-            totalHarga();
-        }
-
-        function addCommas(nStr) {
-            nStr += '';
-            x = nStr.split('.');
-            x1 = x[0];
-            x2 = x.length > 1 ? '.' + x[1] : '';
-            var rgx = /(\d+)(\d{3})/;
-            while (rgx.test(x1)) {
-                x1 = x1.replace(rgx, '$1' + ',' + '$2');
-            }
-            return x1 + x2;
-        }
-    </script>
+        return x1 + x2;
+    }
+</script>
