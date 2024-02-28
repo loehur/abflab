@@ -18,7 +18,7 @@ $t = $data['title'];
 						<a href="<?= $this->BASE_URL ?>Home" class="navbar-brand">
 							<img src="<?= $this->ASSETS_URL ?>img/logo.png" class="img-logo-home px-2" alt="">
 						</a>
-						<button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+						<button type="button" class="btn-close text-reset me-2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 					</div>
 					<div class="offcanvas-body">
 						<ul class="navbar-nav justify-content-end flex-grow-1 mb-2">
@@ -29,7 +29,7 @@ $t = $data['title'];
 
 							<?php foreach ($menu as $k => $m) { ?>
 								<div class="nav-item dropdown">
-									<a href="#" class="nav-link shadow-sm border-bottom px-2 mt-2 me-2 py-1 <?= (str_contains($t, $m['aktif'])) ? 'active' : '' ?>" data-bs-toggle="dropdown"><?= $m['name'] ?></a>
+									<a href="#" class="nav-link shadow-sm border-top px-2 mt-2 me-2 py-1 <?= (str_contains($t, $m['aktif'])) ? 'active' : '' ?>" data-bs-toggle="dropdown"><?= $m['name'] ?></a>
 									<div class="dropdown-menu m-0 rounded-0">
 										<?php foreach ($produk as $pk => $p) {
 											if ($p['group'] == $k) { ?>
@@ -41,14 +41,14 @@ $t = $data['title'];
 							<?php } ?>
 						</ul>
 						<div class="mt-2">
-							<button type="button" class="btn btn-sm btn-light position-relative py-2 me-1 text-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+							<button type="button" class="btn btn-sm border position-relative py-2 me-1 text-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 								<i class="fa-regular fa-circle-user"></i>
 								<span id="user_name"></span>
 							</button>
-							<a href=" <?= $this->BASE_URL ?>Pesanan" class="btn btn-sm btn-light position-relative pt-2 me-1 text-secondary">
+							<a href=" <?= $this->BASE_URL ?>Pesanan" class="btn btn-sm border position-relative pt-2 me-1 text-secondary">
 								<i class="fa-regular fa-rectangle-list"></i> Pesanan
 							</a>
-							<a href=" <?= $this->BASE_URL ?>Cart" class="btn btn-sm btn-light position-relative pt-2 text-secondary">
+							<a href=" <?= $this->BASE_URL ?>Cart" class="btn btn-sm border position-relative pt-2 text-secondary">
 								<i class="fa-solid fa-cart-shopping"></i> Cart
 								<div id="cart_count"></div>
 							</a>

@@ -71,7 +71,7 @@
 
         </div>
         <div class="desktop">
-            <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
+            <ul class="nav nav-tabs mb-2" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="pills-all-tab" data-bs-toggle="pill" data-bs-target="#pills-all" type="button" role="tab" aria-controls="pills-all" aria-selected="true">Semua</button>
                 </li>
@@ -118,13 +118,6 @@
                     </div>
                 <?php } ?>
             </div>
-
-
-            <?php foreach ($menu as $km => $m) { ?>
-                <div class="tab-content <?= ($km == 0) ? 'show active' : '' ?>" id="pillas-<?= $km ?>">
-
-                </div>
-            <?php } ?>
         </div>
     </div>
 </div>

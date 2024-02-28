@@ -4,6 +4,19 @@ $main_img = "m";
 $d = $data['data'][$id_produk];
 ?>
 
+<style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+
 <div class="container mb-4">
     <div class="row">
         <div class="col">
@@ -23,9 +36,6 @@ $d = $data['data'][$id_produk];
                             <?php }
                             } ?>
                         </div>
-                        <small>
-                            <div class="text-center text-secondary" id="img_varian"></div>
-                        </small>
                         <?php if ($no > 1) { ?>
                             <button class="carousel-control-prev" type="button" data-bs-target="#carBanner" data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -38,9 +48,9 @@ $d = $data['data'][$id_produk];
                         <?php } ?>
                     </div>
                 </div>
-                <div class="col mt-2">
+                <div class="col pt-2 border rounded">
                     <form class="upload me-0 pe-0 form-floating" action="<?= $this->BASE_URL ?>Detail/upload" method="POST">
-                        <h5 class="text-dark"><b><?= $d['produk'] ?></b></h5>
+                        <h6 class="text-success"><b><?= $d['produk'] ?></b></h6>
                         <div class="row mb-2 d-none">
                             <div class="col-auto">
                                 <div class="text-start border rounded border-light shadow-sm border-start-0 px-3 py-1">
@@ -50,7 +60,6 @@ $d = $data['data'][$id_produk];
                                 </div>
                             </div>
                         </div>
-                        <hr class="border-light mb-2 mt-2">
                         <?php
                         $varian = $this->varian($d['varian'])->main();;
                         foreach ($varian as $k => $dv) {
@@ -59,8 +68,8 @@ $d = $data['data'][$id_produk];
                         ?>
                             <div class="row mb-1">
                                 <div class="col-auto pe-0">
-                                    <label class="fw-bold"><?= $k ?>:</label>
-                                    <select name="v1_<?= $k ?>" id="sel_<?= $k0_ok ?>" class="form-select opHarga selVarian" data-id="v<?= $k ?>" required>
+                                    <label class=""><small><?= $k ?>:</small></label>
+                                    <select name="v1_<?= $k ?>" id="sel_<?= $k0_ok ?>" class="form-select shadow-none opHarga selVarian" data-id="v<?= $k ?>" required>
                                         <option data-img="0" value="" selected>-</option>
                                         <?php foreach ($dv as $k_ => $dh) { ?>
                                             <option data-img="<?= (isset($dh['img'])) ? $dh['img'] : 0 ?>" value="<?= $k_ ?>" data-harga="<?= $dh['harga'] ?>" data-v='<?= base64_encode(serialize($dh)) ?>'><?= $k_ ?></option>
@@ -72,17 +81,26 @@ $d = $data['data'][$id_produk];
                         <?php
                         } ?>
                         <input name="produk" type="hidden" value="<?= $id_produk ?>">
-                        <div class="row">
+                        <div class="row mb-2">
+                            <div class="col">
+                                <div class="form-floating">
+                                    <textarea class="form-control form-control-sm shadow-none" name="note" id="floatingTextarea"></textarea>
+                                    <label for="floatingTextarea">Tinggalkan catatan disini...</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
                             <div class="col-auto">
-                                <label>File Max. 25MB</label> <small class="text-danger">.jpg .jpeg .png .zip .rar</small>
+                                <label><small>Max 25MB</small></label> <small class="text-danger">(.jpg .jpeg .png .zip .rar)</small>
                                 <div class="mb-3">
                                     <input id="file" name="order" class="form-control form-control-sm" type="file">
                                     <small>Upload process <span id="persen">0</span><b> %</b></small>
                                 </div>
                             </div>
-                            <?php if (isset($d['mal']) && is_array($d['mal'])) { ?>
+                            <?php
+                            if (isset($d['mal']) && is_array($d['mal'])) { ?>
                                 <div class="col-auto">
-                                    <label class="fw-bold">Template/Mal</label>
+                                    <label class=""><small>Template/Mal</small></label>
                                     <div class="dropdown">
                                         <button class="btn btn-sm btn-outline-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                             Download <i class="fa-regular fa-circle-down"></i>
@@ -96,24 +114,16 @@ $d = $data['data'][$id_produk];
                                 </div>
                             <?php } ?>
                         </div>
-                        <div class="row mb-2">
-                            <div class="col">
-                                <div class="form-floating">
-                                    <textarea class="form-control form-control-sm" name="note" id="floatingTextarea"></textarea>
-                                    <label for="floatingTextarea">Tinggalkan catatan disini...</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
+                        <div class="row">
                             <div class="col">
                                 <table>
                                     <tr>
                                         <td colspan="3" class="text-center"> <label>Jumlah (pcs)</label></td>
                                     </tr>
-                                    <tr>
-                                        <td class="px-2 cursor-pointer" onclick="gantiJumlah(0)">-</td>
-                                        <td><input required id="jumlah" name="jumlah" type="number" min="1" class="form form-control text-center" value="1" style="width: 100px;" /></td>
-                                        <td class="px-2 cursor-pointer" onclick="gantiJumlah()">+</td>
+                                    <tr class="border">
+                                        <td class="px-2 cursor-pointer prevent-select" onclick="gantiJumlah(0)">-</td>
+                                        <td><input required id="jumlah" name="jumlah" type="number" min="1" class="form form-control shadow-none form-control-sm text-center border-0" value="1" style="width: 70px;" /></td>
+                                        <td class="px-2 cursor-pointer prevent-select" onclick="gantiJumlah()">+</td>
                                     </tr>
                                 </table>
                             </div>
@@ -123,27 +133,42 @@ $d = $data['data'][$id_produk];
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col text-end">
+                            <div class="col text-end pt-4">
                                 <div class="">
-                                    <button type="submit" id="add_cart" class="btn btn-success">(+) Tambah</button>
+                                    <button type="submit" id="add_cart" class="btn btn-sm btn-success">(+) Tambah</button>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="row px-2">
-                <label class="fw-bold mb-1">Deskripsi Produk</label>
-                <?php
-                if (is_array($d['detail'])) {
-                    foreach ($d['detail'] as $dd) { ?>
-                        <div class="col border rounded-3 p-2 me-2 mb-1" style="min-width: 300px;">
-                            <small id="<?= $dd ?>"></small>
-                        </div>
-                <?php }
-                } else {
-                    echo "Invalid Detail Format!";
-                } ?>
+            <div class="row mt-3">
+                <div class="col">
+                    <ul class="nav nav-tabs" id="pills-tab" role="tablist">
+                        <?php
+                        if (is_array($d['detail'])) {
+                            $tab = 0;
+                            foreach ($d['detail'] as $k => $dd) {
+                                $tab += 1;
+                        ?>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link <?= ($tab == 1) ? 'active' : '' ?>" id="pills-<?= $k ?>-tab" data-bs-toggle="pill" data-bs-target="#pills-<?= $k ?>" type="button" role="tab" aria-controls="pills-<?= $k ?>" aria-selected="true"><?= $dd['judul'] ?></button>
+                                </li>
+                        <?php }
+                        }
+                        ?>
+                    </ul>
+                    <div class="tab-content p-2 border-start border-end border-bottom" id="pills-tabContent">
+                        <?php
+                        $tab = 0;
+                        foreach ($d['detail'] as $k => $dd) {
+                            $tab += 1; ?>
+                            <div class="tab-pane <?= ($tab == 1) ? 'show active' : '' ?>" id="pills-<?= $k ?>" role="tabpanel" aria-labelledby="pills-<?= $k ?>-tab">
+                                <small id="detail_<?= $k ?>"></small>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -155,7 +180,7 @@ $d = $data['data'][$id_produk];
 
             if (detail != 0) {
                 for (const x in detail) {
-                    $("#" + detail[x]).load("<?= $this->BASE_URL ?>Load/Produk_Deskripsi/" + detail[x]);
+                    $("#detail_" + x).load("<?= $this->BASE_URL ?>Load/Produk_Deskripsi/" + detail[x]['konten']);
                 }
             }
 

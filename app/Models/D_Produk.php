@@ -14,7 +14,16 @@ class D_Produk
                 "link" => 0,
                 "target" => "_self",
                 "varian" => "Cetak_Foto",
-                "detail" => ['cetak_foto', 'ukuran_cetak'], // File di Views/Load/Produk_Deskripsi
+                "detail" => [
+                    0 => [
+                        "judul" => 'Deskripsi',
+                        "konten" => 'cetak_foto'
+                    ],
+                    1 => [
+                        "judul" => 'Ukuran Cetak',
+                        "konten" => 'ukuran_cetak'
+                    ]
+                ],
                 "berat" => 0,
                 "harga" => 0
             ],
@@ -26,7 +35,12 @@ class D_Produk
                 "link" => 0,
                 "target" => "_self",
                 "varian" => "Acrylic_Figure",
-                "detail" => ['acrylic_figure'],
+                "detail" => [
+                    0 => [
+                        "judul" => 'Deskripsi',
+                        "konten" => 'acrylic_figure'
+                    ],
+                ],
                 "berat" => 0,
                 "harga" => 0
             ],
@@ -38,7 +52,12 @@ class D_Produk
                 "link" => 0,
                 "target" => "_self",
                 "varian" => "Frame_Kolase",
-                "detail" => ['frame_kolase'],
+                "detail" => [
+                    0 => [
+                        "judul" => 'Deskripsi',
+                        "konten" => 'frame_kolase'
+                    ],
+                ],
                 "berat" => 0,
                 "harga" => 0
             ],
@@ -50,7 +69,12 @@ class D_Produk
                 "link" => 0,
                 "target" => "_self",
                 "varian" => "Greeting_Card",
-                "detail" => ['greeting_card'],
+                "detail" => [
+                    0 => [
+                        "judul" => 'Deskripsi',
+                        "konten" => 'greeting_card'
+                    ],
+                ],
                 "berat" => 0,
                 "harga" => 0
             ],
@@ -62,7 +86,16 @@ class D_Produk
                 "link" => 0,
                 "target" => "_self",
                 "varian" => "Print_Frame",
-                "detail" => ['print_frame', 'ukuran_print_frame'],
+                "detail" => [
+                    0 => [
+                        "judul" => 'Deskripsi',
+                        "konten" => 'print_frame'
+                    ],
+                    1 => [
+                        "judul" => 'Ukuran Print Frame',
+                        "konten" => 'ukuran_print_frame'
+                    ],
+                ],
                 "berat" => 0,
                 "harga" => 0
             ],
@@ -74,7 +107,12 @@ class D_Produk
                 "link" => 0,
                 "target" => "_self",
                 "varian" => "Plang_Parkir",
-                "detail" => ['plang_parkir'],
+                "detail" => [
+                    0 => [
+                        "judul" => 'Deskripsi',
+                        "konten" => 'plang_parkir'
+                    ],
+                ],
                 "berat" => 0,
                 "harga" => 0
 
@@ -87,7 +125,16 @@ class D_Produk
                 "link" => 0,
                 "target" => "_self",
                 "varian" => "Cetak_Canvas",
-                "detail" => ['cetak_canvas', 'ukuran_kanvas'],
+                "detail" => [
+                    0 => [
+                        "judul" => 'Deskripsi',
+                        "konten" => 'cetak_canvas'
+                    ],
+                    1 => [
+                        "judul" => 'Ukuran Kanvas',
+                        "konten" => 'ukuran_kanvas'
+                    ],
+                ],
                 "berat" => 0,
                 "harga" => 0
             ],
@@ -99,7 +146,12 @@ class D_Produk
                 "link" => 0,
                 "target" => "_self",
                 "varian" => "Wood_Print",
-                "detail" => ['wood_print'],
+                "detail" => [
+                    0 => [
+                        "judul" => 'Deskripsi',
+                        "konten" => 'wood_print'
+                    ],
+                ],
                 "berat" => 0,
                 "harga" => 0
             ],
@@ -111,7 +163,12 @@ class D_Produk
                 "link" => 0,
                 "target" => "_self",
                 "varian" => "Cetak_PVC_Card",
-                "detail" => ['cetak_pvc_card'],
+                "detail" => [
+                    0 => [
+                        "judul" => 'Deskripsi',
+                        "konten" => 'cetak_pvc_card'
+                    ],
+                ],
                 "berat" => 0,
                 "harga" => 0
             ],
@@ -123,7 +180,12 @@ class D_Produk
                 "link" => 0,
                 "target" => "_self",
                 "varian" => "Cetak_Cd",
-                "detail" => ['cetak_cd'],
+                "detail" => [
+                    0 => [
+                        "judul" => 'Deskripsi',
+                        "konten" => 'cetak_cd'
+                    ],
+                ],
                 "berat" => 0,
                 "harga" => 0
             ],
@@ -136,7 +198,12 @@ class D_Produk
                 "link" => 0,
                 "target" => "_self",
                 "varian" => "Frame_Border",
-                "detail" => ['frame_border'],
+                "detail" => [
+                    0 => [
+                        "judul" => 'Deskripsi',
+                        "konten" => 'frame_border'
+                    ],
+                ],
                 "berat" => 0,
                 "harga" => 0
             ],
@@ -149,7 +216,12 @@ class D_Produk
                 "link" => 0,
                 "target" => "_self",
                 "varian" => "APG",
-                "detail" => ['apg'],
+                "detail" => [
+                    0 => [
+                        "judul" => 'Deskripsi',
+                        "konten" => 'apg'
+                    ],
+                ],
                 "berat" => 0,
                 "harga" => 0
             ],
