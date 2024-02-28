@@ -15,12 +15,13 @@ $t = $data['title'];
 				</div>
 				<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar2" aria-labelledby="offcanvasNavbar2Label">
 					<div class="offcanvas-header">
-						<h5 class="offcanvas-title" id="offcanvasNavbar2Label">Offcanvas</h5>
+						<a href="<?= $this->BASE_URL ?>Home" class="navbar-brand">
+							<img src="<?= $this->ASSETS_URL ?>img/logo.png" class="img-logo-home px-2" alt="">
+						</a>
 						<button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 					</div>
 					<div class="offcanvas-body">
-						<ul class="navbar-nav justify-content-end flex-grow-1 pe-3 mb-2">
-
+						<ul class="navbar-nav justify-content-end flex-grow-1 mb-2">
 							<?php
 							$menu = $this->model("D_Group")->main();
 							$produk = $this->model("D_Produk")->main();
@@ -28,7 +29,7 @@ $t = $data['title'];
 
 							<?php foreach ($menu as $k => $m) { ?>
 								<div class="nav-item dropdown">
-									<a href="#" class="nav-link shadow-sm py-1 <?= (str_contains($t, $m['aktif'])) ? 'active' : '' ?>" data-bs-toggle="dropdown"><?= $m['name'] ?></a>
+									<a href="#" class="nav-link shadow-sm border-bottom px-2 mt-2 me-2 py-1 <?= (str_contains($t, $m['aktif'])) ? 'active' : '' ?>" data-bs-toggle="dropdown"><?= $m['name'] ?></a>
 									<div class="dropdown-menu m-0 rounded-0">
 										<?php foreach ($produk as $pk => $p) {
 											if ($p['group'] == $k) { ?>
@@ -39,7 +40,7 @@ $t = $data['title'];
 								</div>
 							<?php } ?>
 						</ul>
-						<div class="">
+						<div class="mt-2">
 							<button type="button" class="btn btn-sm btn-light position-relative py-2 me-1 text-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 								<i class="fa-regular fa-circle-user"></i>
 								<span id="user_name"></span>
