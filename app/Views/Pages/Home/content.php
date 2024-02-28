@@ -1,5 +1,5 @@
 <div class="container-fluid border-0">
-    <div class="container">
+    <div class="container px-0">
         <div id="carBanner" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner rounded-3">
                 <?php
@@ -36,45 +36,95 @@
     }
 
     .wrapper .item {
-        min-width: 80px;
+        min-width: 100px;
+        max-width: 120px;
         text-align: center;
     }
 </style>
 <!-- Fruits Shop Start-->
 
 <div class="container-fluid py-3">
-    <div class="container pb-2">
-        <div id="mobile">
-            <div>
-                <label class="fw-bold">Produk Kami</label>
-            </div>
-            <div class="wrapper mb-2">
-                <?php foreach ($data['product'] as $p) { ?>
-                    <div class="rounded item me-1 my-1 shadow-sm me-2">
-                        <a href="<?= ($p['link'] == 0) ? $this->BASE_URL . 'Detail/index/' . $k : $p['link'] ?>" target="<?= $p['target'] ?>">
-                            <img class="w-100 rounded bg-light" id="image<?= $p['img'] ?>0" onerror="no_image(<?= $p['img'] ?>0)" src="<?= $this->ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" alt="">
-                            <div class="py-1 px-1 text-dark"><small><?= $p['produk'] ?></small></div>
-                        </a>
-                    </div>
-                <?php } ?>
-            </div>
+    <div class="container pb-2 px-0">
+        <div class="mobile">
+            <?php
+            $menu = $this->model("D_Group")->main();
+            $produk = $this->model("D_Produk")->main();
+            ?>
+
+            <?php foreach ($menu as $k => $m) { ?>
+                <div>
+                    <label class="fw-bold"><small><?= $m['name'] ?></small></label>
+                </div>
+                <div class="wrapper rounded mb-2">
+                    <?php foreach ($produk as $pk => $p) {
+                        if ($p['group'] == $k) { ?>
+                            <div class="rounded border item me-1 my-1 me-2">
+                                <a href="<?= ($p['link'] == 0) ? $this->BASE_URL . 'Detail/index/' . $k : $p['link'] ?>" target="<?= $p['target'] ?>">
+                                    <img class="w-100 rounded bg-light" id="image<?= $p['img'] ?>0" onerror="no_image(<?= $p['img'] ?>0)" src="<?= $this->ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" alt="">
+                                    <div class="py-1 px-1 text-dark"><small><?= $p['produk'] ?></small></div>
+                                </a>
+                            </div>
+                    <?php }
+                    } ?>
+                </div>
+            <?php } ?>
+
         </div>
-        <div id="desktop">
-            <div class="mb-1">
-                <label class="fw-bold">Produk Kami</label>
-            </div>
-            <div class="row px-1 row-cols-auto">
-                <?php foreach ($data['product'] as $k => $p) { ?>
-                    <div class="col-sm-2 px-1 mb-2">
-                        <div class="rounded img-zoom-border shadow-sm mx-1">
-                            <a href="<?= ($p['link'] == 0) ? $this->BASE_URL . 'Detail/index/' . $k : $p['link'] ?>" target="<?= $p['target'] ?>">
-                                <img id="image<?= $p['img'] ?>" onerror="no_image(<?= $p['img'] ?>)" src="<?= $this->ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" class="img-zoom w-100 rounded-top" alt="">
-                                <div class="w-100 fw-bold text-center text-dark py-2"><?= $p['produk'] ?></div>
-                            </a>
+        <div class="desktop">
+            <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-all-tab" data-bs-toggle="pill" data-bs-target="#pills-all" type="button" role="tab" aria-controls="pills-all" aria-selected="true">Semua</button>
+                </li>
+                <?php foreach ($menu as $k => $m) { ?>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-<?= $m['aktif'] ?>-tab" data-bs-toggle="pill" data-bs-target="#pills-<?= $m['aktif'] ?>" type="button" role="tab" aria-controls="pills-<?= $m['aktif'] ?>" aria-selected="true"><?= $m['name'] ?></button>
+                    </li>
+                <?php } ?>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
+                    <div class="row px-2 row-cols-auto">
+                        <?php foreach ($data['product'] as $k => $p) { ?>
+                            <div class="col-sm-2 mb-2 px-1 rounded">
+                                <div class="rounded border">
+                                    <div class="img-zoom-border">
+                                        <a href="<?= ($p['link'] == 0) ? $this->BASE_URL . 'Detail/index/' . $k : $p['link'] ?>" target="<?= $p['target'] ?>">
+                                            <img id="image<?= $p['img'] ?>" onerror="no_image(<?= $p['img'] ?>)" src="<?= $this->ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" class="img-zoom w-100 rounded-top" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="w-100 fw-bold text-center text-dark py-2"><?= $p['produk'] ?></div>
+                                </div>
+                            </div>
+                        <?php
+                        } ?>
+                    </div>
+                </div>
+                <?php foreach ($menu as $km => $m) { ?>
+                    <div class="tab-pane" id="pills-<?= $m['aktif'] ?>" role="tabpanel" aria-labelledby="pills-<?= $m['aktif'] ?>-tab">
+                        <div class="row px-2 row-cols-auto">
+                            <?php foreach ($data['product'] as $k => $p) {
+                                if ($p['group'] == $km) { ?>
+                                    <div class="col-sm-2 mb-2 px-1 rounded">
+                                        <div class="rounded img-zoom-border border">
+                                            <a href="<?= ($p['link'] == 0) ? $this->BASE_URL . 'Detail/index/' . $k : $p['link'] ?>" target="<?= $p['target'] ?>">
+                                                <img id="image<?= $p['img'] ?>" onerror="no_image(<?= $p['img'] ?>)" src="<?= $this->ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" class="img-zoom w-100 rounded-top" alt="">
+                                                <div class="w-100 fw-bold text-center text-dark py-2"><?= $p['produk'] ?></div>
+                                            </a>
+                                        </div>
+                                    </div>
+                            <?php }
+                            } ?>
                         </div>
                     </div>
                 <?php } ?>
             </div>
+
+
+            <?php foreach ($menu as $km => $m) { ?>
+                <div class="tab-content <?= ($km == 0) ? 'show active' : '' ?>" id="pillas-<?= $km ?>">
+
+                </div>
+            <?php } ?>
         </div>
     </div>
 </div>
@@ -84,11 +134,7 @@
     $(document).ready(function() {
         spinner(0);
 
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            $("#desktop").addClass("d-none");
-        } else {
-            $("#mobile").addClass("d-none");
-        }
+        device();
 
         var myCarousel = document.querySelector('#carBanner')
         var carousel = new bootstrap.Carousel(myCarousel, {

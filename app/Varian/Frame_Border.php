@@ -60,11 +60,7 @@ class Frame_Border
                     "harga" => 2500,
                     "img" => "6",
                 ],
-                "Frame 07" => [
-                    "berat" => 6,
-                    "harga" => 2500,
-                    "img" => "7",
-                ],
+                
               
             ]
         ];

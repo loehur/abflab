@@ -10,7 +10,7 @@ if (isset($data['parse'])) {
 <body>
 	<?php include_once("fix.php"); ?>
 	<?php include_once("navbar.php"); ?>
-	<div style="margin-top: 100px;" id="content"></div>
+	<div style="margin-top: 80px;" id="content"></div>
 	<?php include_once("footer.php"); ?>
 </body>
 
@@ -23,6 +23,7 @@ if (isset($data['parse'])) {
 		content("<?= $parse ?>");
 		cart_count();
 		user_name();
+		device();
 	});
 
 	function content(parse = "") {
@@ -42,6 +43,14 @@ if (isset($data['parse'])) {
 			$("div#spinner").addClass("d-none");
 		} else {
 			$("div#spinner").removeClass("d-none");
+		}
+	}
+
+	function device() {
+		if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+			$(".desktop").addClass("d-none");
+		} else {
+			$(".mobile").addClass("d-none");
 		}
 	}
 </script>

@@ -8,9 +8,9 @@ $d = $data['data'][$id_produk];
     <div class="row">
         <div class="col">
             <div class="row">
-                <div class="col-auto" style="max-width: 320px;">
-                    <div id="carBanner" class="carousel" data-interval="false" data-bs-ride="carousel">
-                        <div class="carousel-inner rounded-3">
+                <div class="col-md-4">
+                    <div id="carBanner" class="carousel">
+                        <div class="carousel-inner rounded-3 border">
                             <?php
                             $no = 0;
                             $files = scandir(__DIR__ . "/../../../../assets/img/produk_detail/" . $d['img_detail']);
@@ -18,7 +18,7 @@ $d = $data['data'][$id_produk];
                                 if (str_contains($f, ".webp")) {
                                     $no += 1; ?>
                                     <div style="cursor: zoom-in;" class="carousel-item <?= substr($f, 0, -5) ?> <?= ($main_img == substr($f, 0, -5)) ? 'active' : '' ?> zoom">
-                                        <img id="image<?= $f ?>" onerror="no_image(<?= $f ?>)" style="max-width: 300px; max-height: 300px" src="<?= $this->ASSETS_URL ?>img/produk_detail/<?= $d['img_detail'] ?>/<?= $f ?>">
+                                        <img id="image<?= $f ?>" onerror="no_image(<?= $f ?>)" class="d-block w-100" src="<?= $this->ASSETS_URL ?>img/produk_detail/<?= $d['img_detail'] ?>/<?= $f ?>">
                                     </div>
                             <?php }
                             } ?>
@@ -41,7 +41,7 @@ $d = $data['data'][$id_produk];
                 <div class="col mt-2">
                     <form class="upload me-0 pe-0 form-floating" action="<?= $this->BASE_URL ?>Detail/upload" method="POST">
                         <h5 class="text-dark"><b><?= $d['produk'] ?></b></h5>
-                        <div class="row mb-2">
+                        <div class="row mb-2 d-none">
                             <div class="col-auto">
                                 <div class="text-start border rounded border-light shadow-sm border-start-0 px-3 py-1">
                                     <span class="text-success">Harga</span>
@@ -50,7 +50,7 @@ $d = $data['data'][$id_produk];
                                 </div>
                             </div>
                         </div>
-                        <hr class="border-light mb-2 mt-3">
+                        <hr class="border-light mb-2 mt-2">
                         <?php
                         $varian = $this->varian($d['varian'])->main();;
                         foreach ($varian as $k => $dv) {
@@ -125,18 +125,19 @@ $d = $data['data'][$id_produk];
                         <div class="row">
                             <div class="col text-end">
                                 <div class="">
-                                    <button type="submit" id="add_cart" class="btn btn-success">Tambahkan ke Keranjang</button>
+                                    <button type="submit" id="add_cart" class="btn btn-success">(+) Tambah</button>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="row">
+            <div class="row px-2">
+                <label class="fw-bold mb-1">Deskripsi Produk</label>
                 <?php
                 if (is_array($d['detail'])) {
                     foreach ($d['detail'] as $dd) { ?>
-                        <div class="col shadow-sm border rounded-3 p-2 me-2">
+                        <div class="col border rounded-3 p-2 me-2 mb-1" style="min-width: 300px;">
                             <small id="<?= $dd ?>"></small>
                         </div>
                 <?php }
@@ -224,7 +225,7 @@ $d = $data['data'][$id_produk];
                 }
             })
 
-            $("div#img_varian").html(img);
+            //$("div#img_varian").html(img);
 
             if ($(".carousel-item").hasClass(img)) {
                 $(".carousel-item").each(function() {
@@ -233,10 +234,6 @@ $d = $data['data'][$id_produk];
 
                 $("." + img).addClass("active");
             }
-
-            $('.carousel').carousel({
-                interval: false,
-            });
         }
 
         function totalHarga() {
