@@ -301,7 +301,9 @@ $d = $data['data'][$id_produk];
             qty = $("input#jumlah").val()
 
             if (mode == 0) {
-                qty -= 1;
+                if (qty > 1) {
+                    qty -= 1;
+                }
             } else {
                 qty = parseInt(qty) + 1;
             }
