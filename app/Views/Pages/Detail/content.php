@@ -10,11 +10,6 @@ $d = $data['data'][$id_produk];
         -webkit-appearance: none;
         margin: 0;
     }
-
-    /* Firefox */
-    input[type=number] {
-        -moz-appearance: textfield;
-    }
 </style>
 
 <div class="container mb-4">
