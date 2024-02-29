@@ -1,5 +1,5 @@
 <div class="container mb-3" style="min-height: 300px;">
-    <div class="row">
+    <div class="row desktop">
         <div class="col">
             <?php
             if (isset($_SESSION['cart'])) {
@@ -31,7 +31,11 @@
                                     if (strlen($c['file']) == 0) {
                                         echo "No File";
                                     } else {
-                                        echo "...." . substr($c['file'], -10);
+                                        if (strlen($c['file']) > 10) {
+                                            echo ".." . substr($c['file'], -10);
+                                        } else {
+                                            echo $c['file'];
+                                        }
                                     }
                                 } ?>
                             </td>
@@ -61,9 +65,73 @@
             <?php } ?>
         </div>
     </div>
+    <div class="row mobile">
+        <div class="col">
+            <?php
+            if (isset($_SESSION['cart'])) {
+                $total = 0; ?>
+                <table class="table table-sm">
+                    <?php foreach ($_SESSION['cart'] as $k => $c) {
+                        $image = false;
+                        $total += $c['total'];
+                        $imageExt   = array('png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG');
+
+                        foreach ($imageExt as $ie) {
+                            if (str_contains($c['file'], $ie)) {
+                                $image = true;
+                            }
+                        }
+                    ?>
+                        <tr>
+                            <td style="max-width: 50px;">
+                                <?php if ($image == true) { ?>
+                                    <img style="display:block;" width="100%" height="100%" src="<?= $c['file'] ?>">
+                                <?php } else {
+                                    if (strlen($c['file']) == 0) {
+                                        echo "<small>No File</small>";
+                                    } else {
+                                        if (strlen($c['file']) > 10) {
+                                            echo ".." . substr($c['file'], -10);
+                                        } else {
+                                            echo $c['file'];
+                                        }
+                                    }
+                                } ?>
+                            </td>
+                            <td>
+                                <?= $c['produk'] ?>, <?= $c['detail'] ?><br>
+                                <small><?= $c['note'] ?></small>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="text-end">
+                                <span class="btn btn-sm btn-light py-0" onclick="add(<?= $k ?>, 0)">-</span>
+                                <span class="btn btn-sm" id="j<?= $k ?>"><?= $c['jumlah'] ?></span>
+                                <span class="btn btn-sm btn-light py-0" onclick="add(<?= $k ?>, 1)">+</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="text-end"><?= number_format($c['total']) ?></td>
+                        </tr>
+                    <?php } ?>
+                    <tr>
+                        <td colspan="2">Total Pesanan <span class="float-end"><?= number_format($total) ?></span></b></td>
+                    </tr>
+                </table>
+
+                <a href="<?= $this->BASE_URL ?>Cart/clear" class="btn btn-outline-secondary">Clear Cart</a>
+                <a href="<?= $this->BASE_URL ?>Checkout" class="btn btn-success float-end">Checkout</a>
+            <?php } else { ?>
+                Tidak ada data keranjang
+            <?php } ?>
+        </div>
+    </div>
 </div>
 <script>
     $(document).ready(function() {
+        device();
         spinner(0);
     });
 

@@ -10,7 +10,7 @@ class CS extends Controller
          'parse' => "bb"
       ];
 
-      $this->view_layout(__CLASS__, $data);
+      $this->view_layout_cs(__CLASS__, $data);
    }
 
    function content($tab)
@@ -53,6 +53,12 @@ class CS extends Controller
       $where_o = "order_ref = '" . $ref . "'";
       $set_o = "processing_step = 1, confirm_date = '" . $date . "', confirm_cs = '" . $cs . "'";
       $this->db(0)->update("order_list", $set_o, $where_o);
+
+      $cust_id = $_POST['cust'];
+      $where = "customer_id = '" . $cust_id . "'";
+      $cust = $this->db(0)->get_where_row("customer", $where);
+      $text = "*" . $this->WEB . "*\nREF#" . $ref . "\nPembayaran diterima, orderan Anda sedang dalam proses. Terimakasih";
+      $this->model('WA')->send($cust['hp'], $text);
    }
 
    function selesai()
@@ -69,6 +75,17 @@ class CS extends Controller
       $where_d = "order_ref = '" . $ref . "'";
       $set_d = "resi = '" . $resi . "'";
       $this->db(0)->update("order_list", $set_d, $where_d);
+
+      $deliv = $_POST['deliv'];
+      $cust_id = $_POST['cust'];
+      $where = "customer_id = '" . $cust_id . "'";
+      $cust = $this->db(0)->get_where_row("customer", $where);
+      if ($deliv == 1) {
+         $text = "*" . $this->WEB . "*\nREF#" . $ref . "\nOrderan telah selesai dan siap dijemput";
+      } else {
+         $text = "*" . $this->WEB . "*\nREF#" . $ref . "\nOrderan telah selesai dan sedang dalam proses pengiriman.\nResi: " . $resi;
+      }
+      $this->model('WA')->send($cust['hp'], $text);
    }
 
    function batalkan()
@@ -84,6 +101,12 @@ class CS extends Controller
       $where_o = "order_ref = '" . $ref . "'";
       $set_o = "processing_step = 3, cs_note = '" . $cs_note . "', cancel_date = '" . $date . "', cancel_cs = '" . $cs . "'";
       $this->db(0)->update("order_list", $set_o, $where_o);
+
+      $cust_id = $_POST['cust'];
+      $where = "customer_id = '" . $cust_id . "'";
+      $cust = $this->db(0)->get_where_row("customer", $where);
+      $text = "*" . $this->WEB . "*\nREF#" . $ref . "\nTransaksi dibatalkan\nNote: " . $cs_note;
+      $this->model('WA')->send($cust['hp'], $text);
    }
 
    function req_otp()
@@ -135,5 +158,10 @@ class CS extends Controller
       } else {
          echo "OTP salah";
       }
+   }
+   function logout()
+   {
+      unset($_SESSION['cs']);
+      echo 1;
    }
 }

@@ -19,7 +19,18 @@ class Load extends Controller
          if (!isset($_SESSION['customer_id'])) {
             $_SESSION['customer_id'] = $cust['customer_id'];
          }
-         echo ucfirst(strtok($cust['name'], " "));
+         if (isset($cust['name'])) {
+            echo ucfirst(strtok($cust['name'], " "));
+         } else {
+            unset($_SESSION['hp']);
+         }
+      }
+   }
+
+   function account_cs()
+   {
+      if (isset($_SESSION['cs'])) {
+         echo $_SESSION['cs']['name'];
       }
    }
 

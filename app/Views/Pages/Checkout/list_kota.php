@@ -1,5 +1,5 @@
 <div class="form-floating">
-    <select class="form-select" id="kota" name="kota">
+    <select class="form-select" id="kota" name="kota" required>
         <option selected value=""></option>
         <?php
         foreach ($data as $dp) { ?>

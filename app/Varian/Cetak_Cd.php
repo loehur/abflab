@@ -5,14 +5,26 @@ class Cetak_Cd
     function main()
     {
         $data = [
-            "Ukuran" => [
-                "40x50" => [
-                    "berat" => 300,
-                    "harga" => 339000,
+            "pilihan" => [
+                "CD" => [
+                    "berat" => 0,
+                    "harga" => 0,
+                    "img" => "1",
                 ],
-                "40x60" => [
+                "DVD" => [
+                    "berat" => 0,
+                    "harga" => 0,
+                    "img" => "2",
+                ],
+            ],
+            "jumlah" => [
+                "50 pcs" => [
                     "berat" => 300,
-                    "harga" => 407000,
+                    "harga" => 250000,
+                ],
+                "100 pcs" => [
+                    "berat" => 300,
+                    "harga" => 500000,
                 ],
             ]
         ];

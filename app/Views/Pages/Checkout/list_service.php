@@ -1,6 +1,6 @@
 <?php if (isset($data['ori'])) { ?>
     <div class="form-floating">
-        <select class="form-select" id="service" name="service">
+        <select class="form-select" id="service" name="service" required>
             <option selected value=""></option>
             <?php
             foreach ($data['ori'] as $d) { ?>

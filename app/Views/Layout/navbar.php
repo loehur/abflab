@@ -3,7 +3,7 @@ $t = $data['title'];
 ?>
 
 <!-- Navbar start -->
-<div class="fixed-top bg-white shadow-sm" style="max-height: 80px;">
+<div class="fixed-top shadow-sm bg-white" style="max-height: 80px;">
 	<div class="container px-0">
 		<nav class="navbar navbar-light navbar-expand-xl">
 			<div class="container-fluid">
@@ -29,7 +29,7 @@ $t = $data['title'];
 
 							<?php foreach ($menu as $k => $m) { ?>
 								<div class="nav-item dropdown">
-									<a href="#" class="nav-link shadow-sm border-top px-2 mt-2 me-2 py-1 <?= (str_contains($t, $m['aktif'])) ? 'active' : '' ?>" data-bs-toggle="dropdown"><?= $m['name'] ?></a>
+									<a href="#" class="nav-link shadow-sm bg-white text-dark border-top px-2 mt-2 me-2 py-1 <?= (str_contains($t, $m['aktif'])) ? 'active' : '' ?>" data-bs-toggle="dropdown"><?= $m['name'] ?></a>
 									<div class="dropdown-menu m-0 rounded-0">
 										<?php foreach ($produk as $pk => $p) {
 											if ($p['group'] == $k) { ?>
@@ -41,14 +41,14 @@ $t = $data['title'];
 							<?php } ?>
 						</ul>
 						<div class="mt-2">
-							<button type="button" class="btn btn-sm border position-relative py-2 me-1 text-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-								<i class="fa-regular fa-circle-user"></i>
-								<span id="user_name"></span>
-							</button>
-							<a href=" <?= $this->BASE_URL ?>Pesanan" class="btn btn-sm border position-relative pt-2 me-1 text-secondary">
+							<a href=" <?= $this->BASE_URL ?>Pesanan" class="btn btn-sm border position-relative pt-2 me-1 bg-white">
 								<i class="fa-regular fa-rectangle-list"></i> Pesanan
 							</a>
-							<a href=" <?= $this->BASE_URL ?>Cart" class="btn btn-sm border position-relative pt-2 text-secondary">
+							<a href="#" class="btn btn-sm border position-relative pt-2 me-1 bg-white text-success fw-bold" data-bs-toggle="modal" data-bs-target="#exampleModal">
+								<i class="fa-regular fa-circle-user"></i>
+								<span id="user_name"></span>
+							</a>
+							<a href=" <?= $this->BASE_URL ?>Cart" class="btn btn-sm border bg-white position-relative pt-2">
 								<i class="fa-solid fa-cart-shopping"></i> Cart
 								<div id="cart_count"></div>
 							</a>
@@ -71,16 +71,29 @@ $t = $data['title'];
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<form action="<?= $this->BASE_URL ?>Session/login" method="POST">
-				<div class="modal-body">
-					<div class="form-floating mb-2">
-						<input type="text" class="form-control" name="hp" required id="floatingInput">
-						<label for="floatingInput">Nomor HP (08..)</label>
+				<?php if (!isset($_SESSION['hp'])) { ?>
+					<div class="modal-body">
+						<div class="form-floating mb-2">
+							<input type="text" class="form-control" name="hp" required id="floatingInput">
+							<label for="floatingInput">Nomor HP (08..)</label>
+						</div>
 					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary">Login</button>
-				</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Login</button>
+					</div>
+				<?php } else { ?>
+					<div class="modal-body">
+						<div class="form-floating mb-2">
+							Anda sedang Login sebagai <span class="text-success fw-bold"><?= $_SESSION['nama'] ?></span>.
+							Apakah ingin Logout?
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Logout</button>
+					</div>
+				<?php } ?>
 			</form>
 		</div>
 	</div>
@@ -99,6 +112,9 @@ $t = $data['title'];
 			success: function(res) {
 				if (res == 1) {
 					alert("Login Success!");
+					location.reload(true);
+				} else if (res == 2) {
+					alert("Logout Success!");
 					location.reload(true);
 				} else {
 					alert(res)

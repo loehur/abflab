@@ -16,7 +16,7 @@ $d = $data['data'][$id_produk];
 
     <div class="row mb-2">
         <div class="col-md-4 px-1 mb-2">
-            <div id="carBanner" class="carousel">
+            <div id="carBanner" class="carousel" data-bs-interval="false">
                 <div class="carousel-inner rounded-3 border">
                     <?php
                     $no = 0;
@@ -84,12 +84,21 @@ $d = $data['data'][$id_produk];
                     </div>
                 </div>
                 <div class="row mb-2">
-                    <div class="col-auto text-end">
+                    <div class="col" style="min-width: 300px;">
                         <label><small>Max 25MB</small></label> <small class="text-danger">(.jpg .jpeg .png .zip .rar)</small>
                         <div class="">
                             <input id="file" name="order" class="form-control form-control-sm" type="file">
-                            <small>Upload process <span id="persen">0</span><b> %</b></small>
+                            <small class="float-end">Upload process <span id="persen">0</span><b> %</b></small>
                         </div>
+                    </div>
+                    <div class="col" style="min-width: 300px;">
+                        <label>Kirim File yang <span class="fw-bold">lebih besar</span>?
+                            <div class="">
+                                <input class="form-check-input" name="gdrive" type="checkbox" value="gdrive" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Share google drive <span class="text-primary"><?= $this->SETTING['gdrive'] ?></span>
+                                </label>
+                            </div>
                     </div>
                     <?php
                     if (isset($d['mal']) && is_array($d['mal'])) { ?>

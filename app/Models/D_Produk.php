@@ -104,6 +104,7 @@ class D_Produk
                 "group" => 51,
                 "img" => "plank_parkir",
                 "img_detail" => "plank_parkir",
+                "mal" => ['MAL_PALNG_PARKIR'],
                 "link" => 0,
                 "target" => "_self",
                 "varian" => "Plang_Parkir",

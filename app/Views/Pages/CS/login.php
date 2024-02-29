@@ -1,7 +1,7 @@
 <div class="container mb-3 pt-2" style="min-height: 300px;">
     <div class="row">
-        <div class="col">
-            <label class="mb-2">Silahkan login menggunakan Nomor HP CS yang terdaftar</label>
+        <div class="col m-auto" style="max-width: 500px;">
+            <label class="mb-2"><small>Login menggunakan Nomor HP CS yang terdaftar</small></label>
             <form action="<?= $this->BASE_URL ?>CS/cs_login" method="POST">
                 <div class="row">
                     <div class="col">
@@ -10,6 +10,8 @@
                             <label for="floatingInput">CS Phone Number (08xx)</label>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col">
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" required name="otp" placeholder="Kode OTP" aria-label="Recipient's username" aria-describedby="button-addon2">

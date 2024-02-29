@@ -102,7 +102,7 @@ class Detail extends Controller
          $imageTemp = $_FILES['file']['tmp_name'];
          $file_name = basename($file_['name']);
          $imageUploadPath =  $uploads_dir . '/' . rand(0, 9) . rand(0, 9) . "_" . $file_name;
-         $allowExt   = array('png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG', 'zip', 'rar');
+         $allowExt   = array('png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG', 'zip', 'rar', 'ZIP', 'RAR');
          $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION);
          $fileSize   = $file_['size'];
 
@@ -137,13 +137,18 @@ class Detail extends Controller
                }
                echo 1;
             } else {
-               echo "FILE BIGGER THAN 25MB FORBIDDEN";
+               echo "GAGAL! FILE LEBIH BESAR DARI 25MB";
             }
          } else {
-            echo "FILE EXT/TYPE FORBIDDEN";
+            echo "FILE EXT/TYPE TIDAK DIPERBOLEHKAN";
          }
       } else {
          $cart = [];
+         if (isset($_POST['gdrive'])) {
+            $file = $_POST['gdrive'];
+         } else {
+            $file = "";
+         }
          $new_cart = [
             "group_id" => $group_id,
             "produk_id" => $produk_id,
@@ -157,7 +162,7 @@ class Detail extends Controller
             "lebar" => $lebar,
             "tinggi" => $tinggi,
             "note" => $note,
-            "file" => ""
+            "file" => $file
          ];
 
          if (isset($_SESSION['cart'])) {

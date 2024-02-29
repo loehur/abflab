@@ -59,7 +59,7 @@
                     <?php foreach ($produk as $pk => $p) {
                         if ($p['group'] == $k) { ?>
                             <div class="rounded border item me-1 my-1 me-2">
-                                <a href="<?= ($p['link'] == 0) ? $this->BASE_URL . 'Detail/index/' . $k : $p['link'] ?>" target="<?= $p['target'] ?>">
+                                <a href="<?= ($p['link'] == 0) ? $this->BASE_URL . 'Detail/index/' . $pk : $p['link'] ?>" target="<?= $p['target'] ?>">
                                     <img class="w-100 rounded bg-light" id="image<?= $p['img'] ?>0" onerror="no_image(<?= $p['img'] ?>0)" src="<?= $this->ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" alt="">
                                     <div class="py-1 px-1 text-dark"><small><?= $p['produk'] ?></small></div>
                                 </a>
@@ -125,15 +125,13 @@
 
 <script>
     $(document).ready(function() {
-        spinner(0);
-
         device();
-
         var myCarousel = document.querySelector('#carBanner')
         var carousel = new bootstrap.Carousel(myCarousel, {
             interval: 4000,
             wrap: true
         })
+        spinner(0);
     });
 
     function no_image(x) {

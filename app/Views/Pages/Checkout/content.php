@@ -32,7 +32,7 @@
                 <div class="row mb-2">
                     <div class="col">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" onclick="total(0)" name="radio_kirim" value="1" required id="flexRadioDefault1" checked>
+                            <input class="form-check-input radio_" type="radio" onclick="total(0)" name="radio_kirim" value="1" required id="flexRadioDefault1" checked>
                             <label class="form-check-label" for="flexRadioDefault1">
                                 Jemput ke Toko
                             </label>
@@ -47,7 +47,7 @@
                         <div class="form-check">
                             <div class="row">
                                 <div class="col">
-                                    <input class="form-check-input" onclick="total(<?= $this->SETTING['ongkir_toko'] ?>)" type="radio" name="radio_kirim" value="2" required id="flexRadioDefault2">
+                                    <input class="form-check-input radio_" onclick="total(<?= $this->SETTING['ongkir_toko'] ?>)" type="radio" name="radio_kirim" value="2" required id="flexRadioDefault2">
                                     <label class="form-check-label" for="flexRadioDefault2">
                                         Pengiriman via Kurir Toko
                                     </label>
@@ -61,11 +61,11 @@
                     <label class="form-check-label" for="flexRadioDefault3">
                         Pengiriman via Ekspedisi
                     </label>
-                    <div class="shadow-sm border rounded mt-1 px-2 pt-2" id="antar">
+                    <div class="shadow-sm d-none border rounded mt-1 px-2 pt-2" id="antar">
                         <div class="row">
                             <div class="col">
                                 <div class="form-floating mb-2">
-                                    <select class="form-select" id="provinsi" name="provinsi" aria-label=".form-select-sm example">
+                                    <select class="form-select" id="provinsi" name="provinsi" aria-label=".form-select-sm example" required>
                                         <option selected value=""></option>
                                         <?php
                                         foreach ($data['provinsi'] as $dp) { ?>
@@ -89,7 +89,7 @@
                         <div class="row mb-2">
                             <div class="col">
                                 <div class="form-floating mb-2">
-                                    <select class="form-select" name="via" id="via">
+                                    <select class="form-select" name="via" id="via" required>
                                         <option value="" selected></option>
                                         <?php foreach ($this->KURIR as $k) { ?>
                                             <option value="<?= $k ?>"><?= strtoupper($k)  ?></option>
@@ -110,46 +110,39 @@
         <div class="col">
             <?php if (isset($_SESSION['cart'])) {
                 $berat_total = 0; ?>
-                <label>Rincian Belanja</label>
-                <table class="table table-sm">
-                    <tr>
-                        <th>Produk</th>
-                        <th class="text-end">Jumlah</th>
-                        <th class="text-end">Total</th>
-                    </tr>
-                    <?php
-                    foreach ($_SESSION['cart'] as $c) {
-                        $berat_total += $c['berat'];
-                        $image = false;
-                        $total += $c['total'];
-                        $imageExt   = array('png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG');
+                <u><small>Rincian Belanja</small></u>
+                <small>
+                    <table class="table table-sm">
+                        <?php
+                        foreach ($_SESSION['cart'] as $c) {
+                            $berat_total += $c['berat'];
+                            $image = false;
+                            $total += $c['total'];
+                            $imageExt   = array('png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG');
 
-                        foreach ($imageExt as $ie) {
-                            if (str_contains($c['file'], $ie)) {
-                                $image = true;
+                            foreach ($imageExt as $ie) {
+                                if (str_contains($c['file'], $ie)) {
+                                    $image = true;
+                                }
                             }
-                        }
-                    ?>
+                        ?>
+                            <tr>
+                                <td>
+                                    <small><?= $c['produk'] ?>, <?= $c['detail'] ?></small><br>
+                                    <small class="text-danger"><?= $c['note'] ?></small>
+                                </td>
+                                <td class="text-end"><?= $c['jumlah'] ?>pcs, Rp<?= number_format($c['total']) ?></td>
+                            </tr>
+                        <?php } ?>
                         <tr>
-                            <td>
-                                <?= $c['produk'] ?>, <?= $c['detail'] ?><br>
-                                <small><?= $c['note'] ?></small>
-                            </td>
-                            <td class="text-end"><span class="btn btn-sm"><?= $c['jumlah'] ?></span></td>
-                            <td class="text-end">Rp<?= number_format($c['total']) ?></td>
+                            <td>Biaya Pengiriman</td>
+                            <td class="text-end" id="ongkir"></td>
                         </tr>
-                    <?php } ?>
-                    <tr>
-                        <td colspan="2">Biaya Pengiriman</td>
-                        <td class="text-end" id="ongkir"></td>
-                    </tr>
-                    <tr>
-                        <td class="text-end border-0" colspan="2"><b>TOTAL</b></td>
-                        <td class="text-end border-0 fw-bold" id="total"></td>
-                    </tr>
-                </table>
+                    </table>
+                </small>
 
-                <span id="submit_form" class="btn btn-success float-end">Bayar</span>
+                <span id="submit_form" class="btn btn-outline-success px-4">Bayar</span>
+                <div class="text-end border-0 fw-bold float-end" id="total"></div>
             <?php } else { ?>
                 Tidak ada data keranjang
             <?php } ?>
@@ -188,16 +181,22 @@
     })
 
     function total(ongkir = 0) {
+
         $("td#ongkir").html("Rp" + addCommas(ongkir));
         var new_total = parseInt(sub + ongkir);
-        $("td#total").html("Rp" + addCommas(new_total))
+        $("#total").html("Rp" + addCommas(new_total))
         $.post("<?= $this->BASE_URL ?>Session/set", {
             name: "ongkir",
             value: ongkir
         }, )
     }
 
+    $('.radio_').click(function() {
+        $("#antar").addClass("d-none");
+    })
+
     function ongkir_luar_kota() {
+        $("#antar").removeClass("d-none");
         var luar_kota = $("select#service").val()
         if (luar_kota != undefined) {
             harga = parseInt(luar_kota);

@@ -16,14 +16,13 @@ class Pesanan extends Controller
       $this->view_layout(__CLASS__, $data);
    }
 
-   public function content($parse = "bb")
+   public function content()
    {
       $data = [];
       $data['bb'] = [];
       $data['p'] = [];
       $data['b'] = [];
       $data['s'] = [];
-      $data['parse'] = $parse;
 
       if (isset($_SESSION['customer_id'])) {
          $cust_id = $_SESSION['customer_id'];
@@ -137,7 +136,7 @@ class Pesanan extends Controller
       $where = "order_ref = '" . $ref . "'";
       $set = "payment_status = 1";
       $this->db(0)->update("payment", $set, $where);
-      $text = "*" . $this->WEB . "*\n" . $_SESSION['nama'] . " meminta konfirmasi pembayaran\nlab.abfteams.com/CS";
+      $text = "*" . $this->WEB . "*\n" . $_SESSION['nama'] . " meminta konfirmasi pembayaran\n" . $this->HOST . "/CS";
       $this->model('WA')->send($this->SETTING['notif_group'], $text);
 
       header("Location: " . $this->BASE_URL . "Pesanan");
