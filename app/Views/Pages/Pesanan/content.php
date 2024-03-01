@@ -38,6 +38,22 @@
         <?php foreach ($data as $k => $d) { ?>
             <div class="tab-pane <?= ($k == 'bb') ? 'show active' : '' ?>" id="nav-<?= $k ?>" role="tabpanel" aria-labelledby="nav-<?= $k ?>-tab">
                 <?php
+                $tab = "";
+                switch ($k) {
+                    case 'p':
+                        $tab = "Dalam Proses";
+                        break;
+                    case 's':
+                        $tab = "Dikirim/Selesai";
+                        break;
+                    case 'b':
+                        $tab = "Dibatalkan";
+                        break;
+                    default:
+                        $tab = "Belum Bayar";
+                        break;
+                }
+
                 $ref = "";
                 foreach ($data[$k] as $d) {
                     $new_ref = $d['order_ref'];
@@ -50,7 +66,7 @@
                 ?>
                     <div class="row desktop">
                         <div class="col mx-2 border rounded pb-2 py-2 mb-2">
-                            <u>Order Ref. <?= $ref ?></u>
+                            <u>Order Ref. <?= $ref ?></u> <span class="float-end text-warning"><?= $tab ?></span>
                             <small>
                                 <table class="table table-sm">
                                     <?php
@@ -74,7 +90,7 @@
                                     $deliv = $this->db(0)->get_where_row("delivery", $where_d);
                                     ?>
                                     <tr>
-                                        <td>Ongkir</td>
+                                        <td>Pengiriman:</td>
                                         <td><?= $deliv['courier'] ?> <?= $deliv['service'] ?></td>
                                         <td></td>
                                         <td class="text-end">Rp<?= number_format($deliv['total']) ?></td>
@@ -103,9 +119,9 @@
                     </div>
                     <div class="row mobile">
                         <div class="col mx-2 border rounded py-2 mb-2">
-                            <small><u>Order Ref. <?= $ref ?></u></small>
+                            <small><u>Ref#<?= $ref ?></u></small> <small><span class="float-end text-warning"><?= $tab ?></span></small>
                             <small>
-                                <table class="table table-sm">
+                                <table class="table table-sm table-borderless">
                                     <?php
                                     $total = 0;
                                     foreach ($data[$k] as $da) {
@@ -114,16 +130,14 @@
                                             $total += $subTotal;
                                     ?>
                                             <tr>
-                                                <td><?= $da['product'] ?> <?= $da['detail'] ?></td>
+                                                <td><small><?= $da['product'] ?> <?= $da['detail'] ?></small><br>
+                                                    <small class="text-danger">
+                                                        <?= $da['note'] ?>
+                                                    </small>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td class="text-end"><?= $da['qty'] ?>pcs</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-end">Rp<?= number_format($subTotal) ?></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Note: <?= $da['note'] ?></td>
+                                                <td class="text-end"><?= $da['qty'] ?>pcs, Rp<?= number_format($subTotal) ?></td>
                                             </tr>
                                     <?php }
                                     }
@@ -133,7 +147,7 @@
                                     $deliv = $this->db(0)->get_where_row("delivery", $where_d);
                                     ?>
                                     <tr>
-                                        <td>Ongkir <?= $deliv['courier'] ?> <?= $deliv['service'] ?>, <span class="float-end">Rp<?= number_format($deliv['total']) ?></span></td>
+                                        <td>Pengiriman: <?= $deliv['courier'] ?> <?= $deliv['service'] ?> <span class="float-end">Rp<?= number_format($deliv['total']) ?></span></td>
                                     </tr>
                                 </table>
                             </small>

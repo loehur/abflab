@@ -4,6 +4,6 @@
  </div>
  <!-- Spinner End -->
 
- <a href="https://api.whatsapp.com/send?phone=<?= $this->SETTING['wa_float'] ?>&text=Halo, ada yang bisa kami bantu?" class="float-green" target="_blank">
+ <a href="https://api.whatsapp.com/send?phone=<?= $this->SETTING['wa_float'] ?>&text=Halo Mnemoxin, " class="float-green" target="_blank">
  	<i class="fa-brands fa-whatsapp float-center"></i>
  </a>

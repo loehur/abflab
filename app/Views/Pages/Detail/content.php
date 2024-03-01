@@ -85,7 +85,7 @@ $d = $data['data'][$id_produk];
                 </div>
                 <div class="row mb-2">
                     <div class="col" style="min-width: 300px;">
-                        <label><small>Max 25MB</small></label> <small class="text-danger">(.jpg .jpeg .png .zip .rar)</small>
+                        <label><small class="text-danger">Max. <b>400MB</b></small></label> <small class="text-danger">(.jpg .jpeg .png .zip .rar)</small>
                         <div class="">
                             <input id="file" name="order" class="form-control form-control-sm" type="file">
                             <small class="float-end">Upload process <span id="persen">0</span><b> %</b></small>

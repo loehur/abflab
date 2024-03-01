@@ -1,17 +1,21 @@
-<b>KEUNGGULAN CETAKAN LEBEL CD MENGGUNAKAN MESIN TEKNOLOGI LASER UV:</b>
-                <br>
-                <br>- Desain Label CD Kreatif:
-<br>Label CD ini adalah karya seni visual yang menawan, dirancang untuk memberikan kesan yang unik dan menarik. 
-<br>Dengan kombinasi warna yang harmonis dan elemen desain yang estetis, label ini menciptakan identitas visual yang menonjol. 
-<br>Motif grafis yang dipilih tidak hanya memperindah label, tetapi juga memberikan sentuhan modern dan dinamis.
-<br>
-<br>- Logo dan Branding yang Terintegrasi:
-<br>Logo atau elemen branding yang relevan dengan konten CD terintegrasi dengan halus dalam desain label. Ini memberikan identitas yang konsisten dengan merek atau pembuat konten, meningkatkan daya ingat dan menghadirkan kesan profesional.
-<br>
-<br>- Kualitas Tinggi dan Tahan Lama:
-<br>Label CD ini dicetak dengan kualitas tinggi dan menggunakan bahan yang tahan lama. Ini tidak hanya memberikan tampilan yang indah 
-<br>tetapi juga memastikan label tetap menarik bahkan setelah penggunaan yang berulang. Tahan air dan tahan luntur, label ini dirancang 
-<br>untuk tetap prima dalam jangka waktu yang panjang.
+<h7><b>KEUNGGULAN CETAKAN LEBEL CD MENGGUNAKAN MESIN TEKNOLOGI LASER UV:</b></h7>
+<ul>
+        <li>Desain Label CD Kreatif :</li>
+        Label CD ini adalah karya seni visual yang menawan, dirancang untuk memberikan kesan yang unik dan menarik. 
+        <br>Dengan kombinasi warna yang harmonis dan elemen desain yang estetis, label ini menciptakan identitas visual yang menonjol. 
+        <br>Motif grafis yang dipilih tidak hanya memperindah label, tetapi juga memberikan sentuhan modern dan dinamis.
+</ul>
+<ul>
+        <li>Logo dan Branding yang Terintegrasi :</li>
+        Logo atau elemen branding yang relevan dengan konten CD terintegrasi dengan halus dalam desain label. 
+        <br>Ini memberikan identitas yang konsisten dengan merek atau pembuat konten, meningkatkan daya ingat dan menghadirkan kesan profesional.
+</ul>
+<ul>
+        <li>Kualitas Tinggi dan Tahan Lama :</li>
+        Label CD ini dicetak dengan kualitas tinggi dan menggunakan bahan yang tahan lama. Ini tidak hanya memberikan tampilan yang indah 
+        <br>tetapi juga memastikan label tetap menarik bahkan setelah penggunaan yang berulang. Tahan air dan tahan luntur, label ini dirancang 
+        <br>untuk tetap prima dalam jangka waktu yang panjang.
+</ul>
 
 <br>- Kesesuaian Tema:
 <br>Jika CD ini dimaksudkan untuk acara khusus atau tema tertentu, desain label mencerminkan kesesuaian tersebut. 

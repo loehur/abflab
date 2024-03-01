@@ -124,7 +124,7 @@ class Detail extends Controller
          ];
 
          if (in_array($fileType, $allowExt) === true) {
-            if ($fileSize < 25000000) {
+            if ($fileSize < 400000000) { //400mb
 
                move_uploaded_file($imageTemp, $imageUploadPath);
                if (isset($_SESSION['cart'])) {
@@ -137,7 +137,7 @@ class Detail extends Controller
                }
                echo 1;
             } else {
-               echo "GAGAL! FILE LEBIH BESAR DARI 25MB";
+               echo "GAGAL! FILE LEBIH BESAR DARI 400MB";
             }
          } else {
             echo "FILE EXT/TYPE TIDAK DIPERBOLEHKAN";

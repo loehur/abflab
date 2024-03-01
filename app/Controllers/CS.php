@@ -164,4 +164,13 @@ class CS extends Controller
       unset($_SESSION['cs']);
       echo 1;
    }
+
+   function load_cs_detail($id)
+   {
+      $where = "order_ref = '" . $id . "'";
+      $cust = $this->db(0)->get_where_row("delivery", $where);
+      echo "<pre>";
+      print_r($cust);
+      echo "</pre>";
+   }
 }

@@ -41,8 +41,11 @@ class Session extends Controller
       if ($mode == 1) {
          $_SESSION['cart'][$id]['jumlah'] += 1;
       } else {
-         if ($_SESSION['cart'][$id]['jumlah'] == 1) {
+         if ($_SESSION['cart'][$id]['jumlah'] <= 1) {
             unset($_SESSION['cart'][$id]);
+            if (count($_SESSION['cart']) == 0) {
+               unset($_SESSION['cart']);
+            }
             exit();
          } else {
             $_SESSION['cart'][$id]['jumlah'] -= 1;

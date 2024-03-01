@@ -60,15 +60,19 @@
                             $since_start = $start_date->diff(new DateTime(date("Y-m-d H:i:s")));
                         ?>
                             <div class="row">
-                                <div class="col mx-2 border rounded shadow-sm pb-2 mb-2">
+                                <div class="col mx-2 border rounded pb-2 mb-2">
                                     <small>
-                                        <table class="mt-1 table-light w-auto">
+                                        <table class="mt-1 table-light w-auto mt-2">
                                             <tr>
-                                                <td><b><?= $customer ?></b></td>
+                                                <td><span style="cursor: pointer;" class="text-success" onclick="cs_detail(<?= $ref ?>)" data-bs-toggle="modal" data-bs-target="#exampleModal_cs"><?= $customer ?></span></td>
                                             </tr>
                                             <tr>
                                                 <td><?= $d['insertTime'] ?> <small class="text-dark"><b>(<?= $since_start->days ?> Hari, <?= $since_start->h ?> Jam)</b></small></td>
                                             </tr>
+                                            <tr>
+                                                <td>REF#<?= $ref ?></td>
+                                            </tr>
+                                            <span class="float-end text-warning"><?= $tab ?></span>
                                         </table>
                                     </small>
                                     <div class="border-top mt-2">
@@ -169,12 +173,30 @@
         <?php } ?>
     </div>
 </div>
+
+<div class="modal" id="exampleModal_cs" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Customer Detail</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal_content">
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function() {
         device();
         $("#nav-<?= $data['tab'] ?>-tab").click();
         spinner(0);
     });
+
+    function cs_detail(id) {
+        $("#modal_content").load("<?= $this->BASE_URL ?>CS/load_cs_detail/" + id);
+    }
 
     $("span.batal").click(function() {
         var note = prompt("Alasan Dibatalkan", "");

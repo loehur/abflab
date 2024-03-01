@@ -95,6 +95,12 @@ class Pesanan extends Controller
          $sql_c = $this->db(0)->insertCols("customer", $cols, $vals);
       }
 
+      $subdistrict_ = $this->db(0)->get_where_row("_subdistrict", "subdistrict_id = " . $kecamatan)['subdistrict_name'];
+      $city_ = $this->db(0)->get_where_row("_city", "city_id = " . $kota)['city_name'];
+      $province_ = $this->db(0)->get_where_row("_province", "province_id = " . $provinsi)['province'];
+
+      $full_address = $alamat . " [Kec. " . $subdistrict_ . " ] [Kota/Kab. " . $city_ . "] [Provinsi. " . $province_ . "]";
+
       if (!isset($_SESSION['customer_id'])) {
          $_SESSION['customer_id'] = $cust_id;
       }
@@ -112,8 +118,8 @@ class Pesanan extends Controller
       }
 
       $ongkir = $_SESSION['ongkir'];
-      $cols = "order_ref, courier, service, total, delivery";
-      $vals = "'$ref', '$kurir', '$service', $ongkir, $mode";
+      $cols = "order_ref, courier, service, total, delivery, name, address, hp";
+      $vals = "'$ref', '$kurir', '$service', $ongkir, $mode, '$nama', '$full_address', '$hp'";
       $sql_d = $this->db(0)->insertCols("delivery", $cols, $vals);
 
       $total += $ongkir;

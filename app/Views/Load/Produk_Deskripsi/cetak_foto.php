@@ -1,4 +1,4 @@
-<h6>KEUNGGULAN CETAKAN KAMI MENGGUNAKAN MESIN DIGITAL LAB:</h6>
+<h7><b>KEUNGGULAN CETAKAN KAMI MENGGUNAKAN MESIN DIGITAL LAB :</b></h7>
 <ul>
 	<li>Warna tidak akan pudar bertahun-tahun (dengan penyimpanan yang baik)</li>
 	<li>Warna lebih tajam, cerah, tidak garis-garis, dsb</li>
