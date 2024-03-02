@@ -119,7 +119,7 @@ $d = $data['data'][$id_produk];
                                 </label><br>
                                 <div id="radio_3" class="d-none radio_">
                                     <span onclick="copy('<?= $this->SETTING['gdrive'] ?>')" class="text-primary" style="cursor: pointer;"><small><?= $this->SETTING['gdrive'] ?></small></span>
-                                    <span id="span_copy" style="display: none;"><small>Copied</small></span>
+                                    <span id="span_copy" style="display: none;"><small>Copied!</small></span>
                                 </div>
                             </div>
                         </div>
