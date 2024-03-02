@@ -42,7 +42,7 @@ $d = $data['data'][$id_produk];
                 <?php } ?>
             </div>
         </div>
-        <div class="col p-2 mx-1 border rounded">
+        <div class="col p-2 mx-1">
             <form class="upload me-0 pe-0 form-floating" action="<?= $this->BASE_URL ?>Detail/upload" method="POST">
                 <h6 class="text-success"><b><?= $d['produk'] ?></b></h6>
                 <div class="row mb-2 d-none">
@@ -75,33 +75,58 @@ $d = $data['data'][$id_produk];
                 <?php
                 } ?>
                 <input name="produk" type="hidden" value="<?= $id_produk ?>">
-                <div class="row mb-2">
-                    <div class="col">
-                        <div class="form-floating">
-                            <textarea class="form-control form-control-sm shadow-none" name="note" id="floatingTextarea"></textarea>
-                            <label for="floatingTextarea">Tinggalkan catatan disini...</label>
+
+                <span class=""><small>Pengiriman File:</small></span>
+                <div class="border border-warning shadow-sm rounded-3 px-3 mb-2 py-2" style="max-width: 600px;">
+                    <div class="row mb-1">
+                        <div class="col" style="min-width: 250px;">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="metode_file" value="1" checked>
+                                <label class="form-check-label">
+                                    <small>Upload disini</small>
+                                </label>
+                                <div id="radio_1" class="radio_">
+                                    <label><small class="text-danger">Max. <b>400MB</b></small></label> <small class="text-danger">(.jpg .jpeg .png .zip .rar)</small>
+                                    <div class="">
+                                        <input id="file" name="order" class="form-control form-control-sm" type="file">
+                                        <small class="float-end">Upload process <span id="persen">0</span><b> %</b></small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col" style="min-width: 250px;">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="metode_file" value="2">
+                                <label class="form-check-label">
+                                    <small>Share File Drive</small>
+                                </label>
+                                <div id="radio_2" class="d-none radio_">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control form-control-sm shadow-sm" name="link_drive">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col" style="min-width: 300px;">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="metode_file" value="3">
+                                <label class="form-check-label">
+                                    <small>Kirim Email</small>
+                                </label><br>
+                                <div id="radio_3" class="d-none radio_">
+                                    <span class="text-primary"><?= $this->SETTING['gdrive'] ?></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <div class="col" style="min-width: 300px;">
-                        <label><small class="text-danger">Max. <b>400MB</b></small></label> <small class="text-danger">(.jpg .jpeg .png .zip .rar)</small>
-                        <div class="">
-                            <input id="file" name="order" class="form-control form-control-sm" type="file">
-                            <small class="float-end">Upload process <span id="persen">0</span><b> %</b></small>
-                        </div>
-                    </div>
-                    <div class="col" style="min-width: 300px;">
-                        <label>Kirim File yang <span class="fw-bold">lebih besar</span>?
-                            <div class="">
-                                <input class="form-check-input" name="gdrive" type="checkbox" value="gdrive" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Share google drive <span class="text-primary"><?= $this->SETTING['gdrive'] ?></span>
-                                </label>
-                            </div>
-                    </div>
-                    <?php
-                    if (isset($d['mal']) && is_array($d['mal'])) { ?>
+                <?php
+                if (isset($d['mal']) && is_array($d['mal'])) { ?>
+                    <div class="row mb-2">
                         <div class="col-auto">
                             <label class=""><small>Template/Mal</small></label>
                             <div class="dropdown">
@@ -115,7 +140,13 @@ $d = $data['data'][$id_produk];
                                 </ul>
                             </div>
                         </div>
-                    <?php } ?>
+                    </div>
+                <?php } ?>
+                <div class="row mb-2">
+                    <div class="col mb-2" style="min-width: 250px;">
+                        <label><small>Catatan:</small></label>
+                        <textarea class="form-control form-control-sm shadow-none" name="note" id="floatingTextarea"></textarea>
+                    </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col">
@@ -193,6 +224,18 @@ $d = $data['data'][$id_produk];
         spinner(0);
     });
 
+    $('input:radio[name=metode_file]').change(function() {
+        $(".radio_").each(function() {
+            if ($(this).hasClass("d-none") == false) {
+                $(this).addClass("d-none");
+            }
+        })
+        if ($(this).is(':checked')) {
+            $("#radio_" + $(this).val()).removeClass("d-none");
+        }
+    });
+
+
     function no_image(x) {
         $("#image" + x).prop("src", "<?= $this->ASSETS_URL ?>img/guide/no_image.webp");
     }
@@ -234,6 +277,7 @@ $d = $data['data'][$id_produk];
                     content(<?= $id_produk ?>);
                 } else {
                     alert(dataRespon);
+                    $("#add_cart").show();
                 }
             },
         });

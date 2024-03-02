@@ -32,7 +32,7 @@
                 <div class="row mb-2">
                     <div class="col">
                         <div class="form-check">
-                            <input class="form-check-input radio_" type="radio" onclick="total(0)" name="radio_kirim" value="1" required id="flexRadioDefault1" checked>
+                            <input class="form-check-input radio_" type="radio" name="radio_kirim" value="1" data-val="0" checked>
                             <label class="form-check-label" for="flexRadioDefault1">
                                 Jemput ke Toko
                             </label>
@@ -47,9 +47,9 @@
                         <div class="form-check">
                             <div class="row">
                                 <div class="col">
-                                    <input class="form-check-input radio_" onclick="total(<?= $this->SETTING['ongkir_toko'] ?>)" type="radio" name="radio_kirim" value="2" required id="flexRadioDefault2">
+                                    <input class="form-check-input radio_" type="radio" name="radio_kirim" data-val="<?= $this->SETTING['ongkir_toko'] ?>" value="2">
                                     <label class="form-check-label" for="flexRadioDefault2">
-                                        Pengiriman via Kurir Toko
+                                        Pengiriman via Kurir Toko <small class="text-danger">(Dalam Kota)</small>
                                     </label>
                                 </div>
                             </div>
@@ -57,15 +57,15 @@
                     </div>
                 </div>
                 <div class="form-check mt-2">
-                    <input class="form-check-input" onclick="ongkir_luar_kota()" type="radio" name="radio_kirim" value="3" required id="flexRadioDefault3">
-                    <label class="form-check-label" for="flexRadioDefault3">
+                    <input class="form-check-input" type="radio" name="radio_kirim" value="3" data-val="">
+                    <label class=" form-check-label" for="flexRadioDefault3">
                         Pengiriman via Ekspedisi
                     </label>
                     <div class="shadow-sm d-none border rounded mt-1 px-2 pt-2" id="antar">
                         <div class="row">
                             <div class="col">
                                 <div class="form-floating mb-2">
-                                    <select class="form-select" id="provinsi" name="provinsi" aria-label=".form-select-sm example" required>
+                                    <select class="form-select" id="provinsi" name="provinsi" aria-label=".form-select-sm example">
                                         <option selected value=""></option>
                                         <?php
                                         foreach ($data['provinsi'] as $dp) { ?>
@@ -89,7 +89,7 @@
                         <div class="row mb-2">
                             <div class="col">
                                 <div class="form-floating mb-2">
-                                    <select class="form-select" name="via" id="via" required>
+                                    <select class="form-select" name="via" id="via">
                                         <option value="" selected></option>
                                         <?php foreach ($this->KURIR as $k) { ?>
                                             <option value="<?= $k ?>"><?= strtoupper($k)  ?></option>
@@ -104,6 +104,7 @@
                         </div>
                     </div>
                 </div>
+                <input value="" name="ongkir" required>
                 <button type="submit" id="submit_form" class="d-none"></button>
             </form>
         </div>
@@ -153,8 +154,21 @@
 <script>
     $(document).ready(function() {
         spinner(0);
-        total();
+        total("");
+        $("input[name=ongkir]").val(0);
     });
+
+    $('input:radio').change(function() {
+        var data_val = $(this).attr("data-val");
+        $("input[name=ongkir]").val(data_val);
+        total(data_val);
+
+        if ($(this).val() == 3) {
+            $("#antar").removeClass("d-none");
+            var luar_kota = $("select#service").val()
+        }
+    });
+
 
     var sub = <?= $total ?>;
 
@@ -180,31 +194,20 @@
 
     })
 
-    function total(ongkir = 0) {
-
-        $("td#ongkir").html("Rp" + addCommas(ongkir));
-        var new_total = parseInt(sub + ongkir);
+    function total(ongkir) {
+        if (ongkir == "") {
+            $("td#ongkir").html("Rp0");
+            ongkir = 0;
+        } else {
+            $("td#ongkir").html("Rp" + addCommas(ongkir));
+        }
+        var new_total = parseInt(sub) + parseInt(ongkir);
         $("#total").html("Rp" + addCommas(new_total))
-        $.post("<?= $this->BASE_URL ?>Session/set", {
-            name: "ongkir",
-            value: ongkir
-        }, )
     }
 
     $('.radio_').click(function() {
         $("#antar").addClass("d-none");
     })
-
-    function ongkir_luar_kota() {
-        $("#antar").removeClass("d-none");
-        var luar_kota = $("select#service").val()
-        if (luar_kota != undefined) {
-            harga = parseInt(luar_kota);
-            total(harga);
-        } else {
-            total(0);
-        }
-    }
 
     function addCommas(nStr) {
         nStr += '';
@@ -245,8 +248,6 @@
             $("#selService").load("<?= $this->BASE_URL ?>Load/Spinner/1", function() {
                 $(this).load("<?= $this->BASE_URL ?>Checkout/cost/" + destination + "/" + courier + "/" + <?= $berat_total ?>)
             })
-        } else {
-
         }
     })
 

@@ -25,19 +25,31 @@
                     ?>
                         <tr>
                             <td>
-                                <?php if ($image == true) { ?>
-                                    <img style="object-fit: contain;" height="50px" src="<?= $c['file'] ?>">
-                                <?php } else {
-                                    if (strlen($c['file']) == 0) {
-                                        echo "No File";
-                                    } else {
-                                        if (strlen($c['file']) > 10) {
-                                            echo ".." . substr($c['file'], -10);
-                                        } else {
-                                            echo $c['file'];
+                                <?php
+                                switch ($c['metode_file']) {
+                                    case 1:
+                                        if ($image == true) { ?>
+                                            <img style="object-fit: contain;" height="50px" src="<?= $c['file'] ?>">
+                                        <?php } else {
+                                            if (strlen($c['file']) == 0) {
+                                                echo "No File";
+                                            } else {
+                                                if (strlen($c['file']) > 10) {
+                                                    echo ".." . substr($c['file'], -10);
+                                                } else {
+                                                    echo $c['file'];
+                                                }
+                                            }
                                         }
-                                    }
-                                } ?>
+                                        break;
+                                    case 2: ?>
+                                        <a href="<?= $c['link_drive'] ?>" target="_blank">Link Drive</a>
+                                <?php break;
+                                    default:
+                                        echo "Email";
+                                        break;
+                                }
+                                ?>
                             </td>
                             <td>
                                 <?= $c['produk'] ?>, <?= $c['detail'] ?><br>
@@ -70,7 +82,7 @@
             <?php
             if (isset($_SESSION['cart'])) {
                 $total = 0; ?>
-                <table class="table table-sm">
+                <table class="table table-sm table-borderless">
                     <?php foreach ($_SESSION['cart'] as $k => $c) {
                         $image = false;
                         $total += $c['total'];
@@ -83,37 +95,51 @@
                         }
                     ?>
                         <tr>
-                            <td style="max-width: 50px;">
-                                <?php if ($image == true) { ?>
-                                    <img style="display:block;" width="100%" height="100%" src="<?= $c['file'] ?>">
-                                <?php } else {
-                                    if (strlen($c['file']) == 0) {
-                                        echo "<small>No File</small>";
-                                    } else {
-                                        if (strlen($c['file']) > 10) {
-                                            echo ".." . substr($c['file'], -10);
-                                        } else {
-                                            echo $c['file'];
-                                        }
+                            <td>
+                                <small>
+                                    <?php
+                                    switch ($c['metode_file']) {
+                                        case 1:
+                                            if ($image == true) { ?>
+                                                <img style="object-fit: contain;" height="50px" src="<?= $c['file'] ?>">
+                                            <?php } else {
+                                                if (strlen($c['file']) == 0) {
+                                                    echo "No File";
+                                                } else {
+                                                    if (strlen($c['file']) > 10) {
+                                                        echo ".." . substr($c['file'], -10);
+                                                    } else {
+                                                        echo $c['file'];
+                                                    }
+                                                }
+                                            }
+                                            break;
+                                        case 2: ?>
+                                            <a href="<?= $c['link_drive'] ?>" target="_blank">Link Drive</a>
+                                    <?php break;
+                                        default:
+                                            echo "Email";
+                                            break;
                                     }
-                                } ?>
+                                    ?>
+                                </small>
                             </td>
                             <td>
-                                <?= $c['produk'] ?>, <?= $c['detail'] ?><br>
-                                <small><?= $c['note'] ?></small>
+                                <small>
+                                    <?= $c['produk'] ?>, <?= $c['detail'] ?><br>
+                                    <span class="text-danger"><?= $c['note'] ?></span>
+                                </small>
                             </td>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td class="text-end">
+                            <td class="text-end" colspan="2">
                                 <span class="btn btn-sm btn-light py-0" onclick="add(<?= $k ?>, 0)">-</span>
                                 <span class="btn btn-sm" id="j<?= $k ?>"><?= $c['jumlah'] ?></span>
                                 <span class="btn btn-sm btn-light py-0" onclick="add(<?= $k ?>, 1)">+</span>
                             </td>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td class="text-end"><?= number_format($c['total']) ?></td>
+                            <td colspan="2" class="text-end border-bottom"><small><?= number_format($c['total']) ?></small></td>
                         </tr>
                     <?php } ?>
                     <tr>

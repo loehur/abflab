@@ -161,6 +161,7 @@ class D_Produk
                 "group" => 0, // Cetak
                 "img" => "cetakpvc",
                 "img_detail" => "pvc",
+                "mal" => ['mal_cd'],
                 "link" => 0,
                 "target" => "_self",
                 "varian" => "Cetak_PVC_Card",
@@ -178,6 +179,7 @@ class D_Produk
                 "group" => 0, // Cetak
                 "img" => "cd",
                 "img_detail" => "cetak_cd",
+                "mal" => ['mal_cd'],
                 "link" => 0,
                 "target" => "_self",
                 "varian" => "Cetak_Cd",

@@ -1,6 +1,5 @@
-<h7><b>KEUNGGULAN CETAKAN ID CARD MENGGUNAKAN MESIN TEKNOLOGI LASER UV:</b></h7>
-<ul>
-        Ukuran kartu PVC 85x55 MM, sama dengan ukuran kartu sim, ktp, dll.
+<h7><b>KEUNGGULAN CETAKAN ID CARD MENGGUNAKAN MESIN TEKNOLOGI LASER UV :</b></h7>
+        <br>Ukuran kartu PVC 85x55 MM, sama dengan ukuran kartu sim, ktp, dll.
         <br>Cetak kartu menggunakan bahan PVC adalah pilihan yang sangat cocok untuk memberikan identitas yang tahan lama dan profesional. 
         <br>Bahan PVC, yang juga dikenal sebagai polivinil klorida, memberikan kelebihan ketahanan terhadap air, kelembaban, dan aus. 
         <br>Proses cetak menggunakan teknologi mutakhir memberikan hasil cetak yang tajam, warna yang hidup, dan detail yang presisi.
@@ -19,4 +18,3 @@
         <br>Dengan menggunakan bahan PVC untuk mencetak kartu, Anda dapat yakin bahwa kartu tersebut tidak hanya memenuhi kebutuhan fungsional, 
         <br>tetapi juga memberikan tampilan yang profesional dan awet. Cetak kartu bahan PVC adalah solusi yang kokoh dan andal untuk kebutuhan identifikasi dan pengenalan 
         <br>yang dapat diandalkan dalam berbagai situasi.
-</ul>

@@ -83,6 +83,8 @@ class Checkout extends Controller
       $data = json_decode($data_, JSON_PRETTY_PRINT);
       $data['ori'] = $data['rajaongkir']['results'][0]['costs'];
 
+      $_SESSION['ongkir'] = $data['ori'];
+
       $this->view(__CLASS__, __CLASS__ . "/list_service", $data);
    }
 }

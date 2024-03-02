@@ -60,6 +60,7 @@ class Pesanan extends Controller
             $kecamatan = 0;
             $kurir = "Jemput Toko";
             $service = "";
+            $ongkir = 0;
             break;
          case 2:
             $provinsi = 26;
@@ -67,6 +68,7 @@ class Pesanan extends Controller
             $kecamatan = 0;
             $kurir = "Kurir Toko";
             $service = "Instan";
+            $ongkir = $this->SETTING['ongkir_toko'];
             break;
          case 3:
             if (!isset($_POST['service'])) {
@@ -77,8 +79,19 @@ class Pesanan extends Controller
             $kota = $_POST['kota'];
             $kecamatan = $_POST['kecamatan'];
             $kurir = $_POST['via'];
-            $service = $_POST['service'];
+
+            foreach ($_SESSION['ongkir'] as $k => $o) {
+               if ($k == $_POST['service']) {
+                  $service = $o['service'];
+                  $ongkir = $o['cost'][0]['value'];
+               }
+            }
             break;
+      }
+
+      if (!isset($ongkir)) {
+         echo "ERROR ONGKIR!";
+         exit();
       }
 
       $where = "hp = '" . $hp . "'";
@@ -112,12 +125,12 @@ class Pesanan extends Controller
       foreach ($_SESSION['cart'] as $c) {
          $subTotal = $c['total'];
          $total += $subTotal;
-         $cols = "order_ref, group_id, product_id, product, detail, price, qty, total, weight, length, width, height, note, file, customer_id";
-         $vals = "'" . $ref . "'," . $c['group_id'] . "," . $c['produk_id'] . ",'" . $c['produk'] . "','" . $c['detail'] . "'," . $c['harga'] . "," . $c['jumlah'] . "," . $subTotal . "," . $c['berat'] . "," . $c['panjang'] . "," . $c['lebar'] . "," . $c['tinggi'] . ",'" . $c['note'] . "','" . $c['file'] . "','" . $cust_id . "'";
+
+         $cols = "order_ref, group_id, product_id, product, detail, price, qty, total, weight, length, width, height, note, file, customer_id, metode_file, link_drive";
+         $vals = "'" . $ref . "'," . $c['group_id'] . "," . $c['produk_id'] . ",'" . $c['produk'] . "','" . $c['detail'] . "'," . $c['harga'] . "," . $c['jumlah'] . "," . $subTotal . "," . $c['berat'] . "," . $c['panjang'] . "," . $c['lebar'] . "," . $c['tinggi'] . ",'" . $c['note'] . "','" . $c['file'] . "','" . $cust_id . "'," . $c['metode_file'] . ",'" . $c['link_drive'] . "'";
          $sql_o = $this->db(0)->insertCols("order_list", $cols, $vals);
       }
 
-      $ongkir = $_SESSION['ongkir'];
       $cols = "order_ref, courier, service, total, delivery, name, address, hp";
       $vals = "'$ref', '$kurir', '$service', $ongkir, $mode, '$nama', '$full_address', '$hp'";
       $sql_d = $this->db(0)->insertCols("delivery", $cols, $vals);

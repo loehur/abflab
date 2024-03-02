@@ -37,6 +37,7 @@ class Detail extends Controller
       $cek = $d[$produk_id];
       $group_id = $cek['group'];
       $produk_name = $cek['produk'];
+      $metode_file = $_POST['metode_file'];
 
       $jumlah = $_POST['jumlah'];
       $harga = $cek['harga'];
@@ -47,9 +48,6 @@ class Detail extends Controller
       $tinggi = (isset($cek['tinggi'])) ? (($cek['tinggi'] == 0) ? 1 : $cek['tinggi']) : 1;
       $note = $_POST['note'];
       $detail = "";
-
-      // print_r($_POST);
-      // exit();
 
       if ($cek['varian']) {
          $data_ = $this->varian($cek['varian'])->main();
@@ -75,7 +73,6 @@ class Detail extends Controller
                               $harga += $v3['harga'];
                               $berat += $v3['berat'];
 
-
                               $panjang += (isset($v3['panjang'])) ? $v3['panjang'] : 0;
                               $lebar += (isset($v3['lebar'])) ? $v3['lebar'] : 0;
                               $tinggi += (isset($v3['tinggi'])) ? $v3['tinggi'] == 0 : 0;
@@ -89,6 +86,13 @@ class Detail extends Controller
             }
          }
       }
+
+      $link_drive = "";
+      if (isset($_POST['link_drive'])) {
+         $link_drive = $_POST['link_drive'];
+      }
+
+      $file = "";
 
       if (isset($_FILES['file'])) {
 
@@ -105,76 +109,49 @@ class Detail extends Controller
          $allowExt   = array('png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG', 'zip', 'rar', 'ZIP', 'RAR');
          $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION);
          $fileSize   = $file_['size'];
-
-         $cart = [];
-         $new_cart = [
-            "group_id" => $group_id,
-            "produk_id" => $produk_id,
-            "produk" => $produk_name,
-            "detail" => $detail,
-            "jumlah" => $jumlah,
-            "harga" => $harga,
-            "total" => $jumlah * $harga,
-            "berat" => $jumlah * $berat,
-            "panjang" => $panjang,
-            "lebar" => $lebar,
-            "tinggi" => $tinggi,
-            "note" => $note,
-            "file" => $imageUploadPath
-         ];
+         $file = $imageUploadPath;
 
          if (in_array($fileType, $allowExt) === true) {
             if ($fileSize < 400000000) { //400mb
-
                move_uploaded_file($imageTemp, $imageUploadPath);
-               if (isset($_SESSION['cart'])) {
-                  $cart = $_SESSION['cart'];
-                  array_push($cart, $new_cart);
-                  $_SESSION['cart'] = $cart;
-               } else {
-                  array_push($cart, $new_cart);
-                  $_SESSION['cart'] = $cart;
-               }
-               echo 1;
             } else {
-               echo "GAGAL! FILE LEBIH BESAR DARI 400MB";
+               echo "MAX FILE SIZE 400MB";
+               exit();
             }
          } else {
-            echo "FILE EXT/TYPE TIDAK DIPERBOLEHKAN";
+            echo "ALLOWED FILE EXT (.png .jpg .jpeg .zip .rar)";
+            exit();
          }
-      } else {
-         $cart = [];
-         if (isset($_POST['gdrive'])) {
-            $file = $_POST['gdrive'];
-         } else {
-            $file = "";
-         }
-         $new_cart = [
-            "group_id" => $group_id,
-            "produk_id" => $produk_id,
-            "produk" => $produk_name,
-            "detail" => $detail,
-            "jumlah" => $jumlah,
-            "harga" => $harga,
-            "total" => $jumlah * $harga,
-            "berat" => $jumlah * $berat,
-            "panjang" => $panjang,
-            "lebar" => $lebar,
-            "tinggi" => $tinggi,
-            "note" => $note,
-            "file" => $file
-         ];
-
-         if (isset($_SESSION['cart'])) {
-            $cart = $_SESSION['cart'];
-            array_push($cart, $new_cart);
-            $_SESSION['cart'] = $cart;
-         } else {
-            array_push($cart, $new_cart);
-            $_SESSION['cart'] = $cart;
-         }
-         echo 1;
       }
+
+      $cart = [];
+      $new_cart = [
+         "group_id" => $group_id,
+         "produk_id" => $produk_id,
+         "produk" => $produk_name,
+         "detail" => $detail,
+         "jumlah" => $jumlah,
+         "harga" => $harga,
+         "total" => $jumlah * $harga,
+         "berat" => $jumlah * $berat,
+         "panjang" => $panjang,
+         "lebar" => $lebar,
+         "tinggi" => $tinggi,
+         "note" => $note,
+         "metode_file" => $metode_file,
+         "link_drive" => $link_drive,
+         "file" => $file
+      ];
+
+      if (isset($_SESSION['cart'])) {
+         $cart = $_SESSION['cart'];
+         array_push($cart, $new_cart);
+         $_SESSION['cart'] = $cart;
+      } else {
+         array_push($cart, $new_cart);
+         $_SESSION['cart'] = $cart;
+      }
+      echo 1;
    }
 
    function loadVarian()
