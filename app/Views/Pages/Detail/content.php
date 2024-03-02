@@ -118,7 +118,8 @@ $d = $data['data'][$id_produk];
                                     <small>Kirim Email</small>
                                 </label><br>
                                 <div id="radio_3" class="d-none radio_">
-                                    <span class="text-primary"><?= $this->SETTING['gdrive'] ?></span>
+                                    <span onclick="copy('<?= $this->SETTING['gdrive'] ?>')" class="text-primary" style="cursor: pointer;"><small><?= $this->SETTING['gdrive'] ?></small></span>
+                                    <span id="span_copy" style="display: none;"><small>Copied</small></span>
                                 </div>
                             </div>
                         </div>
@@ -224,6 +225,18 @@ $d = $data['data'][$id_produk];
         spinner(0);
     });
 
+    function copy(text) {
+        var temp = $("<input id=temp />");
+        $("body").append(temp);
+        temp.val(text)
+        temp.select();
+        document.execCommand("copy");
+        temp.remove();
+
+        $("span#span_copy").fadeIn(200);
+        $("span#span_copy").fadeOut(1000);
+    }
+
     $('input:radio[name=metode_file]').change(function() {
         $(".radio_").each(function() {
             if ($(this).hasClass("d-none") == false) {
@@ -234,7 +247,6 @@ $d = $data['data'][$id_produk];
             $("#radio_" + $(this).val()).removeClass("d-none");
         }
     });
-
 
     function no_image(x) {
         $("#image" + x).prop("src", "<?= $this->ASSETS_URL ?>img/guide/no_image.webp");

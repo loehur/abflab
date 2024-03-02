@@ -104,7 +104,7 @@
                         </div>
                     </div>
                 </div>
-                <input value="" name="ongkir" required>
+                <input value="" type="hidden" name="ongkir" required>
                 <button type="submit" id="submit_form" class="d-none"></button>
             </form>
         </div>
@@ -252,6 +252,11 @@
     })
 
     $("span#submit_form").click(function(e) {
-        $("button#submit_form").click();
+        if ($("input[name=ongkir]").val() == "") {
+            alert("Data pengiriman tidak Valid");
+            return;
+        } else {
+            $("button#submit_form").click();
+        }
     });
 </script>
