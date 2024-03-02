@@ -100,7 +100,7 @@ $d = $data['data'][$id_produk];
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="metode_file" value="2">
                                 <label class="form-check-label">
-                                    <small>Share File Drive</small>
+                                    <small>Share File, Link Drive</small>
                                 </label>
                                 <div id="radio_2" class="d-none radio_">
                                     <div class="input-group mb-3">
