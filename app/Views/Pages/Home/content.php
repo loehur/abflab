@@ -36,7 +36,7 @@
     }
 
     .wrapper .item {
-        min-width: 100px;
+        min-width: 120px;
         max-width: 120px;
         text-align: center;
     }

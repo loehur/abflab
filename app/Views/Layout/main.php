@@ -47,7 +47,13 @@ if (isset($data['parse'])) {
 	}
 
 	function device() {
-		if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+		let mobile = false;
+
+		if (window.screen.width < 500) {
+			mobile = true;
+		}
+
+		if (mobile == true) {
 			$(".desktop").addClass("d-none");
 		} else {
 			$(".mobile").addClass("d-none");
