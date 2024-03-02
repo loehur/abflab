@@ -6,10 +6,10 @@
 	<link rel="icon" type="image/x-icon" href="<?= $this->ASSETS_URL ?>img/favicon.png" />
 
 	<!-- Main -->
-	<link rel="stylesheet" href="<?= $this->ASSETS_URL ?>css/styles.css" />
-	<link rel="stylesheet" href="<?= $this->ASSETS_URL ?>plugins/bootstrap-5.1/bootstrap.min.css" />
-	<link rel="stylesheet" href="<?= $this->ASSETS_URL ?>plugins/fontawesome-free-6.4.0-web/css/all.css">
-	<link rel="stylesheet" href="<?= $this->ASSETS_URL ?>css/main.css">
+	<link rel="stylesheet" type="text/css" href="<?= $this->ASSETS_URL ?>css/styles.css" />
+	<link rel="stylesheet" type="text/css" href="<?= $this->ASSETS_URL ?>plugins/bootstrap-5.1/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="<?= $this->ASSETS_URL ?>plugins/fontawesome-free-6.4.0-web/css/all.css">
+	<link rel="stylesheet" type="text/css" href="<?= $this->ASSETS_URL ?>css/main.css">
 
 	<!-- Icon -->
 	<script src="<?= $this->ASSETS_URL ?>js/feather.min.js"></script>
