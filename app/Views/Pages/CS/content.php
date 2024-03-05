@@ -18,7 +18,7 @@
                     continue;
                 }
                 $tab = "";
-                switch ($k) {
+                switch ($data['tab']) {
                     case 'p':
                         $tab = "Dalam Proses";
                         break;

@@ -77,7 +77,7 @@ $d = $data['data'][$id_produk];
                 <input name="produk" type="hidden" value="<?= $id_produk ?>">
 
                 <span class=""><small>Pengiriman File:</small></span>
-                <div class="border border-warning shadow-sm rounded-3 px-3 mb-2 py-2" style="max-width: 600px;">
+                <div class="border border-success shadow-sm rounded-3 px-3 mb-2 py-2" style="max-width: 600px;">
                     <div class="row mb-1">
                         <div class="col" style="min-width: 250px;">
                             <div class="form-check">

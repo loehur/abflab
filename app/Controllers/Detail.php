@@ -159,12 +159,6 @@ class Detail extends Controller
       $data = $_POST['data'];
       $data = base64_decode($data);
       $data = unserialize($data);
-      // echo "<pre>";
-      // print_r($data);
-      // echo "</pre>";
-
-
-
       $this->view(__CLASS__, __CLASS__ . "/varian", $data);
    }
 }

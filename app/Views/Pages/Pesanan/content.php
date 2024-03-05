@@ -66,7 +66,7 @@
                 ?>
                     <div class="row desktop">
                         <div class="col mx-2 border rounded pb-2 py-2 mb-2">
-                            <u>Order Ref. <?= $ref ?></u> <span class="float-end text-warning"><?= $tab ?></span>
+                            <u>Order Ref. <?= $ref ?></u> <span class="float-end text-warning"><small><?= $tab ?></small></span>
                             <small>
                                 <table class="table table-sm">
                                     <?php

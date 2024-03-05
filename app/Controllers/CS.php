@@ -13,7 +13,7 @@ class CS extends Controller
       $this->view_layout_cs(__CLASS__, $data);
    }
 
-   function content($tab)
+   function content($tab = 'bb')
    {
       if (!isset($_SESSION['cs'])) {
          $this->view(__CLASS__, __CLASS__ . "/login");
