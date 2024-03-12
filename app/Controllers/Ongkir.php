@@ -198,7 +198,7 @@ class Ongkir extends Controller
       echo "</pre>";
    }
 
-   function cancel()
+   function cancel($id)
    {
       $curl = curl_init();
       $params = [
@@ -209,7 +209,7 @@ class Ongkir extends Controller
       curl_setopt_array(
          $curl,
          [
-            CURLOPT_URL => 'https://api.biteship.com/v1/orders/65efd1405264e500129bfc89',
+            CURLOPT_URL => 'https://api.biteship.com/v1/orders/' . $id,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
