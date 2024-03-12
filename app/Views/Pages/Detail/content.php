@@ -1,7 +1,9 @@
 <?php
-$id_produk = $data['produk'];
+$id_produk = $data['data']['produk_id'];
 $main_img = "m";
-$d = $data['data'][$id_produk];
+$d = $data['data'];
+
+$varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
 ?>
 
 <style>
@@ -55,23 +57,24 @@ $d = $data['data'][$id_produk];
                     </div>
                 </div>
                 <?php
-                $varian = $this->varian($d['varian'])->main();;
-                foreach ($varian as $k => $dv) {
-                    $k0_ok = str_replace(' ', '-', $k);
-                    $k0_ok = preg_replace('/[^A-Za-z0-9\-]/', '', $k0_ok);
+                foreach ($varian as $dv) {
                 ?>
                     <div class="row mb-1">
                         <div class="col-auto pe-0">
-                            <label class=""><small><?= $k ?>:</small></label>
-                            <select name="v1_<?= $k ?>" id="sel_<?= $k0_ok ?>" class="form-select shadow-none opHarga selVarian" data-id="v<?= $k ?>" required>
+                            <label class=""><small><?= $dv['vg'] ?>:</small></label>
+                            <select name="v1_<?= $dv['vg1_id'] ?>" id="sel_<?= $dv['vg1_id'] ?>" class="form-select shadow-none opHarga selVarian" data-id="v<?= $dv['vg1_id'] ?>" required>
                                 <option data-img="0" value="" selected>-</option>
-                                <?php foreach ($dv as $k_ => $dh) { ?>
-                                    <option data-img="<?= (isset($dh['img'])) ? $dh['img'] : 0 ?>" value="<?= $k_ ?>" data-harga="<?= $dh['harga'] ?>" data-v='<?= base64_encode(serialize($dh)) ?>'><?= $k_ ?></option>
+                                <?php
+                                $varian_choice = $this->db(0)->get_where("varian_1", "vg1_id = " . $dv['vg1_id']);
+                                foreach ($varian_choice as $dh) {
+                                    $v2_post = serialize(["vg1_id" => $dv['vg1_id'], "v1_id" => $dh['varian_id']])
+                                ?>
+                                    <option data-img="<?= (isset($dh['img'])) ? $dh['img'] : 0 ?>" value="<?= $dh['varian_id'] ?>" data-harga="<?= $dh['harga'] ?>" data-v='<?= $v2_post ?>'><?= $dh['varian'] ?></option>
                                 <?php } ?>
                             </select>
                         </div>
                     </div>
-                    <div class="row mb-1" id="v<?= $k ?>"></div>
+                    <div class="row mb-1" id="v<?= $dv['vg1_id'] ?>"></div>
                 <?php
                 } ?>
                 <input name="produk" type="hidden" value="<?= $id_produk ?>">
@@ -147,6 +150,7 @@ $d = $data['data'][$id_produk];
                     <div class="col mb-2" style="min-width: 250px;">
                         <label><small>Catatan:</small></label>
                         <textarea class="form-control form-control-sm shadow-none" name="note" id="floatingTextarea"></textarea>
+                        <label><small class="text-danger">Harap konfirmasi dan masukkan ke catatan jika cetak ukuran khusus! </small></label> 
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -177,13 +181,15 @@ $d = $data['data'][$id_produk];
             </form>
         </div>
     </div>
+
+    <?php $detail_ = unserialize($d['detail']) ?>
     <div class="row">
         <div class="col px-1">
             <ul class="nav nav-tabs" id="pills-tab" role="tablist">
                 <?php
-                if (is_array($d['detail'])) {
+                if (is_array($detail_)) {
                     $tab = 0;
-                    foreach ($d['detail'] as $k => $dd) {
+                    foreach ($detail_ as $k => $dd) {
                         $tab += 1;
                 ?>
                         <li class="nav-item" role="presentation">
@@ -196,7 +202,7 @@ $d = $data['data'][$id_produk];
             <div class="tab-content p-2 border-start border-end border-bottom" id="pills-tabContent">
                 <?php
                 $tab = 0;
-                foreach ($d['detail'] as $k => $dd) {
+                foreach ($detail_ as $k => $dd) {
                     $tab += 1; ?>
                     <div class="tab-pane <?= ($tab == 1) ? 'show active' : '' ?>" id="pills-<?= $k ?>" role="tabpanel" aria-labelledby="pills-<?= $k ?>-tab">
                         <small id="detail_<?= $k ?>"></small>
@@ -211,7 +217,7 @@ $d = $data['data'][$id_produk];
 <script>
     $(document).ready(function() {
         totalHarga();
-        var detail = <?= (is_array($d['detail'])) ? json_encode($d['detail']) : 0 ?>;
+        var detail = <?= (is_array($detail_)) ? json_encode($detail_) : 0 ?>;
 
         if (detail != 0) {
             for (const x in detail) {
@@ -348,7 +354,7 @@ $d = $data['data'][$id_produk];
             $("div#" + id_).html("");
         } else {
             $("div#" + id_).html("");
-            $("div#" + id_).load("<?= $this->BASE_URL ?>Detail/loadVarian", {
+            $("div#" + id_).load("<?= $this->BASE_URL ?>Detail/loadVarian/", {
                 data: data_
             });
         }

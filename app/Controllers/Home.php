@@ -20,7 +20,7 @@ class Home extends Controller
    {
       $data = [];
       $data['banner'] = 3; // File di asset, img/banner
-      $data['product'] = $this->model("D_Produk")->main();
+      $data['product'] = $this->db(0)->get("produk");
       $this->view(__CLASS__, __CLASS__ . "/content", $data);
    }
 }

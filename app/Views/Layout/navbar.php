@@ -24,16 +24,16 @@ $t = $data['title'];
 						<ul class="navbar-nav justify-content-end flex-grow-1 mb-2">
 							<?php
 							$menu = $this->model("D_Group")->main();
-							$produk = $this->model("D_Produk")->main();
+							$produk = $this->db(0)->get("produk");
 							?>
 
 							<?php foreach ($menu as $k => $m) { ?>
 								<div class="nav-item dropdown">
 									<a href="#" class="nav-link shadow-sm bg-white text-dark border-top px-2 mt-2 me-2 py-1 <?= (str_contains($t, $m['aktif'])) ? 'active' : '' ?>" data-bs-toggle="dropdown"><?= $m['name'] ?></a>
 									<div class="dropdown-menu m-0 rounded-0">
-										<?php foreach ($produk as $pk => $p) {
-											if ($p['group'] == $k) { ?>
-												<a href="<?= ($p['link'] == 0) ? $this->BASE_URL . 'Detail/index/' . $pk : $p['link'] ?>" class="dropdown-item"><?= $p['produk'] ?></a>
+										<?php foreach ($produk as $p) {
+											if ($p['grup'] == $k) { ?>
+												<a href="<?= ($p['link'] == 0) ? $this->BASE_URL . 'Detail/index/' . $p['produk_id'] : $p['link'] ?>" class="dropdown-item"><?= $p['produk'] ?></a>
 										<?php }
 										} ?>
 									</div>

@@ -33,7 +33,7 @@
                     <div class="col">
                         <div class="form-check">
                             <input class="form-check-input radio_" type="radio" name="radio_kirim" value="1" data-val="0" checked>
-                            <label class="form-check-label" for="flexRadioDefault1">
+                            <label class="form-check-label">
                                 Jemput ke Toko
                             </label>
                             <div class="mt-1 px-2" id="jemput">
@@ -48,7 +48,7 @@
                             <div class="row">
                                 <div class="col">
                                     <input class="form-check-input radio_" type="radio" name="radio_kirim" data-val="<?= $this->SETTING['ongkir_toko'] ?>" value="2">
-                                    <label class="form-check-label" for="flexRadioDefault2">
+                                    <label class="form-check-label">
                                         Pengiriman via Kurir Toko <small class="text-danger">(Dalam Kota)</small>
                                     </label>
                                 </div>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="form-check mt-2">
                     <input class="form-check-input" type="radio" name="radio_kirim" value="3" data-val="">
-                    <label class=" form-check-label" for="flexRadioDefault3">
+                    <label class=" form-check-label">
                         Pengiriman via Ekspedisi
                     </label>
                     <div class="shadow-sm d-none border rounded mt-1 px-2 pt-2" id="antar">
@@ -166,6 +166,15 @@
         if ($(this).val() == 3) {
             $("#antar").removeClass("d-none");
             var luar_kota = $("select#service").val()
+
+            try {
+                harga = parseInt($("select#service").find(':selected').data('harga'));
+                total(harga);
+                $("input[name=ongkir]").val(harga);
+            } catch (err) {
+                total(data_val);
+            }
+
         }
     });
 

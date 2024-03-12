@@ -40,18 +40,19 @@ class Checkout extends Controller
 
    public function kota($id_provinsi)
    {
-      //JANGAN DIHAPUS, SUATU SAAT AKAN DIBUTUHKAN KEMBALI (LUHUR)
-      // $data = $this->model("RajaOngkir")->kota($id_provinsi);
-      // $data = json_decode($data, JSON_PRETTY_PRINT);
-      // $data = $data['rajaongkir']['results'];
-
-      // $cols = "city_id, province_id, province, type, city_name, postal_code";
-      // foreach ($data as $d) {
-      //    $val = $d['city_id'] . "," . $d['province_id'] . ",'" . $d['province'] . "','" . $d['type'] . "','" . $d['city_name'] . "','" . $d['postal_code'] . "'";
-      //    $this->db(0)->insertCols("_city", $cols, $val);
-      // }
-
       $data = $this->db(0)->get_where("_city", "province_id = " . $id_provinsi);
+      if (count($data) == 0) {
+         //JANGAN DIHAPUS, SUATU SAAT AKAN DIBUTUHKAN KEMBALI (LUHUR)
+         $data = $this->model("RajaOngkir")->kota($id_provinsi);
+         $data = json_decode($data, JSON_PRETTY_PRINT);
+         $data = $data['rajaongkir']['results'];
+
+         $cols = "city_id, province_id, province, type, city_name, postal_code";
+         foreach ($data as $d) {
+            $val = $d['city_id'] . "," . $d['province_id'] . ",'" . $d['province'] . "','" . $d['type'] . "','" . $d['city_name'] . "','" . $d['postal_code'] . "'";
+            $this->db(0)->insertCols("_city", $cols, $val);
+         }
+      }
       $this->view(__CLASS__, __CLASS__ . "/list_kota", $data);
    }
 

@@ -18,7 +18,7 @@
                     continue;
                 }
                 $tab = "";
-                switch ($data['tab']) {
+                switch ($k) {
                     case 'p':
                         $tab = "Dalam Proses";
                         break;
@@ -44,6 +44,22 @@
                 <div class="row">
                     <div class="col pt-2 px-3">
                         <?php
+                        $tab = "";
+                        switch ($k) {
+                            case 'p':
+                                $tab = "Dalam Proses";
+                                break;
+                            case 's':
+                                $tab = "Dikirim/Selesai";
+                                break;
+                            case 'b':
+                                $tab = "Dibatalkan";
+                                break;
+                            default:
+                                $tab = "Belum Bayar";
+                                break;
+                        }
+
                         $ref = "";
                         foreach ($data[$k] as $d) {
                             $new_ref = $d['order_ref'];

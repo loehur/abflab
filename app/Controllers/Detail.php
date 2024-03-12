@@ -9,8 +9,8 @@ class Detail extends Controller
    public function index($id_produk)
    {
       $title = "Undefined";
-      $produk = $this->model("D_Produk")->get($id_produk);
-      $title = $produk[$id_produk]['produk'];
+      $produk = $this->db(0)->get_where_row("produk", "produk_id = " . $id_produk);
+      $title = $produk['produk'];
       $data = [
          'title' => $title,
          'content' => __CLASS__,
@@ -23,8 +23,9 @@ class Detail extends Controller
    public function content($parse)
    {
       $data = [];
-      $data['produk'] = $parse;
-      $data['data'] = $this->model("D_Produk")->get($parse);
+      $data['v2_h'] =
+         $data['produk'] = $parse;
+      $data['data'] = $this->db(0)->get_where_row("produk", "produk_id = " . $parse);
       $this->view(__CLASS__, __CLASS__ . "/content", $data);
    }
 
@@ -32,58 +33,70 @@ class Detail extends Controller
    {
       $produk_id = $_POST['produk'];
 
-      $d =  $this->model("D_Produk")->get($produk_id);
-
-      $cek = $d[$produk_id];
-      $group_id = $cek['group'];
+      $cek = $this->db(0)->get_where_row("produk", "produk_id = " . $produk_id);
+      $group_id = $cek['grup'];
       $produk_name = $cek['produk'];
       $metode_file = $_POST['metode_file'];
 
       $jumlah = $_POST['jumlah'];
       $harga = $cek['harga'];
       $berat = $cek['berat'];
-      $panjang = (isset($cek['panjang'])) ? (($cek['panjang'] == 0) ? 1 : $cek['panjang']) : 1;
 
-      $lebar = (isset($cek['lebar'])) ? (($cek['lebar'] == 0) ? 1 : $cek['lebar']) : 1;
-      $tinggi = (isset($cek['tinggi'])) ? (($cek['tinggi'] == 0) ? 1 : $cek['tinggi']) : 1;
+      $panjang = $cek['p'];
+      $lebar = $cek['l'];
+      $tinggi = $cek['t'];
+
       $note = $_POST['note'];
       $detail = "";
 
-      if ($cek['varian']) {
-         $data_ = $this->varian($cek['varian'])->main();
-         foreach ($data_ as $k => $v) {
-            $selName1 = str_replace(" ", "_", $k);
-            $input = $_POST["v1_" . $selName1];
-            foreach ($v as $k_ => $v_) {
-               if ($k_ == $input) {
-                  $harga += ($v_['harga']);
-                  $berat += ($v_['berat']);
+      $vg_1 = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $produk_id);
 
-                  $panjang += (isset($v_['panjang'])) ? $v_['panjang'] : 0;
-                  $lebar += (isset($v_['lebar'])) ? $v_['lebar'] : 0;
-                  $tinggi += (isset($v_['tinggi'])) ? $v_['tinggi'] == 0 : 0;
+      foreach ($vg_1 as $v) {
+         $input = $_POST["v1_" . $v['vg1_id']];
 
-                  $detail .= " " . $k . "(" . $k_ . ")";
+         $v_ = $this->db(0)->get_where_row("varian_1", "varian_id = " . $input);
 
-                  if (isset($v_['varian'])) {
-                     foreach ($v_['varian'] as $k2 => $v2) {
-                        $input2 = $_POST["v2_" . str_replace(" ", "_", $k2)];
-                        foreach ($v2 as $k3 => $v3) {
-                           if ($k3 == $input2) {
-                              $harga += $v3['harga'];
-                              $berat += $v3['berat'];
+         if (!isset($v_['harga'])) {
+            echo "Maaf, produk ini terkendala sistem, dan sedang dalam perbaikan";
+            exit();
+         }
 
-                              $panjang += (isset($v3['panjang'])) ? $v3['panjang'] : 0;
-                              $lebar += (isset($v3['lebar'])) ? $v3['lebar'] : 0;
-                              $tinggi += (isset($v3['tinggi'])) ? $v3['tinggi'] == 0 : 0;
+         $harga += ($v_['harga']);
+         $berat += ($v_['berat']);
 
-                              $detail .= ", " . $k2 . "(" . $k3 . ")";
-                           }
-                        }
-                     }
-                  }
+         $panjang += $v_['p'];
+         $lebar += $v_['l'];
+         $tinggi += $v_['t'];
+
+         $detail .= " " . $v['vg'] . "(" . $v_['varian'] . ")";
+
+         $vg2 = $this->db(0)->get_where("varian_grup_2", "vg1_id = " . $v['vg1_id']);
+         foreach ($vg2 as $v2) {
+            $input2 = $_POST["v2_" . $v2['vg2_id']];
+            $v3 = $this->db(0)->get_where_row("varian_2", "varian_id = " . $input2);
+
+            if (!isset($v3['harga'])) {
+               echo "Maaf, produk ini terkendala sistem, dan sedang dalam perbaikan";
+               $text = "*Warning*\nProduk " . $produk_name . " Error. Customer terkendala Order";
+               $this->model('WA')->send($this->SETTING['notif_group'], $text);
+               exit();
+            }
+
+            $harga += $v3['harga'];
+            $berat += $v3['berat'];
+
+            $panjang += $v3['p'];
+            $lebar += $v3['l'];
+            $tinggi += $v3['t'];
+
+            $v2_h = $this->db(0)->get_where("v2_head", "vg2_id = " . $v2['vg2_id']);
+            foreach ($v2_h as $value) {
+               if ($value['v2_head_id'] == $v3['v2_head_id']) {
+                  $v2h_name = $value['v2_head'];
                }
             }
+
+            $detail .= ", " . $v2['vg'] . "(" . $v2h_name . ")";
          }
       }
 
@@ -124,6 +137,12 @@ class Detail extends Controller
          }
       }
 
+      if ($harga == 0) {
+         echo "Maaf, produk ini terkendala sistem, dan sedang dalam perbaikan";
+         $text = "*Warning*\nProduk " . $produk_name . " Error. Customer terkendala Order";
+         $this->model('WA')->send($this->SETTING['notif_group'], $text);
+      }
+
       $cart = [];
       $new_cart = [
          "group_id" => $group_id,
@@ -154,11 +173,12 @@ class Detail extends Controller
       echo 1;
    }
 
-   function loadVarian()
+   function loadVarian($id_produk)
    {
-      $data = $_POST['data'];
-      $data = base64_decode($data);
-      $data = unserialize($data);
+      $get = unserialize($_POST['data']);
+      $vg1_id = $get['vg1_id'];
+      $data['v'] = $this->db(0)->get_where("varian_grup_2", "vg1_id = " . $vg1_id);
+      $data['id'] = $get['v1_id'];;
       $this->view(__CLASS__, __CLASS__ . "/varian", $data);
    }
 }

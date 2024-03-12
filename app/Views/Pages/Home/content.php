@@ -48,7 +48,7 @@
         <div class="mobile">
             <?php
             $menu = $this->model("D_Group")->main();
-            $produk = $this->model("D_Produk")->main();
+            $produk = $this->db(0)->get("produk");
             ?>
 
             <?php foreach ($menu as $k => $m) { ?>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="wrapper rounded mb-2">
                     <?php foreach ($produk as $pk => $p) {
-                        if ($p['group'] == $k) { ?>
+                        if ($p['grup'] == $k) { ?>
                             <div class="rounded border item me-1 my-1 me-2">
                                 <a href="<?= ($p['link'] == 0) ? $this->BASE_URL . 'Detail/index/' . $pk : $p['link'] ?>" target="<?= $p['target'] ?>">
                                     <img class="w-100 rounded bg-light" id="image<?= $p['img'] ?>0" onerror="no_image(<?= $p['img'] ?>0)" src="<?= $this->ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" alt="">
@@ -84,11 +84,11 @@
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
                     <div class="row px-2 row-cols-auto">
-                        <?php foreach ($data['product'] as $k => $p) { ?>
+                        <?php foreach ($data['product'] as $p) { ?>
                             <div class="col-sm-2 mb-2 px-1 rounded">
                                 <div class="rounded border">
                                     <div class="img-zoom-border">
-                                        <a href="<?= ($p['link'] == 0) ? $this->BASE_URL . 'Detail/index/' . $k : $p['link'] ?>" target="<?= $p['target'] ?>">
+                                        <a href="<?= ($p['link'] == 0) ? $this->BASE_URL . 'Detail/index/' . $p['produk_id'] : $p['link'] ?>" target="<?= $p['target'] ?>">
                                             <img id="image<?= $p['img'] ?>" onerror="no_image(<?= $p['img'] ?>)" src="<?= $this->ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" class="img-zoom w-100 rounded-top" alt="">
                                         </a>
                                     </div>
@@ -103,7 +103,7 @@
                     <div class="tab-pane" id="pills-<?= $m['aktif'] ?>" role="tabpanel" aria-labelledby="pills-<?= $m['aktif'] ?>-tab">
                         <div class="row px-2 row-cols-auto">
                             <?php foreach ($data['product'] as $k => $p) {
-                                if ($p['group'] == $km) { ?>
+                                if ($p['grup'] == $km) { ?>
                                     <div class="col-sm-2 mb-2 px-1 rounded">
                                         <div class="rounded img-zoom-border border">
                                             <a href="<?= ($p['link'] == 0) ? $this->BASE_URL . 'Detail/index/' . $k : $p['link'] ?>" target="<?= $p['target'] ?>">

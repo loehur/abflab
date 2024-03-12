@@ -7,7 +7,7 @@ $t = $data['title'];
 	<div class="container px-0">
 		<nav class="navbar navbar-light navbar-expand-xl">
 			<div class="container-fluid">
-				<a href="<?= $this->BASE_URL ?>CS" class="navbar-brand">
+				<a href="<?= $this->BASE_URL ?>Produk" class="navbar-brand">
 					<img src="<?= $this->ASSETS_URL ?>img/logo.png" class="img-logo-home px-2" alt="">
 				</a>
 				<div class="navbar-toggler border-0" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2">
@@ -21,9 +21,9 @@ $t = $data['title'];
 						<button type="button" class="btn-close text-reset me-2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 					</div>
 					<div class="offcanvas-body">
-						<?php if (isset($_SESSION['cs'])) { ?>
-							<a href="#" class="ms-auto btn btn-sm border position-relative pt-2 me-1 bg-white text-success fw-bold" data-bs-toggle="modal" data-bs-target="#exampleModal">
-								CS: <i class="fa-regular fa-circle-user"></i>
+						<?php if (isset($_SESSION['admin_produk'])) { ?>
+							<a href="#" class="ms-auto btn btn-sm border position-relative pt-2 me-1 bg-white text-success fw-bold shadow-none">
+								Admin Produk: <i class="fa-regular fa-circle-user"></i>
 								<span id="user_name"></span>
 							</a>
 						<?php  } ?>

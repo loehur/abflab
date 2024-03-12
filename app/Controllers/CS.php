@@ -125,6 +125,7 @@ class CS extends Controller
                $this->model('WA')->send($cs_number, $otp);
                echo "OTP berhasil dikirimkan!";
             }
+            exit();
          }
       }
       if ($there == false) {
@@ -147,6 +148,7 @@ class CS extends Controller
                      "name" => $c['nama']
                   ];
                   echo 1;
+                  exit();
                }
             }
             if ($ada == false) {

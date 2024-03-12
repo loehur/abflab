@@ -2,7 +2,7 @@
 if (isset($data['parse'])) {
 	$parse = $data['parse'];
 } else {
-	$parse = null;
+	$parse = "";
 }
 ?>
 <?php include_once("head.php"); ?>
@@ -12,6 +12,8 @@ if (isset($data['parse'])) {
 	<?php include_once("navbar.php"); ?>
 	<div style="margin-top: 80px;" id="content"></div>
 	<?php include_once("footer.php"); ?>
+	<input id="parse_1" type="hidden" />
+	<input id="parse_2" type="hidden" />
 </body>
 
 <!-- JavaScript Libraries -->
@@ -26,8 +28,21 @@ if (isset($data['parse'])) {
 		device();
 	});
 
-	function content(parse = "") {
-		$("div#content").load('<?= $this->BASE_URL ?><?= $con ?>/content/' + parse);
+	function content(parse = "", parse2 = "") {
+		if (parse2 == "") {
+			$("div#content").load('<?= $this->BASE_URL ?><?= $con ?>/content/' + parse);
+		} else {
+			$("div#content").load('<?= $this->BASE_URL ?><?= $con ?>/content/' + parse + '/' + parse2);
+		}
+
+		$("input#parse_1").val(parse);
+		$("input#parse_2").val(parse2);
+	}
+
+	function reload_content() {
+		let parse_1 = $("input#parse_1").val();
+		let parse_2 = $("input#parse_2").val();
+		content(parse_1, parse_2)
 	}
 
 	function cart_count() {
@@ -35,7 +50,7 @@ if (isset($data['parse'])) {
 	}
 
 	function user_name() {
-		$("span#user_name").load('<?= $this->BASE_URL ?>Load/account');
+		$("span#user_name").load('<?= $this->BASE_URL ?>Load/account_admin_produk');
 	}
 
 	function spinner(mode) {

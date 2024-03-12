@@ -16,6 +16,10 @@ class Controller extends Public_Variables
     {
         require_once "app/Views/Layout_CS/main.php";
     }
+    public function view_layout_produk($con, $data = [])
+    {
+        require_once "app/Views/Layout_Produk/main.php";
+    }
 
     public function view($con, $file, $data = [])
     {
@@ -30,12 +34,6 @@ class Controller extends Public_Variables
     public function model($file)
     {
         require_once "app/Models/" . $file . ".php";
-        return new $file();
-    }
-
-    public function varian($file)
-    {
-        require_once "app/Varian/" . $file . ".php";
         return new $file();
     }
 

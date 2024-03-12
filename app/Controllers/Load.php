@@ -34,6 +34,13 @@ class Load extends Controller
       }
    }
 
+   function account_admin_produk()
+   {
+      if (isset($_SESSION['admin_produk'])) {
+         echo $_SESSION['admin_produk']['name'];
+      }
+   }
+
    function spinner($tipe)
    {
       $this->load("Spinner", $tipe);

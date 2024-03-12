@@ -3,7 +3,3 @@
  	<div class="spinner-grow text-primary" role="status"></div>
  </div>
  <!-- Spinner End -->
-
- <a href="https://api.whatsapp.com/send?phone=<?= $this->SETTING['wa_float'] ?>&text=Halo VITA PICTURA, " class="float-green" target="_blank">
- 	<i class="fa-brands fa-whatsapp float-center"></i>
- </a>

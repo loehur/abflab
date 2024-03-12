@@ -16,7 +16,7 @@ class WA extends Public_Variables
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => array('target' => $target, 'message' => $text),
-            CURLOPT_HTTPHEADER => array('Authorization: GPGCCYK7X!wKwfcD4ATE')
+            CURLOPT_HTTPHEADER => array('Authorization: ' . $this->SETTING['wa_token'])
         ));
 
         $response = curl_exec($curl);
