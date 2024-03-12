@@ -15,6 +15,11 @@ class WH_biteship extends Controller
             "status" => "ok",
             "new_price" => $data['price']
          ];
+      } else {
+         $res = [
+            "status" => "error",
+            "mesaage" => "bad parameters"
+         ];
       }
 
       print_r(json_encode($res));
