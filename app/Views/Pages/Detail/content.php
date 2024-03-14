@@ -113,20 +113,6 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
                             </div>
                         </div>
                     </div>
-                    <div class="row mb-1">
-                        <div class="col" style="min-width: 300px;">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="metode_file" value="3">
-                                <label class="form-check-label">
-                                    <small>Kirim Email</small>
-                                </label><br>
-                                <div id="radio_3" class="d-none radio_">
-                                    <span onclick="copy('<?= $this->SETTING['gdrive'] ?>')" class="text-primary" style="cursor: pointer;"><small><?= $this->SETTING['gdrive'] ?></small></span>
-                                    <span id="span_copy" style="display: none;"><small>Copied!</small></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <?php
                 if (isset($d['mal']) && is_array($d['mal'])) { ?>
@@ -150,7 +136,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
                     <div class="col mb-2" style="min-width: 250px;">
                         <label><small>Catatan:</small></label>
                         <textarea class="form-control form-control-sm shadow-none" name="note" id="floatingTextarea"></textarea>
-                        <label><small class="text-danger">Harap konfirmasi dan masukkan ke catatan jika cetak ukuran khusus! </small></label> 
+                        <label><small class="text-danger">Harap konfirmasi dan masukkan ke catatan jika cetak ukuran khusus! </small></label>
                     </div>
                 </div>
                 <div class="row mb-3">

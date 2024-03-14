@@ -2,12 +2,13 @@
 
 class Checkout extends Controller
 {
-   public function __construct()
-   {
-   }
-
    public function index()
    {
+      if (!isset($_SESSION['cart'])) {
+         header("Location: " . $this->BASE_URL . "Home");
+         exit();
+      }
+
       $data = [
          'title' => "Checkout",
          'content' => __CLASS__
@@ -18,74 +19,220 @@ class Checkout extends Controller
 
    public function content($parse)
    {
+
+      if (!isset($_SESSION['cart_key'])) {
+         $_SESSION['cart_key'] = rand(1000, 9999);
+      }
+
       $data = [];
-
-      //JANGAN DIHAPUS, SUATU SAAT AKAN DIBUTUHKAN KEMBALI (LUHUR)
-      // if (!isset($_SESSION["provinsi"]) && !is_array($_SESSION["provinsi"])) {
-      //    $_SESSION["provinsi"] = $this->model("RajaOngkir")->provinsi();
-      // }
-
-      // $data['provinsi'] = json_decode($_SESSION["provinsi"], JSON_PRETTY_PRINT);
-      // $data['provinsi'] = $data['provinsi']['rajaongkir']['results'];
-
-      // $cols = "province_id, province";
-      // foreach ($data['provinsi'] as $dp) {
-      //    $val = $dp['province_id'] . ",'" . $dp['province'] . "'";
-      //    $this->db(0)->insertCols("_province", $cols, $val);
-      // }
-
-      $data['provinsi'] = $this->db(0)->get("_province");
       $this->view(__CLASS__, __CLASS__ . "/content", $data);
    }
 
-   public function kota($id_provinsi)
+   public function kota($id)
    {
-      $data = $this->db(0)->get_where("_city", "province_id = " . $id_provinsi);
-      if (count($data) == 0) {
-         //JANGAN DIHAPUS, SUATU SAAT AKAN DIBUTUHKAN KEMBALI (LUHUR)
-         $data = $this->model("RajaOngkir")->kota($id_provinsi);
-         $data = json_decode($data, JSON_PRETTY_PRINT);
-         $data = $data['rajaongkir']['results'];
-
-         $cols = "city_id, province_id, province, type, city_name, postal_code";
-         foreach ($data as $d) {
-            $val = $d['city_id'] . "," . $d['province_id'] . ",'" . $d['province'] . "','" . $d['type'] . "','" . $d['city_name'] . "','" . $d['postal_code'] . "'";
-            $this->db(0)->insertCols("_city", $cols, $val);
-         }
+      $cek = $this->model("Place")->kota($id);
+      if (isset($cek['value'])) {
+         $data = $cek['value'];
+      } else {
+         $data = [];
       }
       $this->view(__CLASS__, __CLASS__ . "/list_kota", $data);
    }
 
-   public function kecamatan($id_kota)
+   public function kecamatan($id)
    {
-      //cek dl ada gk di db
-      $cek = $this->db(0)->get_where("_subdistrict", "city_id = " . $id_kota);
-
-      if (count($cek) == 0) {
-         $data = $this->model("RajaOngkir")->kecamatan($id_kota);
-         $data = json_decode($data, JSON_PRETTY_PRINT);
-         $data = $data['rajaongkir']['results'];
-
-         $cols = "subdistrict_id, province_id, province, city_id, city, type, subdistrict_name";
-         foreach ($data as $d) {
-            $val = $d['subdistrict_id'] . "," . $d['province_id'] . ",'" . $d['province'] . "'," . $d['city_id'] . ",'" . $d['city'] . "','" . $d['type'] . "','" . $d['subdistrict_name'] . "'";
-            $this->db(0)->insertCols("_subdistrict", $cols, $val);
-         }
+      $cek = $this->model("Place")->kecamatan($id);
+      if (isset($cek['value'])) {
+         $data = $cek['value'];
       } else {
-         $data = $cek;
+         $data = [];
       }
 
       $this->view(__CLASS__, __CLASS__ . "/list_kecamatan", $data);
    }
 
-   public function cost($destination, $courier, $weight = 1000, $p = 1, $l = 1, $t = 1)
+   function kode_pos($value)
    {
-      $data_ = $this->model("RajaOngkir")->cost($destination, $courier, $weight, $p, $l, $t);
-      $data = json_decode($data_, JSON_PRETTY_PRINT);
-      $data['ori'] = $data['rajaongkir']['results'][0]['costs'];
+      $data = $this->model("Biteship")->get_area(base64_decode($value));
+      $this->view(__CLASS__, __CLASS__ . "/list_kodepos", $data);
+   }
 
-      $_SESSION['ongkir'] = $data['ori'];
+   function daftar()
+   {
+      $hp =   $_POST['hp'];
+      $nama = $_POST['nama'];
+      $alamat = $_POST['alamat'];
+      $area_id = $_POST['kodepos'];
+      $lat = $_POST['lat'];
+      $long = $_POST['long'];
+      $email = $_POST['email'];
 
-      $this->view(__CLASS__, __CLASS__ . "/list_service", $data);
+      $res = $this->model("Biteship")->get_area_id($area_id);
+      if (isset($res[0]['id'])) {
+         $area_id = $res[0]['id'];
+         $area_name = $res[0]['name'];
+         $postal_code = $res[0]['postal_code'];
+      } else {
+         $this->model('Log')->write("Daftar Error, Not Found res[0]['id']");
+         header("Location: " . $this->BASE_URL . "Checkout");
+         exit();
+      }
+
+      $where = "hp = '" . $hp . "'";
+      $cek = $this->db(0)->get_where_row("customer", $where);
+      if (isset($cek['customer_id'])) {
+         if (isset($area_name)) {
+            $set = "name = '" . $nama . "', address = '" . $alamat . "', area_name = '" . $area_name . "', area_id = '" . $area_id . "', postal_code = '" . $postal_code . "', latt = '" . $lat . "', longt = '" . $long . "', email = '" . $email . "'";
+            $update = $this->db(0)->update("customer", $set, $where);
+            if ($update['errno'] <> 0) {
+               $this->model('Log')->write("Daftar Error, " . $update['error']);
+               header("Location: " . $this->BASE_URL . "Checkout");
+               exit();
+            }
+         } else {
+            $this->model('Log')->write("Daftar Error, !isset area_name");
+            header("Location: " . $this->BASE_URL . "Checkout");
+            exit();
+         }
+      } else {
+         if (isset($area_name)) {
+            $cust_id = date("Ymdhis") . rand(0, 9) . rand(0, 9);
+            $cols = "customer_id, name, hp, area_id, area_name, address, postal_code, latt, longt, email";
+            $vals = "'" . $cust_id . "', '" . $nama . "', '" . $hp . "','" . $area_id . "','" . $area_name . "','" . $alamat . "','" . $postal_code . "','" . $lat . "','" . $long . "','" . $email . "'";
+            $this->db(0)->insertCols("customer", $cols, $vals);
+         } else {
+            $this->model('Log')->write("Daftar Error, !isset area_name");
+            header("Location: " . $this->BASE_URL . "Checkout");
+            exit();
+         }
+      }
+
+      $cust = $this->db(0)->get_where_row("customer", $where);
+      if (isset($cek['customer_id'])) {
+         $_SESSION['log'] = $cust;
+         header("Location: " . $this->BASE_URL . "Checkout");
+      } else {
+         $this->model('Log')->write("Daftar Error, !cust['customer_id']");
+         header("Location: " . $this->BASE_URL . "Checkout");
+         exit();
+      }
+   }
+
+   function ckout()
+   {
+      if (!isset($_SESSION['log']) || !isset($_SESSION['cart'])) {
+         header("Location: " . $this->BASE_URL . "Home");
+         exit();
+      } else {
+         $d = $_SESSION['log'];
+         $str = $d['area_id'] . $d['latt'] . $d['longt'];
+         if (!isset($_SESSION['ongkir'][$str]) || !isset($_POST['kurir'])) {
+            header("Location: " . $this->BASE_URL . "Checkout");
+            exit();
+         } else {
+            $ongkir_ar = $_SESSION['ongkir'][$str];
+         }
+      }
+
+      $cust_id = $d['customer_id'];
+      $hp = $d['hp'];
+      $name = $d['name'];
+      $address = $d['address'];
+      $area_id = $d['area_id'];
+      $area_name = $d['area_name'];
+      $postal_code = $d['postal_code'];
+      $latt = $d['latt'];
+      $longt = $d['longt'];
+      $email = $d['email'];
+
+      $kurir_val = $_POST['kurir'];
+      $kur = explode("|", $kurir_val);
+      $kur_company = $kur[0];
+      $kur_type = $kur[1];
+
+      foreach ($ongkir_ar as $oa) {
+         if ($oa['company'] == $kur_company && $oa['type'] == $kur_type) {
+            $price = $oa['price'];
+         }
+      }
+
+      if (!isset($price)) {
+         header("Location: " . $this->BASE_URL . "Checkout");
+         exit();
+      }
+
+      $ref = date("Ymdhis") . rand(0, 9) . rand(0, 9);
+
+      $cols = "order_ref, customer_id";
+      $vals = "'" . $ref . "','" . $cust_id . "'";
+      $in = $this->db(0)->insertCols("order_step", $cols, $vals);
+      if ($in['errno'] <> 0) {
+         $this->model('Log')->write("Insert order_step Error, " . $in['error']);
+         header("Location: " . $this->BASE_URL . "Home");
+         exit();
+      }
+
+      $total = 0;
+      foreach ($_SESSION['cart'] as $c) {
+         $subTotal = $c['total'];
+         $total += $subTotal;
+
+         $cols = "order_ref, group_id, product_id, product, detail, price, qty, total, weight, length, width, height, note, file, metode_file, link_drive";
+         $vals = "'" . $ref . "'," . $c['group_id'] . "," . $c['produk_id'] . ",'" . $c['produk'] . "','" . $c['detail'] . "'," . $c['harga'] . "," . $c['jumlah'] . "," . $subTotal . "," . $c['berat'] . "," . $c['panjang'] . "," . $c['lebar'] . "," . $c['tinggi'] . ",'" . $c['note'] . "','" . $c['file'] . "'," . $c['metode_file'] . ",'" . $c['link_drive'] . "'";
+         $in = $this->db(0)->insertCols("order_list", $cols, $vals);
+         if ($in['errno'] <> 0) {
+            $where = "order_ref = '" . $ref . "'";
+            $this->db(0)->delete_where("order_step", $where);
+            $this->model('Log')->write("Insert order_list Error, " . $in['error']);
+            header("Location: " . $this->BASE_URL . "Home");
+            exit();
+         }
+      }
+
+      //DELIVERY
+      $cols = "order_ref, name, hp, address, area_id, area_name, postal_code, latt, longt, courier_company, courier_type, price_paid, price";
+      $vals = "'" . $ref . "','" . $name . "','" . $hp . "','" . $address . "','" . $area_id . "','" . $area_name . "','" . $postal_code . "','" . $latt . "','" . $longt . "','" . $kur_company . "','" . $kur_type . "'," . $price . "," . $price;
+      $in = $this->db(0)->insertCols("delivery", $cols, $vals);
+      if ($in['errno'] <> 0) {
+         $where = "order_ref = '" . $ref . "'";
+         $this->db(0)->delete_where("order_step", $where);
+         $this->db(0)->delete_where("order_list", $where);
+         $this->model('Log')->write("Insert delivery Error, " . $in['error']);
+         header("Location: " . $this->BASE_URL . "Home");
+         exit();
+      }
+
+      //PAYMENT
+      $total += $price;
+      $cols = "order_ref, amount";
+      $vals = "'" . $ref . "'," . $total;
+      $in = $this->db(0)->insertCols("payment", $cols, $vals);
+      if ($in['errno'] <> 0) {
+         $where = "order_ref = '" . $ref . "'";
+         $this->db(0)->delete_where("order_step", $where);
+         $this->db(0)->delete_where("order_list", $where);
+         $this->db(0)->delete_where("delivery", $where);
+         $this->model('Log')->write("Insert payment Error, " . $in['error']);
+         header("Location: " . $this->BASE_URL . "Home");
+         exit();
+      }
+
+      unset($_SESSION['cart']);
+
+      $token_midtrans = $this->model("Midtrans")->token($ref, $total, $name, $email, $hp);
+      if (isset($token_midtrans['token'])) {
+         $token = $token_midtrans['token'];
+         $redirect_url = $token_midtrans['redirect_url'];
+         $where = "order_ref = '" . $ref . "'";
+         $set = "token = '" . $token . "', redirect_url = '" . $redirect_url . "'";
+         $up = $this->db(0)->update("payment", $set, $where);
+         if ($up['errno'] <> 0) {
+            $this->model('Log')->write("Update payment Error, " . $up['error']);
+         }
+         header("Location: " . $redirect_url);
+      } else {
+         $this->model('Log')->write("Error get token payment midtrans");
+         header("Location: " . $this->BASE_URL . "Pesanan");
+      }
    }
 }

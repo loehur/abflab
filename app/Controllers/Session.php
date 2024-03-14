@@ -2,34 +2,19 @@
 
 class Session extends Controller
 {
-   function set()
-   {
-      $name = $_POST['name'];
-      $value = $_POST['value'];
-
-      $_SESSION[$name] = $value;
-   }
-
    function login()
    {
-      if (!isset($_SESSION['hp'])) {
+      if (!isset($_SESSION['log']['hp'])) {
          $where = "hp = '" . $_POST['hp'] . "'";
          $cust = $this->db(0)->get_where_row("customer", $where);
-         if (isset($cust['hp'])) {
-            $_SESSION['hp'] = $cust['hp'];
-            $_SESSION['nama'] = $cust['name'];
-            $_SESSION['alamat'] = $cust['address'];
-            $_SESSION['customer_id'] = $cust['customer_id'];
+         if (isset($cust['customer_id'])) {
+            $_SESSION['log'] = $cust;
             echo 1;
          } else {
-            $_SESSION['hp'] = $_POST['hp'];
             echo "Anda belum terdaftar dengan no " . $_POST['hp'];
          }
       } else {
-         unset($_SESSION['hp']);
-         unset($_SESSION['nama']);
-         unset($_SESSION['alamat']);
-         unset($_SESSION['customer_id']);
+         unset($_SESSION['log']);
          echo 2;
       }
    }

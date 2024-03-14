@@ -1,9 +1,9 @@
-<div class="form-floating">
-    <select class="form-select" id="kecamatan" name="kecamatan">
+<div class="form-floating mb-2">
+    <select class="form-select shadow-none" id="kecamatan" name="kecamatan" required>
         <option selected value=""></option>
         <?php
         foreach ($data as $dp) { ?>
-            <option value="<?= $dp['subdistrict_id'] ?>"><?= $dp['subdistrict_name'] ?></option>
+            <option value="<?= base64_encode($dp['name']) ?>"><?= strtoupper($dp['name']) ?></option>
         <?php } ?>
     </select>
     <label for="kecamatan">Kecamatan</label>
@@ -11,7 +11,15 @@
 
 <script>
     $("#kecamatan").on("change", function() {
-        $("#selService").html("<small class='text-secondary'>Service</small>")
-        $('#via').prop('selectedIndex', 0);
+        var val = $(this).val()
+        if (val != "") {
+            $("#selKodePos").load("<?= $this->BASE_URL ?>Load/Spinner/1", function() {
+                $(this).load("<?= $this->BASE_URL ?>Checkout/kode_pos/" + val)
+            })
+        } else {
+            $("#selKodePos").load("<?= $this->BASE_URL ?>Load/Spinner/1", function() {
+                $(this).html("");
+            })
+        }
     })
 </script>

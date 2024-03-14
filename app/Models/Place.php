@@ -2,15 +2,33 @@
 
 class Place extends Public_Variables
 {
-    public $api_key = "0cd76730-bbde-5d12-4f47-bf42373a";
-    public $host = "https://api.goapi.io";
+    public $api_key = "35d4eafdc92d38e08e4e6c3c8992e04253770d9b3a8ac28300898b48e47334ca";
+    public $host = "https://api.binderbyte.com";
 
     public function provinsi()
+    {
+        $url = $this->host . '/wilayah/provinsi?api_key=' . $this->api_key;
+        return $this->curl_get($url);
+    }
+
+    public function kota($id)
+    {
+        $url = $this->host . '/wilayah/kabupaten?id_provinsi=' . $id . '&api_key=' . $this->api_key;
+        return $this->curl_get($url);
+    }
+
+    public function kecamatan($id)
+    {
+        $url = $this->host . '/wilayah/kecamatan?id_kabupaten=' . $id . '&api_key=' . $this->api_key;
+        return $this->curl_get($url);
+    }
+
+    function curl_get($url)
     {
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->host . '/regional/provinsi',
+            CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -18,13 +36,6 @@ class Place extends Public_Variables
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_POSTFIELDS => array(
-                'api_key' => $this->api_key
-            ),
-            CURLOPT_HTTPHEADER => array(
-                'accept: application/json',
-                'X-API-KEY: ' . $this->api_key
-            )
         ));
 
         $response = curl_exec($curl);

@@ -46,7 +46,7 @@
                                         <a href="<?= $c['link_drive'] ?>" target="_blank">Link Drive</a>
                                 <?php break;
                                     default:
-                                        echo "Email";
+                                        echo "No File";
                                         break;
                                 }
                                 ?>
@@ -71,7 +71,7 @@
                 </table>
 
                 <a href="<?= $this->BASE_URL ?>Cart/clear" class="btn btn-outline-secondary">Clear Cart</a>
-                <a href="<?= $this->BASE_URL ?>Checkout" class="btn btn-success float-end">Checkout</a>
+                <a href="<?= $this->BASE_URL ?>Checkout" class="btn btn-primary float-end">Pilih Pengiriman</a>
             <?php } else { ?>
                 Tidak ada data keranjang
             <?php } ?>

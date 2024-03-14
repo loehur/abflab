@@ -2,111 +2,65 @@
 <div class="container mb-3" style="min-height: 300px;">
     <div class="row">
         <div class="col" style="min-width: 360px;">
-            <form id="bayar" action="<?= $this->BASE_URL ?>Pesanan/bayar" method="POST">
-                <div class="row border-bottom mb-2 shadow-sm mt-2">
-                    <div class="col">
+            <div class="row mb-2 mt-2">
+                <div class="col border rounded py-2">
+                    <?php
+                    if (isset($_SESSION['log'])) {
+                        $d = $_SESSION['log']; ?>
                         <div class="row">
-                            <div class="col">
-                                <div class="form-floating mb-2">
-                                    <input type="text" class="form-control nama" name="nama" required value="<?= (isset($_SESSION['nama'])) ? $_SESSION['nama'] : "" ?>" id="floatingInput">
-                                    <label for="floatingInput">Nama Lengkap</label>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-floating mb-2">
-                                    <input type="text" class="form-control hp" name="hp" required value="<?= (isset($_SESSION['hp'])) ? $_SESSION['hp'] : "" ?>" id="floatingInput1">
-                                    <label for="floatingInput1">Nomor Handphone</label>
-                                </div>
-                            </div>
+                            <div class="col mt-auto"><?= $d['name'] ?></div>
+                            <div class="col text-end"><a href="<?= $this->BASE_URL ?>Daftar"><small>Ubah Alamat</small></a></div>
                         </div>
-                        <div class="row mb-1">
-                            <div class="col">
-                                <div class="form-floating mb-2">
-                                    <input class="form-control form-control-sm alamat" required name="alamat" value="<?= (isset($_SESSION['alamat'])) ? $_SESSION['alamat'] : "" ?>" id="floatingTextarea" />
-                                    <label for="floatingTextarea">Alamat Lengkap</label>
-                                </div>
-                            </div>
+                        <div class="row">
+                            <div class="col"><?= $d['hp'] ?></div>
                         </div>
-                    </div>
+                        <div class="row">
+                            <div class="col"><?= $d['area_name'] ?></div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><?= $d['address'] ?></div>
+                        </div>
+                    <?php } else { ?>
+                        <a class="btn btn-sm btn-primary shadow-none" href="<?= $this->BASE_URL ?>Daftar">Atur Alamat Baru</a>
+                        <a class="btn btn-sm btn-success shadow-none" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">Login</a>
+                    <?php }
+                    ?>
                 </div>
-                <div class="row mb-2">
-                    <div class="col">
-                        <div class="form-check">
-                            <input class="form-check-input radio_" type="radio" name="radio_kirim" value="1" data-val="0" checked>
-                            <label class="form-check-label">
-                                Jemput ke Toko
-                            </label>
-                            <div class="mt-1 px-2" id="jemput">
-                                <span class="text-secondary"><small>Asia Baru Foto. Jl. Jend. Sudirman. No. 331 Pekanbaru. Telp. 0761 21883.</small></span>
+            </div>
+            <di class="row">
+                <div class="col p-0">
+                    <?php
+                    if (isset($_SESSION['log'])) {
+                        $d = $_SESSION['log'];
+                        $str = $d['area_id'] . $d['latt'] . $d['longt'] . $_SESSION['cart_key'];
+                        if (isset($_SESSION['ongkir'][$str])) {
+                            $ongkir = $_SESSION['ongkir'][$str];
+                        } else {
+                            $ongkir = $this->model("Biteship")->cek_ongkir($d['area_id'], $d['latt'], $d['longt']);
+                            $_SESSION['ongkir'][$str] = $ongkir;
+                        }
+                    ?>
+                        <form id="bayar" action="<?= $this->BASE_URL ?>Checkout/ckout" method="POST">
+                            <div class="form-floating mb-2">
+                                <select class="form-select shadow-none" id="kurir" name="kurir" aria-label=".form-select-sm example" required>
+                                    <option selected value=""></option>
+                                    <option data-harga="0" value="abf|pickup">Jemput ke Toko Rp0</option>
+                                    <?php
+                                    foreach ($ongkir as $dp) { ?>
+                                        <option data-harga="<?= $dp['price'] ?>" value="<?= $dp['company'] ?>|<?= $dp['type'] ?>"><?= $dp['courier_name'] ?> <?= $dp['courier_service_name'] ?> Rp<?= number_format($dp['price']) ?></option>
+                                    <?php } ?>
+                                </select>
+                                <label for="provinsi">Pengiriman</label>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-check">
                             <div class="row">
-                                <div class="col">
-                                    <input class="form-check-input radio_" type="radio" name="radio_kirim" data-val="<?= $this->SETTING['ongkir_toko'] ?>" value="2">
-                                    <label class="form-check-label">
-                                        Pengiriman via Kurir Toko <small class="text-danger">(Dalam Kota)</small>
-                                    </label>
+                                <div class="col text-end">
+                                    <button type="submit" class="btn btn-success px-4">Checkout</button>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </form>
+                    <?php } ?>
                 </div>
-                <div class="form-check mt-2">
-                    <input class="form-check-input" type="radio" name="radio_kirim" value="3" data-val="">
-                    <label class=" form-check-label">
-                        Pengiriman via Ekspedisi
-                    </label>
-                    <div class="shadow-sm d-none border rounded mt-1 px-2 pt-2" id="antar">
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-floating mb-2">
-                                    <select class="form-select" id="provinsi" name="provinsi" aria-label=".form-select-sm example">
-                                        <option selected value=""></option>
-                                        <?php
-                                        foreach ($data['provinsi'] as $dp) { ?>
-                                            <option value="<?= $dp['province_id'] ?>"><?= $dp['province'] ?></option>
-                                        <?php } ?>
-                                    </select>
-                                    <label for="provinsi">Provinsi</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col" id="selKota">
-                                <div class="form-floating mb-2">
-                                    <small class='text-secondary'>Kota</small>
-                                </div>
-                            </div>
-                            <div class="col" id="selKecamatan">
-                                <small class='text-secondary'>Kecamatan</small>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col">
-                                <div class="form-floating mb-2">
-                                    <select class="form-select" name="via" id="via">
-                                        <option value="" selected></option>
-                                        <?php foreach ($this->KURIR as $k) { ?>
-                                            <option value="<?= $k ?>"><?= strtoupper($k)  ?></option>
-                                        <?php } ?>
-                                    </select>
-                                    <label for="via">Pengiriman via</label>
-                                </div>
-                            </div>
-                            <div class="col" id="selService">
-                                <small class='text-secondary'>Service</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <input value="" type="hidden" name="ongkir" required>
-                <button type="submit" id="submit_form" class="d-none"></button>
-            </form>
+            </di>
         </div>
         <div class="col">
             <?php if (isset($_SESSION['cart'])) {
@@ -142,7 +96,6 @@
                     </table>
                 </small>
 
-                <span id="submit_form" class="btn btn-outline-success px-4">Bayar</span>
                 <div class="text-end border-0 fw-bold float-end" id="total"></div>
             <?php } else { ?>
                 Tidak ada data keranjang
@@ -150,73 +103,18 @@
         </div>
     </div>
 </div>
-
 <script>
     $(document).ready(function() {
         spinner(0);
-        total("");
-        $("input[name=ongkir]").val(0);
+        ongkir(0);
     });
-
-    $('input:radio').change(function() {
-        var data_val = $(this).attr("data-val");
-        $("input[name=ongkir]").val(data_val);
-        total(data_val);
-
-        if ($(this).val() == 3) {
-            $("#antar").removeClass("d-none");
-            var luar_kota = $("select#service").val()
-
-            try {
-                harga = parseInt($("select#service").find(':selected').data('harga'));
-                total(harga);
-                $("input[name=ongkir]").val(harga);
-            } catch (err) {
-                total(data_val);
-            }
-
-        }
-    });
-
-
     var sub = <?= $total ?>;
 
-    $(".alamat").on("change", function() {
-        $.post("<?= $this->BASE_URL ?>Session/set", {
-            name: "alamat",
-            value: $(this).val()
-        }, )
-    })
-
-    $(".nama").on("change", function() {
-        $.post("<?= $this->BASE_URL ?>Session/set", {
-            name: "nama",
-            value: $(this).val()
-        }, )
-    })
-
-    $(".hp").on("change", function() {
-        $.post("<?= $this->BASE_URL ?>Session/set", {
-            name: "hp",
-            value: $(this).val()
-        }, )
-
-    })
-
-    function total(ongkir) {
-        if (ongkir == "") {
-            $("td#ongkir").html("Rp0");
-            ongkir = 0;
-        } else {
-            $("td#ongkir").html("Rp" + addCommas(ongkir));
-        }
-        var new_total = parseInt(sub) + parseInt(ongkir);
+    function ongkir(biaya) {
+        $("td#ongkir").html("Rp" + addCommas(biaya));
+        var new_total = parseInt(sub) + parseInt(biaya);
         $("#total").html("Rp" + addCommas(new_total))
     }
-
-    $('.radio_').click(function() {
-        $("#antar").addClass("d-none");
-    })
 
     function addCommas(nStr) {
         nStr += '';
@@ -230,42 +128,12 @@
         return x1 + x2;
     }
 
-    $("#provinsi").on("change", function() {
-        var val = $("#provinsi").val()
-        if (val != "") {
-            $("#selKota").load("<?= $this->BASE_URL ?>Load/Spinner/1", function() {
-                $(this).load("<?= $this->BASE_URL ?>Checkout/kota/" + val)
-            })
+    $("#kurir").on("change", function() {
+        if ($(this).val() == "") {
+            ongkir(0);
         } else {
-            $("#selKota").load("<?= $this->BASE_URL ?>Load/Spinner/1", function() {
-                $(this).html("<small class='text-secondary'>Kota</small>");
-            })
-        }
-        $("#selKecamatan").html("<small class='text-secondary'>Kecamatan</small>")
-        $("#selService").html("<small class='text-secondary'>Service</small>")
-        $('#via').prop('selectedIndex', 0);
-    })
-
-    $("#via").on("change", function() {
-        var kec = $("#kecamatan").val()
-        if (kec == undefined) {
-            return;
-        }
-        var destination = $("#kecamatan").val()
-        var courier = $(this).val()
-        if (destination != "" && courier != "") {
-            $("#selService").load("<?= $this->BASE_URL ?>Load/Spinner/1", function() {
-                $(this).load("<?= $this->BASE_URL ?>Checkout/cost/" + destination + "/" + courier + "/" + <?= $berat_total ?>)
-            })
+            biaya = parseInt($(this).find(':selected').data('harga'));
+            ongkir(biaya);
         }
     })
-
-    $("span#submit_form").click(function(e) {
-        if ($("input[name=ongkir]").val() == "") {
-            alert("Data pengiriman tidak Valid");
-            return;
-        } else {
-            $("button#submit_form").click();
-        }
-    });
 </script>

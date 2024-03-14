@@ -41,9 +41,11 @@ $t = $data['title'];
 							<?php } ?>
 						</ul>
 						<div class="mt-2">
-							<a href=" <?= $this->BASE_URL ?>Pesanan" class="btn btn-sm border position-relative pt-2 me-1 bg-white">
-								<i class="fa-regular fa-rectangle-list"></i> Pesanan
-							</a>
+							<?php if (isset($_SESSION['log'])) { ?>
+								<a href=" <?= $this->BASE_URL ?>Pesanan" class="btn btn-sm border position-relative pt-2 me-1 bg-white">
+									<i class="fa-regular fa-rectangle-list"></i> Pesanan
+								</a>
+							<?php } ?>
 							<a href="#" class="btn btn-sm border position-relative pt-2 me-1 bg-white text-success fw-bold" data-bs-toggle="modal" data-bs-target="#exampleModal">
 								<i class="fa-regular fa-circle-user"></i>
 								<span id="user_name"></span>
@@ -71,7 +73,7 @@ $t = $data['title'];
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<form action="<?= $this->BASE_URL ?>Session/login" method="POST">
-				<?php if (!isset($_SESSION['hp'])) { ?>
+				<?php if (!isset($_SESSION['log'])) { ?>
 					<div class="modal-body">
 						<div class="form-floating mb-2">
 							<input type="text" class="form-control" name="hp" required id="floatingInput">
@@ -85,7 +87,7 @@ $t = $data['title'];
 				<?php } else { ?>
 					<div class="modal-body">
 						<div class="form-floating mb-2">
-							Anda sedang Login sebagai <span class="text-success fw-bold"><?= $_SESSION['nama'] ?></span>.
+							Anda sedang Login sebagai <span class="text-success fw-bold"><?= $_SESSION['log']['name'] ?></span>.
 							Apakah ingin Logout?
 						</div>
 					</div>

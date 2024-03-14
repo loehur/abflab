@@ -31,6 +31,10 @@ class Detail extends Controller
 
    public function upload()
    {
+      if (isset($_SESSION['cart_key'])) {
+         unset($_SESSION['cart_key']);
+      }
+
       $produk_id = $_POST['produk'];
 
       $cek = $this->db(0)->get_where_row("produk", "produk_id = " . $produk_id);
