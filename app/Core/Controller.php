@@ -12,13 +12,9 @@ class Controller extends Public_Variables
         require_once "app/Views/Layout/main.php";
     }
 
-    public function view_layout_cs($con, $data = [])
+    public function view_layout_admin($con, $data = [])
     {
-        require_once "app/Views/Layout_CS/main.php";
-    }
-    public function view_layout_produk($con, $data = [])
-    {
-        require_once "app/Views/Layout_Produk/main.php";
+        require_once "app/Views/Layout_Admin/main.php";
     }
 
     public function view($con, $file, $data = [])

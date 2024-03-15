@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-floating mb-2">
-                            <input type="text" class="form-control" name="cs_number" required id="floatingInput">
+                            <input type="text" class="form-control" name="number" required id="floatingInput">
                             <label for="floatingInput">CS Phone Number (08xx)</label>
                         </div>
                     </div>

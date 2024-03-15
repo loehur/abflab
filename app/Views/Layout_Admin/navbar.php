@@ -21,10 +21,9 @@ $t = $data['title'];
 						<button type="button" class="btn-close text-reset me-2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 					</div>
 					<div class="offcanvas-body">
-						<?php if (isset($_SESSION['admin_produk'])) { ?>
-							<a href="#" class="ms-auto btn btn-sm border position-relative pt-2 me-1 bg-white text-success fw-bold shadow-none">
-								Admin Produk: <i class="fa-regular fa-circle-user"></i>
-								<span id="user_name"></span>
+						<?php if (isset($_SESSION['log_admin'])) { ?>
+							<a href="#" onclick="logout_admin()" class="ms-auto btn btn-sm border position-relative pt-2 me-1 bg-white shadow-none">
+								Logout: <span class="text-success" id="user_name"></span>
 							</a>
 						<?php  } ?>
 					</div>
@@ -34,3 +33,11 @@ $t = $data['title'];
 	</div>
 </div>
 <!-- Navbar End -->
+
+<script>
+	function logout_admin() {
+		$.post("<?= $this->BASE_URL ?>Session/logout_admin", function() {
+			location.reload(true);
+		});
+	}
+</script>

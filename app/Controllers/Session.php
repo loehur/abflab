@@ -39,4 +39,9 @@ class Session extends Controller
 
       $_SESSION['cart'][$id]['total'] = $_SESSION['cart'][$id]['harga'] * $_SESSION['cart'][$id]['jumlah'];
    }
+
+   function logout_admin() // controller
+   {
+      unset($_SESSION['log_admin']);
+   }
 }

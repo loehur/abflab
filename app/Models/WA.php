@@ -2,7 +2,14 @@
 
 class WA extends Public_Variables
 {
-    public function send($target, $text)
+    private $key = null;
+
+    public function __construct()
+    {
+        $this->key = $this->api_key['fonnte'][$this->SETTING['production']];
+    }
+
+    function send($target, $text)
     {
         $curl = curl_init();
 
@@ -16,7 +23,7 @@ class WA extends Public_Variables
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => array('target' => $target, 'message' => $text),
-            CURLOPT_HTTPHEADER => array('Authorization: ' . $this->SETTING['wa_token'])
+            CURLOPT_HTTPHEADER => array('Authorization: ' . $this->key)
         ));
 
         $response = curl_exec($curl);

@@ -2,6 +2,17 @@
 
 class Produk extends Controller
 {
+   public $access = false;
+   public $valid_access = 1;
+   public function __construct()
+   {
+      if (isset($_SESSION['log_admin'])) {
+         if (in_array($this->valid_access, $_SESSION['log_admin']['access']) == true) {
+            $this->access = true;
+         }
+      }
+   }
+
    public function index($parse = null)
    {
       $data = [
@@ -10,12 +21,12 @@ class Produk extends Controller
          'parse' => $parse
       ];
 
-      $this->view_layout_produk(__CLASS__, $data);
+      $this->view_layout_admin(__CLASS__, $data);
    }
 
    function content($parse)
    {
-      if (!isset($_SESSION['admin_produk'])) {
+      if ($this->access == false) {
          $this->view(__CLASS__, __CLASS__ . "/login");
          exit();
       }
@@ -33,8 +44,8 @@ class Produk extends Controller
    {
       $there = false;
       $number = $_POST['number'];
-      foreach ($this->PRODUK as $c) {
-         if ($c['no'] == $number) {
+      foreach ($this->user_admin as $c) {
+         if ($c['no'] == $number && in_array($this->valid_access, $c['access'])) {
             $there = true;
             if (isset($_COOKIE[$number])) {
                echo "OTP sudah di kirimkan, timeout 5 menit";
@@ -60,13 +71,10 @@ class Produk extends Controller
          $otp = $this->model("Encrypt")->enc($_POST['otp']);
          if ($otp == $_COOKIE[$number]) {
             $ada = false;
-            foreach ($this->CS as $c) {
-               if ($c['no'] == $number) {
+            foreach ($this->user_admin as $c) {
+               if ($c['no'] == $number && in_array($this->valid_access, $c['access'])) {
                   $ada = true;
-                  $_SESSION['admin_produk'] = [
-                     "no" => $number,
-                     "name" => $c['nama']
-                  ];
+                  $_SESSION['log_admin'] = $c;
                   echo 1;
                   exit();
                }
@@ -83,7 +91,7 @@ class Produk extends Controller
    }
    function logout()
    {
-      unset($_SESSION['admin_produk']);
+      unset($_SESSION['log_admin']);
       echo 1;
    }
 }

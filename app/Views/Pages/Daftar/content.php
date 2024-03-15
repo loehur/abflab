@@ -107,27 +107,10 @@ $log = $_SESSION['log'];
 
 <script src="<?= $this->ASSETS_URL ?>plugins/openstreet/leaflet.js"></script>
 <script>
-    $(document).ready(function() {
-        spinner(0);
-    });
-
-    $("#provinsi").on("change", function() {
-        var val = $(this).val()
-        if (val != "") {
-            $("#selKota").load("<?= $this->BASE_URL ?>Load/Spinner/1", function() {
-                $(this).load("<?= $this->BASE_URL ?>Checkout/kota/" + val)
-            })
-        } else {
-            $("#selKota").load("<?= $this->BASE_URL ?>Load/Spinner/1", function() {
-                $(this).html("<small class='text-secondary'>Kota</small>");
-            })
-        }
-        $("#selKecamatan").html("<small class='text-secondary'>Kecamatan</small>")
-        $("#selKodePos").html("<small class='text-secondary'>Kode Pos</small>")
-    })
-
+    var glat = <?= $data['geo']['lat'] ?>;
+    var glong = <?= $data['geo']['long'] ?>;
     let mapOptions = {
-        center: [<?= $data['geo']['lat'] ?>, <?= $data['geo']['long'] ?>],
+        center: [glat, glong],
         zoom: 10
     }
 
@@ -150,5 +133,33 @@ $log = $_SESSION['log'];
         document.getElementById('latitude').value = event.latlng.lat;
         document.getElementById('longitude').value = event.latlng.lng;
 
+    })
+
+    $(document).ready(function() {
+        spinner(0);
+
+        if (marker !== null) {
+            map.removeLayer(marker);
+        }
+
+        marker = L.marker([glat, glong]).addTo(map);
+
+        document.getElementById('latitude').value = event.latlng.lat;
+        document.getElementById('longitude').value = event.latlng.lng;
+    });
+
+    $("#provinsi").on("change", function() {
+        var val = $(this).val()
+        if (val != "") {
+            $("#selKota").load("<?= $this->BASE_URL ?>Load/Spinner/1", function() {
+                $(this).load("<?= $this->BASE_URL ?>Checkout/kota/" + val)
+            })
+        } else {
+            $("#selKota").load("<?= $this->BASE_URL ?>Load/Spinner/1", function() {
+                $(this).html("<small class='text-secondary'>Kota</small>");
+            })
+        }
+        $("#selKecamatan").html("<small class='text-secondary'>Kecamatan</small>")
+        $("#selKodePos").html("<small class='text-secondary'>Kode Pos</small>")
     })
 </script>

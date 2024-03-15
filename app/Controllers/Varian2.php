@@ -2,6 +2,16 @@
 
 class Varian2 extends Controller
 {
+   public $access = false;
+   public function __construct()
+   {
+      if (isset($_SESSION['log_admin'])) {
+         if (in_array(1, $_SESSION['log_admin']['access']) == true) {
+            $this->access = true;
+         }
+      }
+   }
+
    public function index($parse)
    {
       $data = [
@@ -10,12 +20,12 @@ class Varian2 extends Controller
          'parse' => $parse,
       ];
 
-      $this->view_layout_produk(__CLASS__, $data);
+      $this->view_layout_admin(__CLASS__, $data);
    }
 
    function content($parse, $gid = null)
    {
-      if (!isset($_SESSION['admin_produk'])) {
+      if ($this->access == false) {
          $this->view(__CLASS__, __CLASS__ . "/login");
          exit();
       }

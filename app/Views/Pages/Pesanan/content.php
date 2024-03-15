@@ -42,8 +42,8 @@ switch ($parse) {
         </div>
     </nav>
     <div class="tab-content mx-1 mt-1">
-        <div class="tab-pane active">
-            <?php $ref = "";
+        <div class="tab-pane show active">
+            <?php
             foreach ($data['order'] as $key => $d) {
                 $ref = $key;
             ?>

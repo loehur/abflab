@@ -70,21 +70,21 @@ class Ongkir extends Controller
                "name" => "Shoes",
                "description" => "Black colored size 45",
                "value" => 199000,
-               "length" => 30,
-               "width" => 15,
+               "length" => 1,
+               "width" => 1,
                "height" => 20,
-               "weight" => 200,
+               "weight" => 1000,
                "quantity" => 2
             ],
             [
                "name" => "Bag",
                "description" => "Black colored size 45",
                "value" => 199000,
-               "length" => 30,
-               "width" => 15,
-               "height" => 20,
-               "weight" => 200,
-               "quantity" => 2
+               "length" => 5,
+               "width" => 3,
+               "height" => 10,
+               "weight" => 1000,
+               "quantity" => 3
             ]
          ]
       ];

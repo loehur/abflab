@@ -29,17 +29,10 @@ class Load extends Controller
       }
    }
 
-   function account_cs()
+   function account_admin()
    {
-      if (isset($_SESSION['cs'])) {
-         echo $_SESSION['cs']['name'];
-      }
-   }
-
-   function account_admin_produk()
-   {
-      if (isset($_SESSION['admin_produk'])) {
-         echo $_SESSION['admin_produk']['name'];
+      if (isset($_SESSION['log_admin'])) {
+         echo $_SESSION['log_admin']['nama'];
       }
    }
 

@@ -2,42 +2,67 @@
 
 class CS extends Controller
 {
-   public function index()
+   public $access = false;
+   public $valid_access = 0;
+   public function __construct()
+   {
+      if (isset($_SESSION['log_admin'])) {
+         if (in_array($this->valid_access, $_SESSION['log_admin']['access']) == true) {
+            $this->access = true;
+         }
+      }
+   }
+
+   public function index($parse = "paid")
    {
       $data = [
          'title' => "Order",
          'content' => __CLASS__,
-         'parse' => "bb"
+         'parse' => $parse
       ];
 
-      $this->view_layout_cs(__CLASS__, $data);
+      $this->view_layout_admin(__CLASS__, $data);
    }
 
-   function content($tab = 'bb')
+   function content($parse)
    {
-      if (!isset($_SESSION['cs'])) {
+      if ($this->access == false) {
          $this->view(__CLASS__, __CLASS__ . "/login");
          exit();
       }
 
-      $data['bb'] = [];
-      $data['p'] = [];
-      $data['s'] = [];
-      $data['b'] = [];
-      $data['tab'] = $tab;
+      $data = [];
 
-      $where = "processing_step = 0 ORDER BY order_ref ASC";
-      $data['bb'] = $this->db(0)->get_where("order_list", $where);
+      switch ($parse) {
+         case 'paid':
+            $order_status = 1;
+            break;
+         case 'sent':
+            $order_status = 2;
+            break;
+         case 'done':
+            $order_status = 3;
+            break;
+         case 'cancel':
+            $order_status = 4;
+            break;
+         default:
+            $order_status = 0;
+            break;
+      }
 
-      $where_p = "processing_step = 1 ORDER BY order_ref ASC";
-      $data['p'] = $this->db(0)->get_where("order_list", $where_p);
+      $where = "order_status = " . $order_status . " ORDER BY order_ref ASC";
+      $step = $this->db(0)->get_where("order_step", $where);
+      $data['order'] = [];
+      foreach ($step as $s) {
+         $where = "order_ref = '" . $s['order_ref'] . "'";
+         $get = $this->db(0)->get_where("order_list", $where);
+         $data['order'][$s['order_ref']] = $get;
+         $data['step'][$s['order_ref']]['customer'] = $s['customer_id'];
+         $data['step'][$s['order_ref']]['time'] = $s['insertTime'];
+      }
 
-      $where_b = "processing_step = 3 ORDER BY order_ref ASC";
-      $data['b'] = $this->db(0)->get_where("order_list", $where_b);
-
-      $where_S = "processing_step = 2 ORDER BY order_ref ASC";
-      $data['s'] = $this->db(0)->get_where("order_list", $where_S);
-
+      $data['parse'] = $parse;
       $this->view(__CLASS__, __CLASS__ . "/content", $data);
    }
 
@@ -112,17 +137,17 @@ class CS extends Controller
    function req_otp()
    {
       $there = false;
-      $cs_number = $_POST['cs_number'];
-      foreach ($this->CS as $c) {
-         if ($c['no'] == $cs_number) {
+      $number = $_POST['cs_number'];
+      foreach ($this->user_admin as $c) {
+         if ($c['no'] == $number && in_array($this->valid_access, $c['access'])) {
             $there = true;
-            if (isset($_COOKIE[$cs_number])) {
+            if (isset($_COOKIE[$number])) {
                echo "OTP sudah di kirimkan, timeout 5 menit";
             } else {
                $otp = rand(0, 9) . rand(0, 9) . rand(0, 9) . rand(0, 9);
                $otp_en = $this->model("Encrypt")->enc($otp);
-               setcookie($cs_number, $otp_en, time() + (300), "/");
-               $this->model('WA')->send($cs_number, $otp);
+               setcookie($number, $otp_en, time() + (300), "/");
+               $this->model('WA')->send($number, $otp);
                echo "OTP berhasil dikirimkan!";
             }
             exit();
@@ -135,18 +160,15 @@ class CS extends Controller
 
    function cs_login()
    {
-      $cs_number = $_POST['cs_number'];
-      if (isset($_COOKIE[$cs_number])) {
+      $number = $_POST['number'];
+      if (isset($_COOKIE[$number])) {
          $otp = $this->model("Encrypt")->enc($_POST['otp']);
-         if ($otp == $_COOKIE[$cs_number]) {
+         if ($otp == $_COOKIE[$number]) {
             $ada = false;
-            foreach ($this->CS as $c) {
-               if ($c['no'] == $cs_number) {
+            foreach ($this->user_admin as $c) {
+               if ($c['no'] == $number && in_array($this->valid_access, $c['access'])) {
                   $ada = true;
-                  $_SESSION['cs'] = [
-                     "no" => $cs_number,
-                     "name" => $c['nama']
-                  ];
+                  $_SESSION['log_admin'] = $c;
                   echo 1;
                   exit();
                }

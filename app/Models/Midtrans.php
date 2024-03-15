@@ -7,10 +7,9 @@ class Midtrans extends Public_Variables
     public $key_server = "SB-Mid-server-ZHst9ED0Coy3bXI47MtueQQD";
     public $host = "https://app.sandbox.midtrans.com/snap/v1/transactions";
 
-    function token($es, $amount, $name, $email, $hp)
+    function token($id, $amount, $name, $email, $hp)
     {
         $curl = curl_init();
-        $id = rand(1000000, 9999999);
         $name_ = explode(" ", $name);
         $fname = $name_[0];
         $lname = "";

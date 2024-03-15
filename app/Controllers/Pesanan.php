@@ -24,8 +24,6 @@ class Pesanan extends Controller
       $log = $_SESSION['log'];
       $data = [];
 
-      $order_status = 0;
-
       switch ($parse) {
          case 'paid':
             $order_status = 1;

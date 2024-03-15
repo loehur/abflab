@@ -2,8 +2,13 @@
 
 class Biteship extends Public_Variables
 {
-    public $api_key = "biteship_live.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidml0YXBpY3R1cmFfYWJmX2tleWFwaSIsInVzZXJJZCI6IjY1OWUwYmJmMzA4NzYwZDU4N2M4YWQzYyIsImlhdCI6MTcxMDIyNDQ2NH0.KiqfLU-GtU0RTCv-FZ-UglkXfvY3KpsLCqENrvUmoHY";
-    public $host = "https://api.biteship.com";
+    private $host = "https://api.biteship.com";
+    private $key = null;
+
+    public function __construct()
+    {
+        $this->key = $this->api_key['biteship'][$this->SETTING['production']];
+    }
 
     function get_area($input)
     {
@@ -20,7 +25,7 @@ class Biteship extends Public_Variables
             CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_POSTFIELDS => array(),
             CURLOPT_HTTPHEADER => array(
-                'Authorization: ' . $this->api_key,
+                'Authorization: ' . $this->key,
                 'content-type: application/json'
             )
         ));
@@ -57,7 +62,7 @@ class Biteship extends Public_Variables
             CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_POSTFIELDS => array(),
             CURLOPT_HTTPHEADER => array(
-                'Authorization: ' . $this->api_key,
+                'Authorization: ' . $this->key,
                 'content-type: application/json'
             )
         ));
@@ -115,7 +120,7 @@ class Biteship extends Public_Variables
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => $reques_body,
                 CURLOPT_HTTPHEADER => [
-                    'Authorization: ' . $this->api_key,
+                    'Authorization: ' . $this->key,
                     'content-type: application/json'
                 ]
             ]
