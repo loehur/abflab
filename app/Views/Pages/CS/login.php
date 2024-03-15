@@ -30,13 +30,13 @@
     });
 
     $("#otp").click(function() {
-        no = $("input[name=cs_number]").val();
+        no = $("input[name=number]").val();
         if (no == "") {
             alert("Isi nomor CS dulu");
             return;
         }
         $.post("<?= $this->BASE_URL ?>CS/req_otp", {
-            cs_number: no
+            number: no
         }, ).done(function(res) {
             alert(res);
         })

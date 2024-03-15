@@ -53,7 +53,7 @@ class Checkout extends Controller
 
    function kode_pos($value)
    {
-      $data = $this->model("Biteship")->get_area(base64_decode($value));
+      $data = $this->model("Biteship")->get_area($value);
       $this->view(__CLASS__, __CLASS__ . "/list_kodepos", $data);
    }
 

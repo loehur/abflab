@@ -137,7 +137,7 @@ class CS extends Controller
    function req_otp()
    {
       $there = false;
-      $number = $_POST['cs_number'];
+      $number = $_POST['number'];
       foreach ($this->user_admin as $c) {
          if ($c['no'] == $number && in_array($this->valid_access, $c['access'])) {
             $there = true;

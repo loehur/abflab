@@ -15,7 +15,7 @@ class Biteship extends Public_Variables
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->host . '/v1/maps/areas?countries=ID&input=' . $input . '&type=single',
+            CURLOPT_URL => $this->host . '/v1/maps/areas?countries=ID&input=' . base64_decode($input) . '&type=single',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,

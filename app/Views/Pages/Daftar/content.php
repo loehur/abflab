@@ -1,7 +1,9 @@
 <link rel="stylesheet" type="text/css" href="<?= $this->ASSETS_URL ?>plugins/openstreet/leaflet.css">
 
 <?php
-$log = $_SESSION['log'];
+if (isset($_SESSION['log'])) {
+    $log = $_SESSION['log'];
+}
 ?>
 
 <style>
