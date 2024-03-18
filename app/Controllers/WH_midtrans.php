@@ -21,12 +21,13 @@ class WH_midtrans extends Controller
          $order_ref = $data['order_id'];
          $status = $data['transaction_status'];
          $tr_time = $data['transaction_time'];
+         $tr_id = $data['transaction_id'];
          $fraud_status = $data['fraud_status'];
 
          $this->model('Log')->write("Order Ref: " . $order_ref . " New Status" . $status);
 
          $where = "order_ref = '" . $order_ref . "'";
-         $set = "transaction_status = '" . $status . "', transaction_time = '" . $tr_time . "', fraud_status = '" . $fraud_status . "'";
+         $set = "transaction_id = '" . $tr_id . "', transaction_status = '" . $status . "', transaction_time = '" . $tr_time . "', fraud_status = '" . $fraud_status . "'";
          $up = $this->db(0)->update("payment", $set, $where);
 
          if ($up['errno'] <> 0) {
