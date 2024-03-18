@@ -141,7 +141,7 @@ class Checkout extends Controller
          exit();
       } else {
          $d = $_SESSION['log'];
-         $str = $d['area_id'] . $d['latt'] . $d['longt'];
+         $str = $d['area_id'] . $d['latt'] . $d['longt'] . $_SESSION['cart_key'];
          if (!isset($_SESSION['ongkir'][$str]) || !isset($_POST['kurir'])) {
             header("Location: " . $this->BASE_URL . "Checkout");
             exit();
@@ -173,6 +173,7 @@ class Checkout extends Controller
       }
 
       if (!isset($price)) {
+         $this->model('Log')->write("ERROR checkout, Price not found");
          header("Location: " . $this->BASE_URL . "Checkout");
          exit();
       }

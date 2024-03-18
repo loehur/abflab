@@ -9,6 +9,7 @@
         border-radius: 5px;
     }
 </style>
+
 <form action="<?= $this->BASE_URL ?>Checkout/daftar" method="POST">
     <div class="container">
         <div style="max-width: 500px;">
