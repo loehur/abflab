@@ -143,6 +143,7 @@ class Checkout extends Controller
          $d = $_SESSION['log'];
          $str = $d['area_id'] . $d['latt'] . $d['longt'] . $_SESSION['cart_key'];
          if (!isset($_SESSION['ongkir'][$str]) || !isset($_POST['kurir'])) {
+            $this->model('Log')->write("ERROR checkout, SESSION ONGKIR not found");
             header("Location: " . $this->BASE_URL . "Checkout");
             exit();
          } else {
