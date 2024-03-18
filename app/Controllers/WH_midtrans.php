@@ -1,6 +1,6 @@
 <?php
 
-class WH_biteship extends Controller
+class WH_midtrans extends Controller
 {
    private $target_notif = null;
 
