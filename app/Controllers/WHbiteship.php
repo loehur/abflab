@@ -50,15 +50,9 @@ class WH_biteship extends Controller
             $this->model('WA')->send($this->target_notif, $text);
          }
 
-         $res = [
-            "status" => "ok",
-            "message" => "status updated"
-         ];
+         echo 200;
       } else {
-         $res = [
-            "status" => "failed",
-            "message" => "unknown [status]"
-         ];
+         echo 200;
       }
 
       print_r(json_encode($res));
