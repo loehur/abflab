@@ -30,30 +30,46 @@ class Checkout extends Controller
 
    public function kota($id)
    {
-      $cek = $this->model("Place")->kota($id);
-      if (isset($cek['value'])) {
-         $data = $cek['value'];
-      } else {
-         $data = [];
-      }
+      $data = $this->model("Place")->kota($id);
       $this->view(__CLASS__, __CLASS__ . "/list_kota", $data);
    }
 
    public function kecamatan($id)
    {
-      $cek = $this->model("Place")->kecamatan($id);
-      if (isset($cek['value'])) {
-         $data = $cek['value'];
-      } else {
-         $data = [];
-      }
-
+      $data = $this->model("Place")->kecamatan($id);
+      $_SESSION['tools']['kecamatan'] = $data;
       $this->view(__CLASS__, __CLASS__ . "/list_kecamatan", $data);
    }
 
-   function kode_pos($value)
+   function kode_pos()
    {
-      $data = $this->model("Biteship")->get_area($value);
+      $input = $_POST['input'];
+      $data = [];
+      foreach ($_SESSION['tools']['kecamatan'] as $key => $kp) {
+         if ($input == $key) {
+            foreach ($kp as $k) {
+               $g = $this->model("Biteship")->get_area($k);
+               if (count($g) > 1) {
+                  $find = 0;
+                  foreach ($g as $kg => $g_) {
+                     if (str_replace("+", " ", $key) == strtoupper($g_['administrative_division_level_3_name'])) {
+                        $find += 1;
+                        array_push($data, $g[$kg]);
+                        break;
+                     }
+                  }
+                  if ($find == 0) {
+                     array_push($data, $g[0]);
+                     $text = "ERROR. Kode Pos " . $k . " tidak valid dengan kecamatan " . str_replace("+", " ", $key);
+                     $this->model('Log')->write($text);
+                  }
+               } elseif (count($g) == 1) {
+                  array_push($data, $g[0]);
+               }
+            }
+            break;
+         }
+      }
       $this->view(__CLASS__, __CLASS__ . "/list_kodepos", $data);
    }
 
@@ -108,7 +124,7 @@ class Checkout extends Controller
       }
 
       $cust = $this->db(0)->get_where_row("customer", $where);
-      if (isset($cek['customer_id'])) {
+      if (isset($cust['customer_id'])) {
          $_SESSION['log'] = $cust;
          header("Location: " . $this->BASE_URL . "Checkout");
       } else {

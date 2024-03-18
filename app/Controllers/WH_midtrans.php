@@ -30,7 +30,25 @@ class WH_biteship extends Controller
          $up = $this->db(0)->update("payment", $set, $where);
 
          if ($up['errno'] <> 0) {
-            $text = "ERROR PAYMENT. update DB when trigger New Status, Order Ref: " . $order_ref . ", New Status: " . $status;
+            $text = "ERROR PAYMENT. update DB when trigger New Status, Order Ref: " . $order_ref . ", New Status: " . $status . " " . $up['error'];
+            $this->model('Log')->write($text);
+            $this->model('WA')->send($this->target_notif, $text);
+         }
+
+         switch ($status) {
+            case 'settlement':
+               $os = 1;
+               break;
+            default:
+               $os = 0;
+               break;
+         }
+
+         $where = "order_ref = '" . $order_ref . "'";
+         $set = "order_status = " . $os;
+         $up2 = $this->db(0)->update("order_step", $set, $where);
+         if ($up2['errno'] <> 0) {
+            $text = "ERROR UPDATE ORDER STEP PAYMENT. update DB when trigger New Status, Order Ref: " . $order_ref . ", New Status ORDER STEP: " . $status . " " . $up2['error'];
             $this->model('Log')->write($text);
             $this->model('WA')->send($this->target_notif, $text);
          }

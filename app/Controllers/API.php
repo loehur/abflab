@@ -1,8 +1,8 @@
 <?php
 
-class Ongkir extends Controller
+class API extends Controller
 {
-   function get_area($input = "pekanbaru kota")
+   function get_area($input)
    {
       $curl = curl_init();
 

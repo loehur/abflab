@@ -20,10 +20,8 @@ class Daftar extends Controller
          $data['provinsi'] = $_SESSION['tools']['provinsi'];
       } else {
          $cek = $this->model("Place")->provinsi();
-         if (isset($cek['value'])) {
-            $_SESSION['tools']['provinsi'] = $cek['value'];
-            $data['provinsi'] = $_SESSION['tools']['provinsi'];
-         }
+         $_SESSION['tools']['provinsi'] = $cek;
+         $data['provinsi'] = $_SESSION['tools']['provinsi'];
       }
 
       if (isset($_SESSION['log'])) {
@@ -35,11 +33,13 @@ class Daftar extends Controller
       if (isset($_SESSION['tools']['location'])) {
          $data['geo'] =  $_SESSION['tools']['location'];
       } else {
-         $data['geo'] = $this->model("GeoIP")->longlat();
+         $ip = $this->model("GeoIP")->get_ip();
+         if ($ip == "127.0.0.1") {
+            $ip = $this->model("GeoIP")->getPublicIP();
+         }
+         $data['geo'] = $this->model("GeoIP")->longlat($ip);
          $_SESSION['tools']['location'] =  $data['geo'];
       }
-
-
       $this->view(__CLASS__, __CLASS__ . "/content", $data);
    }
 }

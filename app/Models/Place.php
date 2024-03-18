@@ -2,25 +2,49 @@
 
 class Place extends Public_Variables
 {
-    public $api_key = "35d4eafdc92d38e08e4e6c3c8992e04253770d9b3a8ac28300898b48e47334ca";
-    public $host = "https://api.binderbyte.com";
+    public $api_key = "gwfctr54EwUPf8";
+    public $host = "https://api.mdl.my.id/";
 
     public function provinsi()
     {
-        $url = $this->host . '/wilayah/provinsi?api_key=' . $this->api_key;
+        $url = $this->host . 'Wilayah/provinsi/' . $this->api_key;
         return $this->curl_get($url);
     }
 
     public function kota($id)
     {
-        $url = $this->host . '/wilayah/kabupaten?id_provinsi=' . $id . '&api_key=' . $this->api_key;
-        return $this->curl_get($url);
+        $url = $this->host . 'Wilayah/kota/' . $this->api_key;
+
+        $post = [
+            'id' => $id,
+        ];
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        $response = curl_exec($ch);
+
+        curl_close($ch);
+        $res = json_decode($response, true);
+        return $res;
     }
 
     public function kecamatan($id)
     {
-        $url = $this->host . '/wilayah/kecamatan?id_kabupaten=' . $id . '&api_key=' . $this->api_key;
-        return $this->curl_get($url);
+        $url = $this->host . 'Wilayah/kecamatan/' . $this->api_key;
+
+        $post = [
+            'id' => $id,
+        ];
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        $response = curl_exec($ch);
+
+        curl_close($ch);
+        $res = json_decode($response, true);
+        return $res;
     }
 
     function curl_get($url)

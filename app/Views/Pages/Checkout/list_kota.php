@@ -1,9 +1,9 @@
-<div class="form-floating mb-2">
+<div class="form-floating">
     <select class="form-select shadow-none" id="kota" name="kota" required>
         <option selected value=""></option>
         <?php
         foreach ($data as $dp) { ?>
-            <option value="<?= $dp['id'] ?>"><?= $dp['name'] ?></option>
+            <option value="<?= $dp ?>"><?= str_replace("+", " ", $dp) ?></option>
         <?php } ?>
     </select>
     <label for="kota">Kota</label>

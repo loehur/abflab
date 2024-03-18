@@ -1,4 +1,4 @@
-<div class="form-floating mb-2">
+<div class="form-floating">
     <select class="form-select shadow-none" id="kodepos" name="kodepos" required>
         <option selected value=""></option>
         <?php

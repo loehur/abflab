@@ -1,9 +1,9 @@
-<div class="form-floating mb-2">
+<div class="form-floating">
     <select class="form-select shadow-none" id="kecamatan" name="kecamatan" required>
         <option selected value=""></option>
         <?php
-        foreach ($data as $dp) { ?>
-            <option value="<?= base64_encode($dp['name']) ?>"><?= strtoupper($dp['name']) ?></option>
+        foreach ($data as $key => $dp) { ?>
+            <option value="<?= $key ?>"><?= str_replace("+", " ", $key) ?></option>
         <?php } ?>
     </select>
     <label for="kecamatan">Kecamatan</label>
@@ -14,11 +14,13 @@
         var val = $(this).val()
         if (val != "") {
             $("#selKodePos").load("<?= $this->BASE_URL ?>Load/Spinner/1", function() {
-                $(this).load("<?= $this->BASE_URL ?>Checkout/kode_pos/" + val)
+                $(this).load("<?= $this->BASE_URL ?>Checkout/kode_pos", {
+                    input: val
+                })
             })
         } else {
             $("#selKodePos").load("<?= $this->BASE_URL ?>Load/Spinner/1", function() {
-                $(this).html("");
+                $("#selKodePos").html("<small class='text-secondary'>Kode Pos</small>")
             })
         }
     })

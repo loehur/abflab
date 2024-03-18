@@ -1,10 +1,6 @@
 <link rel="stylesheet" type="text/css" href="<?= $this->ASSETS_URL ?>plugins/openstreet/leaflet.css">
 
-<?php
-if (isset($_SESSION['log'])) {
-    $log = $_SESSION['log'];
-}
-?>
+<?php if (isset($_SESSION['log'])) $log = $_SESSION['log']; ?>
 
 <style>
     #map {
@@ -53,7 +49,7 @@ if (isset($_SESSION['log'])) {
                             <option selected value=""></option>
                             <?php
                             foreach ($data['provinsi'] as $dp) { ?>
-                                <option value="<?= $dp['id'] ?>"><?= $dp['name'] ?></option>
+                                <option value="<?= $dp ?>"><?= str_replace("+", " ", $dp) ?></option>
                             <?php } ?>
                         </select>
                         <label for="provinsi">Provinsi</label>
@@ -65,7 +61,7 @@ if (isset($_SESSION['log'])) {
                     </div>
                 </div>
             </div>
-            <div class="row mb-3">
+            <div class="row">
                 <div class="col px-1 mb-1" id="selKecamatan">
                     <small class='text-secondary'>Kecamatan</small>
                 </div>
