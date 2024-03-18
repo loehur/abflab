@@ -1,6 +1,6 @@
 <?php
 
-class WH_biteship extends Controller
+class WHbiteship extends Controller
 {
    private $target_notif = null;
 
