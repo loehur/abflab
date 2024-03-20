@@ -24,7 +24,7 @@ $t = $data['title'];
 						<ul class="navbar-nav justify-content-end flex-grow-1 mb-2">
 							<?php
 							$menu = $this->model("D_Group")->main();
-							$produk = $this->db(0)->get("produk");
+							$produk = $this->db(0)->get_where("produk", "en = 0 ORDER BY freq DESC");
 							?>
 
 							<?php foreach ($menu as $k => $m) { ?>

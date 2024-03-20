@@ -20,7 +20,7 @@ class Home extends Controller
    {
       $data = [];
       $data['banner'] = 3; // File di asset, img/banner
-      $data['product'] = $this->db(0)->get("produk");
+      $data['product'] = $this->db(0)->get_where("produk", "en = 0 ORDER BY freq DESC");
       $this->view(__CLASS__, __CLASS__ . "/content", $data);
    }
 }

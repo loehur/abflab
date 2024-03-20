@@ -174,6 +174,12 @@ class Detail extends Controller
          array_push($cart, $new_cart);
          $_SESSION['cart'] = $cart;
       }
+
+      //up freq
+      $set = "freq = freq+1";
+      $whereSort = "produk_id = " . $produk_id;
+      $this->db(0)->update("produk", $set, $whereSort);
+
       echo 1;
    }
 

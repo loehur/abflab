@@ -220,6 +220,11 @@ class Checkout extends Controller
          exit();
       }
 
+      //up freq
+      $set = "freq = freq+1";
+      $whereSort = "produk_id = " . $c['produk_id'];
+      $this->db(0)->update("produk", $set, $whereSort);
+
       //PAYMENT
       $total += $price;
       $cols = "order_ref, amount";
