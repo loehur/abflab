@@ -63,11 +63,6 @@ class Detail extends Controller
 
          $v_ = $this->db(0)->get_where_row("varian_1", "varian_id = " . $input);
 
-         if (!isset($v_['harga'])) {
-            echo "Maaf, produk ini terkendala sistem, dan sedang dalam perbaikan";
-            exit();
-         }
-
          $harga += ($v_['harga']);
          $berat += ($v_['berat']);
 
@@ -79,31 +74,29 @@ class Detail extends Controller
 
          $vg2 = $this->db(0)->get_where("varian_grup_2", "vg1_id = " . $v['vg1_id']);
          foreach ($vg2 as $v2) {
+            if (!isset($_POST["v2_" . $v2['vg2_id']])) {
+               break;
+            }
             $input2 = $_POST["v2_" . $v2['vg2_id']];
             $v3 = $this->db(0)->get_where_row("varian_2", "varian_id = " . $input2);
 
-            if (!isset($v3['harga'])) {
-               echo "Maaf, produk ini terkendala sistem, dan sedang dalam perbaikan";
-               $text = "*Warning*\nProduk " . $produk_name . " Error. Customer terkendala Order";
-               $this->model('WA')->send($this->target_notif, $text);
-               exit();
-            }
+            if (isset($v3['harga'])) {
+               $harga += $v3['harga'];
+               $berat += $v3['berat'];
 
-            $harga += $v3['harga'];
-            $berat += $v3['berat'];
+               $panjang += $v3['p'];
+               $lebar += $v3['l'];
+               $tinggi += $v3['t'];
 
-            $panjang += $v3['p'];
-            $lebar += $v3['l'];
-            $tinggi += $v3['t'];
-
-            $v2_h = $this->db(0)->get_where("v2_head", "vg2_id = " . $v2['vg2_id']);
-            foreach ($v2_h as $value) {
-               if ($value['v2_head_id'] == $v3['v2_head_id']) {
-                  $v2h_name = $value['v2_head'];
+               $v2_h = $this->db(0)->get_where("v2_head", "vg2_id = " . $v2['vg2_id']);
+               foreach ($v2_h as $value) {
+                  if ($value['v2_head_id'] == $v3['v2_head_id']) {
+                     $v2h_name = $value['v2_head'];
+                  }
                }
-            }
 
-            $detail .= ", " . $v2['vg'] . "(" . $v2h_name . ")";
+               $detail .= ", " . $v2['vg'] . "(" . $v2h_name . ")";
+            }
          }
       }
 
@@ -148,6 +141,7 @@ class Detail extends Controller
          echo "Maaf, produk ini terkendala sistem, dan sedang dalam perbaikan";
          $text = "*Warning*\nProduk " . $produk_name . " Error. Customer terkendala Order";
          $this->model('WA')->send($this->target_notif, $text);
+         exit();
       }
 
       $cart = [];
