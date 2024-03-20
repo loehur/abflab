@@ -98,7 +98,7 @@ class CS extends Controller
          $set = "order_id = '" . $o['id'] . "', tracking_id = '" . $o['courier']['tracking_id'] . "', waybill_id = '" . $o['courier']['waybill_id'] . "', price = '" . $o['price'] . "', delivery_status = '" . $o['status'] . "'";
          $this->db(0)->update("delivery", $set, $where);
 
-         $set = "order_status = 2";
+         $set = "order_status = 2, delivery_id = '" . $o['id'] . "'";
          $this->db(0)->update("order_step", $set, $where);
       }
    }
