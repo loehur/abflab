@@ -70,7 +70,7 @@
                     </tr>
                 </table>
 
-                <a href="<?= PC::BASE_URL ?>Cart/clear" class="btn btn-outline-secondary">Clear Cart</a>
+                <a href="<?= PC::BASE_URL ?>Cart/clear" class="text-secondary"><small>Kosongkan Keranjang</small></a>
                 <a href="<?= PC::BASE_URL ?>Checkout" class="btn btn-primary float-end">Pilih Pengiriman</a>
             <?php } else { ?>
                 Tidak ada data keranjang
@@ -147,8 +147,8 @@
                     </tr>
                 </table>
 
-                <a href="<?= PC::BASE_URL ?>Cart/clear" class="btn btn-outline-secondary">Clear Cart</a>
-                <a href="<?= PC::BASE_URL ?>Checkout" class="btn btn-success float-end">Checkout</a>
+                <a href="<?= PC::BASE_URL ?>Cart/clear" class="text-secondary"><small>Kosongkan Keranjang</small></a>
+                <a href="<?= PC::BASE_URL ?>Checkout" class="btn btn-sm btn-success float-end">Pilih Pengiriman</a>
             <?php } else { ?>
                 Tidak ada data keranjang
             <?php } ?>
