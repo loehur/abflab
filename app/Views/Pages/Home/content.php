@@ -59,7 +59,7 @@
                     <?php foreach ($produk as $pk => $p) {
                         if ($p['grup'] == $k) { ?>
                             <div class="rounded border item me-1 my-1 me-2">
-                                <a href="<?= ($p['link'] == 0) ? PC::BASE_URL . 'Detail/index/' . $pk : $p['link'] ?>" target="<?= $p['target'] ?>">
+                                <a href="<?= ($p['link'] == 0) ? PC::BASE_URL . 'Detail/index/' . $p['produk_id'] : $p['link'] ?>" target="<?= $p['target'] ?>">
                                     <img class="w-100 rounded bg-light" id="image<?= $p['img'] ?>0" onerror="no_image(<?= $p['img'] ?>0)" src="<?= PC::ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" alt="">
                                     <div class="py-1 px-1 text-dark"><small><?= $p['produk'] ?></small></div>
                                 </a>
