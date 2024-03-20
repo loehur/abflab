@@ -82,7 +82,7 @@ class Detail extends Controller
             if (!isset($v3['harga'])) {
                echo "Maaf, produk ini terkendala sistem, dan sedang dalam perbaikan";
                $text = "*Warning*\nProduk " . $produk_name . " Error. Customer terkendala Order";
-               $this->model('WA')->send($this->SETTING['notif_group'], $text);
+               $this->model('WA')->send(PC::SETTING['notif_group'], $text);
                exit();
             }
 
@@ -144,7 +144,7 @@ class Detail extends Controller
       if ($harga == 0) {
          echo "Maaf, produk ini terkendala sistem, dan sedang dalam perbaikan";
          $text = "*Warning*\nProduk " . $produk_name . " Error. Customer terkendala Order";
-         $this->model('WA')->send($this->SETTING['notif_group'], $text);
+         $this->model('WA')->send(PC::SETTING['notif_group'], $text);
       }
 
       $cart = [];

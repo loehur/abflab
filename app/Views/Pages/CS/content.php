@@ -34,11 +34,11 @@ switch ($parse) {
 <div class="container mb-3 pt-2" style="min-height: 300px;">
     <nav class="tabbable">
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a href="<?= $this->BASE_URL ?>CS/index/bb" class="btn-sm nav-link <?= $parse == 'bb' ? 'active' : '' ?>">Belum Bayar</a>
-            <a href="<?= $this->BASE_URL ?>CS/index/paid" class="btn-sm nav-link <?= $parse == 'paid' ? 'active' : '' ?>">Proses</a>
-            <a href="<?= $this->BASE_URL ?>CS/index/sent" class="btn-sm nav-link <?= $parse == 'sent' ? 'active' : '' ?>">Dikirim</a>
-            <a href="<?= $this->BASE_URL ?>CS/index/done" class="btn-sm nav-link <?= $parse == 'done' ? 'active' : '' ?>">Selesai</a>
-            <a href="<?= $this->BASE_URL ?>CS/index/cancel" class="btn-sm nav-link <?= $parse == 'cancel' ? 'active' : '' ?>">Dibatalkan</a>
+            <a href="<?= PC::BASE_URL ?>CS/index/bb" class="btn-sm nav-link <?= $parse == 'bb' ? 'active' : '' ?>">Belum Bayar</a>
+            <a href="<?= PC::BASE_URL ?>CS/index/paid" class="btn-sm nav-link <?= $parse == 'paid' ? 'active' : '' ?>">Proses</a>
+            <a href="<?= PC::BASE_URL ?>CS/index/sent" class="btn-sm nav-link <?= $parse == 'sent' ? 'active' : '' ?>">Dikirim</a>
+            <a href="<?= PC::BASE_URL ?>CS/index/done" class="btn-sm nav-link <?= $parse == 'done' ? 'active' : '' ?>">Selesai</a>
+            <a href="<?= PC::BASE_URL ?>CS/index/cancel" class="btn-sm nav-link <?= $parse == 'cancel' ? 'active' : '' ?>">Dibatalkan</a>
         </div>
     </nav>
     <div class="tab-content mx-1 mt-1">
@@ -73,7 +73,7 @@ switch ($parse) {
                                 </small>
                                 <div class="border-top mt-2">
                                     <small>
-                                        <table class="table table-sm desktop">
+                                        <table class="table table-sm desktop mb-0">
                                             <?php
                                             $total = 0;
                                             foreach ($d as $da) {
@@ -97,42 +97,27 @@ switch ($parse) {
                                             ?>
                                             <tr>
                                                 <td></td>
-                                                <td>Pengiriman:</td>
-                                                <td><?= $deliv['courier_company'] ?> <?= $deliv['courier_type'] ?></td>
+                                                <td colspan="2">Pengiriman:
+                                                    <span class="me-2 fw-bold"><?= $deliv['courier_company'] ?> <?= $deliv['courier_type'] ?></span>
+                                                    <?php
+                                                    if ($parse == "paid") {
+                                                        if ($deliv['courier_company'] <> "abf") {
+                                                            if (strlen($deliv['available_collection_method']) == 0) { ?>
+                                                                <a class="send" href="<?= PC::BASE_URL . $con ?>/cek_kirim/<?= $deliv['order_ref'] ?>">Kirim</a>
+                                                                <?php } else {
+                                                                echo "Tersedia: ";
+                                                                foreach (unserialize($deliv['available_collection_method']) as $acm) { ?>
+                                                                    <a class="me-1 send" href="<?= PC::BASE_URL . $con ?>/kirim/<?= $deliv['order_ref'] ?>/<?= $acm ?>"><?= strtoupper($acm) ?></a>
+                                                                <?php }
+                                                                ?>
+                                                            <?php }
+                                                        } else { ?>
+                                                            <a href="#">Selesai/Siap Jemput</a>
+                                                    <?php }
+                                                    } ?>
+                                                </td>
                                                 <td></td>
                                                 <td class="text-end">Rp<?= number_format($deliv['price_paid']) ?>/<?= number_format($deliv['price']) ?></td>
-                                            </tr>
-                                        </table>
-                                        <table class="table table-sm table-borderless mobile">
-                                            <?php
-                                            $total = 0;
-                                            foreach ($d as $da) {
-                                                if ($da['order_ref'] == $ref) {
-                                                    $subTotal = $da['total'];
-                                                    $total += $subTotal;
-                                            ?>
-                                                    <tr>
-                                                        <td style="width: 10px;">
-                                                            <a href="<?= $da['file'] ?>" download>
-                                                                <i class="fa-regular fa-circle-down"></i>
-                                                            </a> <small><?= $da['product'] ?>, <?= $da['detail'] ?><br><span class="text-danger"><?= $da['note'] ?></span></small>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-end"><?= $da['qty'] ?>pcs, Rp<?= number_format($subTotal) ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="border-top"></td>
-                                                    </tr>
-                                            <?php }
-                                            }
-                                            ?>
-                                            <?php
-                                            $where_d = "order_ref = '" . $ref . "'";
-                                            $deliv = $this->db(0)->get_where_row("delivery", $where_d);
-                                            ?>
-                                            <tr>
-                                                <td>Pengiriman: <?= $deliv['courier_company'] ?> <?= $deliv['courier_type'] ?> <span class="float-end">RpRp<?= number_format($deliv['price_paid']) ?>/<?= number_format($deliv['price']) ?></span></td>
                                             </tr>
                                         </table>
                                     </small>
@@ -142,25 +127,42 @@ switch ($parse) {
                                 $where_p = "order_ref = '" . $ref . "'";
                                 $pay = $this->db(0)->get_where_row("payment", $where_p);
                                 ?>
-                                <div class="float-end fw-bold me-1">Rp<?= number_format($total_) ?></div>
-                                <div class="">
+                                <div class="fw-bold me-1 w-100 text-end mb-1"><span class="">Rp<?= number_format($total_) ?></span></div>
+                                <div>
                                     <?php
-                                    switch ($pay['transaction_status']) {
-                                        case 0:
-                                        case 1: ?>
-                                            <span data-ref="<?= $ref ?>" data-cust="<?= $da['customer_id'] ?>" class="btn btn-sm mb-1 btn-outline-success ms-2 terima">Terima Pembayaran</span>
-                                            <span data-ref="<?= $ref ?>" data-cust="<?= $da['customer_id'] ?>" class="btn btn-sm mb-1 btn-outline-danger ms-2 batal">Batalkan Order</span>
-                                        <?php
-                                            break;
-                                        case 2: ?>
-                                            <span data-ref="<?= $ref ?>" data-cust="<?= $da['customer_id'] ?>" data-deliv="<?= $deliv['delivery'] ?>" data-mode="<?= $deliv['delivery'] ?>" class="btn btn-sm mb-1 btn-outline-success ms-2 selesai">Orderan Selesai</span>
-                                            <span data-ref="<?= $ref ?>" data-cust="<?= $da['customer_id'] ?>" class="btn btn-sm mb-1 btn-outline-danger ms-2 batal">Batalkan Order</span>
+                                    if ($parse == "sent") {
+                                        $track = $this->model("Biteship")->tracking($deliv['tracking_id']);
+                                        foreach ($track['history'] as $h) { ?>
+                                            <div class="alert alert-warning py-1 px-1 mb-1" role="alert">
+                                                <small>
+                                                    <b><?= $h['status'] ?></b><br>
+                                                    <?= $h['updated_at'] ?><br>
+                                                    <?= $h['note'] ?>
+                                                </small>
+                                            </div>
                                     <?php }
+
+                                        if ($track['status'] == "delivered") {
+                                            $where = "delivery_id = '" . $track['id'] . "'";
+                                            $set = "order_status = 3";
+                                            $this->db(0)->update("order_step", $set, $where);
+                                        }
+                                    }
                                     ?>
                                 </div>
                             </div>
                         </div>
                     <?php
+                        if ($parse == "sent") {
+                            if ($track['status'] == "delivered") {
+                                $where = "delivery_id = '" . $track['order_id'] . "'";
+                                $set = "order_status = 3";
+                                $up = $this->db(0)->update("order_step", $set, $where);
+                                if ($up['errno'] <> 0) {
+                                    $this->model('Log')->write("Pesanan client update Status delivered error: " . $up['error']);
+                                }
+                            }
+                        }
                     }
                     ?>
                 </div>
@@ -173,7 +175,7 @@ switch ($parse) {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Customer Detail</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Delivery Detail</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="modal_content">
@@ -188,6 +190,17 @@ switch ($parse) {
         spinner(0);
     });
 
+    function cs_detail(ref) {
+        $("#modal_content").load("<?= PC::BASE_URL ?>CS/load_cs_detail/" + ref);
+    }
+
+    $(".send").click(function(e) {
+        e.preventDefault();
+        $.post($(this).attr('href'), function() {
+            content('paid');
+        });
+    })
+
     $("span.batal").click(function() {
         var note = prompt("Alasan Dibatalkan", "");
         if (note === null) {
@@ -196,7 +209,7 @@ switch ($parse) {
         var cust_ = $(this).attr("data-cust");
         var ref = $(this).attr("data-ref");
         $.ajax({
-            url: "<?= $this->BASE_URL ?>CS/batalkan",
+            url: "<?= PC::BASE_URL ?>CS/batalkan",
             data: {
                 ref: ref,
                 cust: cust_,
@@ -204,23 +217,7 @@ switch ($parse) {
             },
             type: "POST",
             success: function(result) {
-                content("b");
-            },
-        });
-    });
-
-    $("span.terima").click(function() {
-        var cust_ = $(this).attr("data-cust");
-        var ref = $(this).attr("data-ref");
-        $.ajax({
-            url: "<?= $this->BASE_URL ?>CS/terima",
-            data: {
-                ref: ref,
-                cust: cust_,
-            },
-            type: "POST",
-            success: function(result) {
-                content("p");
+                content("cancel");
             },
         });
     });
@@ -238,7 +235,7 @@ switch ($parse) {
         var cust_ = $(this).attr("data-cust");
         var ref = $(this).attr("data-ref");
         $.ajax({
-            url: "<?= $this->BASE_URL ?>CS/selesai",
+            url: "<?= PC::BASE_URL ?>CS/selesai",
             data: {
                 ref: ref,
                 cust: cust_,
@@ -247,7 +244,7 @@ switch ($parse) {
             },
             type: "POST",
             success: function(result) {
-                content("s");
+                content("done");
             },
         });
     });

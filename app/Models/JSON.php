@@ -1,6 +1,6 @@
 <?php
 
-class JSON extends Public_Variables
+class JSON extends PC
 {
 
    function provinsi()

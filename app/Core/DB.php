@@ -1,18 +1,18 @@
 <?php
-require_once 'app/Config/DB_Config.php';
+require_once 'app/Config/DBC.php';
 
-class DB extends DB_Config
+class DB extends DBC
 {
     private static $_instance = [0 => null];
     private $mysqli;
-    public $db_name, $db_user, $db_pass;
+    private $db_name, $db_user, $db_pass;
 
     public function __construct($db = 0)
     {
-        $this->db_name =  $this->dbm[$db]['db'];
-        $this->db_user =  $this->dbm[$db]['user'];
-        $this->db_pass =  $this->dbm[$db]['pass'];
-        $this->mysqli = new mysqli($this->db_host, $this->db_user, $this->db_pass, $this->db_name) or die('DB Error');
+        $this->db_name = DBC::dbm[$db]['db'];
+        $this->db_user = DBC::dbm[$db]['user'];
+        $this->db_pass = DBC::dbm[$db]['pass'];
+        $this->mysqli = new mysqli(DBC::db_host, $this->db_user, $this->db_pass, $this->db_name) or die('DB Error');
     }
 
     public static function getInstance($db = 0)

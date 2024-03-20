@@ -44,7 +44,7 @@ class Produk extends Controller
    {
       $there = false;
       $number = $_POST['number'];
-      foreach ($this->user_admin as $c) {
+      foreach (PC::USER_ADMIN as $c) {
          if ($c['no'] == $number && in_array($this->valid_access, $c['access'])) {
             $there = true;
             if (isset($_COOKIE[$number])) {
@@ -71,7 +71,7 @@ class Produk extends Controller
          $otp = $this->model("Encrypt")->enc($_POST['otp']);
          if ($otp == $_COOKIE[$number]) {
             $ada = false;
-            foreach ($this->user_admin as $c) {
+            foreach (PC::USER_ADMIN as $c) {
                if ($c['no'] == $number && in_array($this->valid_access, $c['access'])) {
                   $ada = true;
                   $_SESSION['log_admin'] = $c;

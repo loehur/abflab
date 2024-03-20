@@ -27,7 +27,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
                         if (str_contains($f, ".webp")) {
                             $no += 1; ?>
                             <div style="cursor: zoom-in;" class="carousel-item <?= substr($f, 0, -5) ?> <?= ($main_img == substr($f, 0, -5)) ? 'active' : '' ?> zoom">
-                                <img id="image<?= $f ?>" onerror="no_image(<?= $f ?>)" class="d-block w-100" src="<?= $this->ASSETS_URL ?>img/produk_detail/<?= $d['img_detail'] ?>/<?= $f ?>">
+                                <img id="image<?= $f ?>" onerror="no_image(<?= $f ?>)" class="d-block w-100" src="<?= PC::ASSETS_URL ?>img/produk_detail/<?= $d['img_detail'] ?>/<?= $f ?>">
                             </div>
                     <?php }
                     } ?>
@@ -45,7 +45,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
             </div>
         </div>
         <div class="col p-2 mx-1">
-            <form class="upload me-0 pe-0 form-floating" action="<?= $this->BASE_URL ?>Detail/upload" method="POST">
+            <form class="upload me-0 pe-0 form-floating" action="<?= PC::BASE_URL ?>Detail/upload" method="POST">
                 <h6 class="text-success"><b><?= $d['produk'] ?></b></h6>
                 <div class="row mb-2 d-none">
                     <div class="col-auto">
@@ -79,42 +79,44 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
                 } ?>
                 <input name="produk" type="hidden" value="<?= $id_produk ?>">
 
-                <span class=""><small>Pengiriman File:</small></span>
-                <div class="border border-success shadow-sm rounded-3 px-3 mb-2 py-2" style="max-width: 600px;">
-                    <div class="row mb-1">
-                        <div class="col" style="min-width: 250px;">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="metode_file" value="1" checked>
-                                <label class="form-check-label">
-                                    <small>Upload disini</small>
-                                </label>
-                                <div id="radio_1" class="radio_">
-                                    <label><small class="text-danger">Max. <b>400MB</b></small></label> <small class="text-danger">(.jpg .jpeg .png .zip .rar)</small>
-                                    <div class="">
-                                        <input id="file" name="order" class="form-control form-control-sm" type="file">
-                                        <small class="float-end">Upload process <span id="persen">0</span><b> %</b></small>
+                <?php if ($d['perlu_file'] == 1) { ?>
+                    <span class=""><small>Pengiriman File:</small></span>
+                    <div class="border border-success shadow-sm rounded-3 px-3 mb-2 py-2" style="max-width: 600px;">
+                        <div class="row mb-1">
+                            <div class="col" style="min-width: 250px;">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="metode_file" value="1" checked>
+                                    <label class="form-check-label">
+                                        <small>Upload disini</small>
+                                    </label>
+                                    <div id="radio_1" class="radio_">
+                                        <label><small class="text-danger">Max. <b>400MB</b></small></label> <small class="text-danger">(.jpg .jpeg .png .zip .rar)</small>
+                                        <div class="">
+                                            <input id="file" name="order" class="form-control form-control-sm" type="file">
+                                            <small class="float-end">Upload process <span id="persen">0</span><b> %</b></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col" style="min-width: 250px;">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="metode_file" value="2">
+                                    <label class="form-check-label">
+                                        <small>Share File, Link Drive</small>
+                                    </label>
+                                    <div id="radio_2" class="d-none radio_">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control form-control-sm shadow-sm" name="link_drive">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row mb-1">
-                        <div class="col" style="min-width: 250px;">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="metode_file" value="2">
-                                <label class="form-check-label">
-                                    <small>Share File, Link Drive</small>
-                                </label>
-                                <div id="radio_2" class="d-none radio_">
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control form-control-sm shadow-sm" name="link_drive">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <?php
+                }
                 if (isset($d['mal']) && is_array($d['mal'])) { ?>
                     <div class="row mb-2">
                         <div class="col-auto">
@@ -125,7 +127,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     <?php foreach ($d['mal'] as $m) { ?>
-                                        <li><a class="dropdown-item" href="<?= $this->ASSETS_URL ?>img/mal/<?= $m ?>" download=""><?= $m ?></a></li>
+                                        <li><a class="dropdown-item" href="<?= PC::ASSETS_URL ?>img/mal/<?= $m ?>" download=""><?= $m ?></a></li>
                                     <?php } ?>
                                 </ul>
                             </div>
@@ -199,7 +201,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
     </div>
 </div>
 
-<script src="<?= $this->ASSETS_URL ?>js/jquery.zoom.js"></script>
+<script src="<?= PC::ASSETS_URL ?>js/jquery.zoom.js"></script>
 <script>
     $(document).ready(function() {
         totalHarga();
@@ -207,7 +209,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
 
         if (detail != 0) {
             for (const x in detail) {
-                $("#detail_" + x).load("<?= $this->BASE_URL ?>Load/Produk_Deskripsi/" + detail[x]['konten']);
+                $("#detail_" + x).load("<?= PC::BASE_URL ?>Load/Produk_Deskripsi/" + detail[x]['konten']);
             }
         }
 
@@ -241,7 +243,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
     });
 
     function no_image(x) {
-        $("#image" + x).prop("src", "<?= $this->ASSETS_URL ?>img/guide/no_image.webp");
+        $("#image" + x).prop("src", "<?= PC::ASSETS_URL ?>img/guide/no_image.webp");
     }
 
     $("form.upload").on("submit", function(e) {
@@ -340,7 +342,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
             $("div#" + id_).html("");
         } else {
             $("div#" + id_).html("");
-            $("div#" + id_).load("<?= $this->BASE_URL ?>Detail/loadVarian/", {
+            $("div#" + id_).load("<?= PC::BASE_URL ?>Detail/loadVarian/", {
                 data: data_
             });
         }

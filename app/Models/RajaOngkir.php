@@ -18,7 +18,7 @@ class RajaOngkir
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_HTTPHEADER => array(
-                "key: " . $this->api_key
+                "key: " . PC::API_KEY
             ),
         ));
 
@@ -47,7 +47,7 @@ class RajaOngkir
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_HTTPHEADER => array(
-                "key: " . $this->api_key
+                "key: " . PC::API_KEY
             ),
         ));
 
@@ -76,7 +76,7 @@ class RajaOngkir
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_HTTPHEADER => array(
-                "key: " . $this->api_key
+                "key: " . PC::API_KEY
             ),
         ));
 
@@ -108,7 +108,7 @@ class RajaOngkir
             CURLOPT_POSTFIELDS => "origin=4918&originType=subdistrict&destination=" . $dest . "&destinationType=subdistrict&weight=" . $weight . "&length=" . $p . "&width=" . $l . "&height = " . $t . "&courier=" . $courier,
             CURLOPT_HTTPHEADER => array(
                 "content-type: application/x-www-form-urlencoded",
-                "key: " . $this->api_key
+                "key: " . PC::API_KEY
             ),
         ));
 

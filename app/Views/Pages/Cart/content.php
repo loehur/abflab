@@ -70,8 +70,8 @@
                     </tr>
                 </table>
 
-                <a href="<?= $this->BASE_URL ?>Cart/clear" class="btn btn-outline-secondary">Clear Cart</a>
-                <a href="<?= $this->BASE_URL ?>Checkout" class="btn btn-primary float-end">Pilih Pengiriman</a>
+                <a href="<?= PC::BASE_URL ?>Cart/clear" class="btn btn-outline-secondary">Clear Cart</a>
+                <a href="<?= PC::BASE_URL ?>Checkout" class="btn btn-primary float-end">Pilih Pengiriman</a>
             <?php } else { ?>
                 Tidak ada data keranjang
             <?php } ?>
@@ -147,8 +147,8 @@
                     </tr>
                 </table>
 
-                <a href="<?= $this->BASE_URL ?>Cart/clear" class="btn btn-outline-secondary">Clear Cart</a>
-                <a href="<?= $this->BASE_URL ?>Checkout" class="btn btn-success float-end">Checkout</a>
+                <a href="<?= PC::BASE_URL ?>Cart/clear" class="btn btn-outline-secondary">Clear Cart</a>
+                <a href="<?= PC::BASE_URL ?>Checkout" class="btn btn-success float-end">Checkout</a>
             <?php } else { ?>
                 Tidak ada data keranjang
             <?php } ?>
@@ -162,7 +162,7 @@
     });
 
     function add(id, mode) {
-        $.post("<?= $this->BASE_URL ?>Session/add_cart", {
+        $.post("<?= PC::BASE_URL ?>Session/add_cart", {
                 id: id,
                 mode: mode
             },

@@ -6,7 +6,7 @@ class WH_midtrans extends Controller
 
    public function __construct()
    {
-      $this->target_notif = $this->notif[$this->SETTING['production']];
+      $this->target_notif = PC::NOTIF[PC::SETTING['production']];
    }
 
    function notification()
@@ -38,10 +38,17 @@ class WH_midtrans extends Controller
 
          switch ($status) {
             case 'settlement':
-               $os = 1;
+               $os = 1; // paid
                break;
+            case 'deny';
+            case 'cancel';
+            case 'refund';
+            case 'partial_refund';
+            case 'expire';
+            case 'failure';
+               $os = 4; // cancel
             default:
-               $os = 0;
+               $os = 0; //proses
                break;
          }
 

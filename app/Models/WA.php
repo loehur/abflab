@@ -1,12 +1,12 @@
 <?php
 
-class WA extends Public_Variables
+class WA extends PC
 {
     private $key = null;
 
     public function __construct()
     {
-        $this->key = $this->api_key['fonnte'][$this->SETTING['production']];
+        $this->key = PC::API_KEY['fonnte'][PC::SETTING['production']];
     }
 
     function send($target, $text)

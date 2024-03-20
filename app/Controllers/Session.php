@@ -2,16 +2,33 @@
 
 class Session extends Controller
 {
+   function set_loc()
+   {
+      $lat = $_POST['lat'];
+      $long = $_POST['long'];
+      if (!isset($_SESSION['log'])) {
+         if (!isset($_SESSION['tools']['location'])) {
+            $_SESSION['tools']['location']['lat'] = $lat;
+            $_SESSION['tools']['location']['long'] = $long;
+         }
+      }
+   }
+
    function login()
    {
       if (!isset($_SESSION['log']['hp'])) {
-         $where = "hp = '" . $_POST['hp'] . "'";
+         if (strlen($_POST['pass']) == 0) {
+            $pass = "";
+         } else {
+            $pass = $this->model("Encrypt")->enc($_POST['pass']);
+         }
+         $where = "hp = '" . $_POST['hp'] . "' AND password = '" . $pass . "'";
          $cust = $this->db(0)->get_where_row("customer", $where);
          if (isset($cust['customer_id'])) {
             $_SESSION['log'] = $cust;
             echo 1;
          } else {
-            echo "Anda belum terdaftar dengan no " . $_POST['hp'];
+            echo "Login Failed!";
          }
       } else {
          unset($_SESSION['log']);

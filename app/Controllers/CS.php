@@ -36,22 +36,26 @@ class CS extends Controller
       switch ($parse) {
          case 'paid':
             $order_status = 1;
+            $where = "order_status = " . $order_status . " ORDER BY order_ref DESC";
             break;
          case 'sent':
             $order_status = 2;
+            $where = "order_status = " . $order_status . " ORDER BY order_ref DESC";
             break;
          case 'done':
             $order_status = 3;
+            $where = "order_status = " . $order_status . " ORDER BY order_ref DESC LIMIT 10";
             break;
          case 'cancel':
             $order_status = 4;
+            $where = "order_status = " . $order_status . " ORDER BY order_ref DESC LIMIT 10";
             break;
          default:
             $order_status = 0;
+            $where = "order_status = " . $order_status . " ORDER BY order_ref DESC";
             break;
       }
 
-      $where = "order_status = " . $order_status . " ORDER BY order_ref ASC";
       $step = $this->db(0)->get_where("order_step", $where);
       $data['order'] = [];
       foreach ($step as $s) {
@@ -66,25 +70,39 @@ class CS extends Controller
       $this->view(__CLASS__, __CLASS__ . "/content", $data);
    }
 
-   function terima()
+   function cek_kirim($ref)
    {
-      $cs = $_SESSION['cs']['no'];
-      $ref = $_POST['ref'];
       $where = "order_ref = '" . $ref . "'";
-      $set = "payment_status = 2";
-      $this->db(0)->update("payment", $set, $where);
+      $_SESSION['cart_cs'] = $this->db(0)->get_where("order_list", $where);
+      $d = $this->db(0)->get_where_row("delivery", $where);
+      $type = $d['courier_type'];
+      $ongkir = $this->model("Biteship")->cek_ongkir_cs($d['area_id'], $d['latt'], $d['longt'], $d['courier_company']);
 
-      $date = date("Y-m-d H:i:s");
-      $where_o = "order_ref = '" . $ref . "'";
-      $set_o = "processing_step = 1, confirm_date = '" . $date . "', confirm_cs = '" . $cs . "'";
-      $this->db(0)->update("order_list", $set_o, $where_o);
-
-      $cust_id = $_POST['cust'];
-      $where = "customer_id = '" . $cust_id . "'";
-      $cust = $this->db(0)->get_where_row("customer", $where);
-      $text = "*" . $this->WEB . "*\nREF#" . $ref . "\nPembayaran diterima, orderan Anda sedang dalam proses. Terimakasih";
-      $this->model('WA')->send($cust['hp'], $text);
+      foreach ($ongkir as $o) {
+         if ($o['type'] == $type) {
+            $acm = serialize($o['available_collection_method']);
+            $set = "available_collection_method = '" . $acm . "'";
+            $this->db(0)->update("delivery", $set, $where);
+         }
+      }
    }
+
+   function kirim($ref, $acm)
+   {
+      $where = "order_ref = '" . $ref . "'";
+      $_SESSION['cart_cs'] = $this->db(0)->get_where("order_list", $where);
+      $d = $this->db(0)->get_where_row("delivery", $where);
+      $order = $this->model("Biteship")->order($d, $acm);
+      $o = $order;
+      if (isset($o['success']) && $o['success'] == 1) {
+         $set = "order_id = '" . $o['id'] . "', tracking_id = '" . $o['courier']['tracking_id'] . "', waybill_id = '" . $o['courier']['waybill_id'] . "', price = '" . $o['price'] . "', delivery_status = '" . $o['status'] . "'";
+         $this->db(0)->update("delivery", $set, $where);
+
+         $set = "order_status = 2";
+         $this->db(0)->update("order_step", $set, $where);
+      }
+   }
+
 
    function selesai()
    {
@@ -106,15 +124,16 @@ class CS extends Controller
       $where = "customer_id = '" . $cust_id . "'";
       $cust = $this->db(0)->get_where_row("customer", $where);
       if ($deliv == 1) {
-         $text = "*" . $this->WEB . "*\nREF#" . $ref . "\nOrderan telah selesai dan siap dijemput";
+         $text = "*" . PC::APP_NAME . "*\nREF#" . $ref . "\nOrderan telah selesai dan siap dijemput";
       } else {
-         $text = "*" . $this->WEB . "*\nREF#" . $ref . "\nOrderan telah selesai dan sedang dalam proses pengiriman.\nResi: " . $resi;
+         $text = "*" . PC::APP_NAME . "*\nREF#" . $ref . "\nOrderan telah selesai dan sedang dalam proses pengiriman.\nResi: " . $resi;
       }
       $this->model('WA')->send($cust['hp'], $text);
    }
 
    function batalkan()
    {
+      // pembatalan harus call api refund
       $cs = $_SESSION['cs']['no'];
       $ref = $_POST['ref'];
       $where = "order_ref = '" . $ref . "'";
@@ -130,7 +149,7 @@ class CS extends Controller
       $cust_id = $_POST['cust'];
       $where = "customer_id = '" . $cust_id . "'";
       $cust = $this->db(0)->get_where_row("customer", $where);
-      $text = "*" . $this->WEB . "*\nREF#" . $ref . "\nTransaksi dibatalkan\nNote: " . $cs_note;
+      $text = "*" . PC::APP_NAME . "*\nREF#" . $ref . "\nTransaksi dibatalkan\nNote: " . $cs_note;
       $this->model('WA')->send($cust['hp'], $text);
    }
 
@@ -138,7 +157,7 @@ class CS extends Controller
    {
       $there = false;
       $number = $_POST['number'];
-      foreach ($this->user_admin as $c) {
+      foreach (PC::USER_ADMIN as $c) {
          if ($c['no'] == $number && in_array($this->valid_access, $c['access'])) {
             $there = true;
             if (isset($_COOKIE[$number])) {
@@ -165,7 +184,7 @@ class CS extends Controller
          $otp = $this->model("Encrypt")->enc($_POST['otp']);
          if ($otp == $_COOKIE[$number]) {
             $ada = false;
-            foreach ($this->user_admin as $c) {
+            foreach (PC::USER_ADMIN as $c) {
                if ($c['no'] == $number && in_array($this->valid_access, $c['access'])) {
                   $ada = true;
                   $_SESSION['log_admin'] = $c;

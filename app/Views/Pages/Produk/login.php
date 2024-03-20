@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col m-auto" style="max-width: 500px;">
             <label class="mb-2"><small>Login menggunakan Nomor HP <b>Admin Produk</b> yang terdaftar</small></label>
-            <form action="<?= $this->BASE_URL ?>Produk/login" method="POST">
+            <form action="<?= PC::BASE_URL ?>Produk/login" method="POST">
                 <div class="row">
                     <div class="col">
                         <div class="form-floating mb-2">
@@ -35,7 +35,7 @@
             alert("Isi nomor CS dulu");
             return;
         }
-        $.post("<?= $this->BASE_URL ?>Produk/req_otp", {
+        $.post("<?= PC::BASE_URL ?>Produk/req_otp", {
             number: no
         }, ).done(function(res) {
             alert(res);

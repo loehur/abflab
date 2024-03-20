@@ -1,8 +1,8 @@
 <?php
 
-require 'app/Config/Public_Variables.php';
+require 'app/Config/PC.php';
 
-class Controller extends Public_Variables
+class Controller extends PC
 {
 
     public $v_viewer, $v_content, $v_load;

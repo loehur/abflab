@@ -5,7 +5,7 @@ class Pesanan extends Controller
    public function index($parse = "paid")
    {
       if (!isset($_SESSION['log'])) {
-         header("Location: " . $this->BASE_URL . "Home");
+         header("Location: " . PC::BASE_URL . "Home");
          exit();
       }
 
@@ -23,28 +23,31 @@ class Pesanan extends Controller
 
       $log = $_SESSION['log'];
       $data = [];
+      $cust_id = $log['customer_id'];
 
       switch ($parse) {
          case 'paid':
             $order_status = 1;
+            $where = "customer_id = '" . $cust_id . "' AND order_status = " . $order_status . " ORDER BY order_ref DESC";
             break;
          case 'sent':
             $order_status = 2;
+            $where = "customer_id = '" . $cust_id . "' AND order_status = " . $order_status . " ORDER BY order_ref DESC";
             break;
          case 'done':
             $order_status = 3;
+            $where = "customer_id = '" . $cust_id . "' AND order_status = " . $order_status . " ORDER BY order_ref DESC LIMIT 10";
             break;
          case 'cancel':
             $order_status = 4;
+            $where = "customer_id = '" . $cust_id . "' AND order_status = " . $order_status . " ORDER BY order_ref DESC LIMIT 10";
             break;
          default:
             $order_status = 0;
+            $where = "customer_id = '" . $cust_id . "' AND order_status = " . $order_status . " ORDER BY order_ref DESC";
             break;
       }
 
-
-      $cust_id = $log['customer_id'];
-      $where = "customer_id = '" . $cust_id . "' AND order_status = " . $order_status . " ORDER BY order_ref ASC";
       $step = $this->db(0)->get_where("order_step", $where);
       $data['order'] = [];
       foreach ($step as $s) {

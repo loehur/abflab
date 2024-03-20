@@ -15,8 +15,8 @@ if (isset($data['parse'])) {
 </body>
 
 <!-- JavaScript Libraries -->
-<script src="<?= $this->ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
-<script src="<?= $this->ASSETS_URL ?>plugins/bootstrap-5.1/bootstrap.bundle.min.js"></script>
+<script src="<?= PC::ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
+<script src="<?= PC::ASSETS_URL ?>plugins/bootstrap-5.1/bootstrap.bundle.min.js"></script>
 
 <script>
 	$(document).ready(function() {
@@ -24,18 +24,23 @@ if (isset($data['parse'])) {
 		cart_count();
 		user_name();
 		device();
+
+		<?php if (!isset($_SESSION['log']) && !isset($_SESSION['tools']['location'])) { ?>
+			getLocation();
+		<?php } ?>
+
 	});
 
 	function content(parse = "") {
-		$("div#content").load('<?= $this->BASE_URL ?><?= $con ?>/content/' + parse);
+		$("div#content").load('<?= PC::BASE_URL ?><?= $con ?>/content/' + parse);
 	}
 
 	function cart_count() {
-		$("div#cart_count").load('<?= $this->BASE_URL ?>Load/cart');
+		$("div#cart_count").load('<?= PC::BASE_URL ?>Load/cart');
 	}
 
 	function user_name() {
-		$("span#user_name").load('<?= $this->BASE_URL ?>Load/account');
+		$("span#user_name").load('<?= PC::BASE_URL ?>Load/account');
 	}
 
 	function spinner(mode) {
@@ -58,5 +63,21 @@ if (isset($data['parse'])) {
 		} else {
 			$(".mobile").addClass("d-none");
 		}
+	}
+
+	function getLocation() {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(showPosition);
+		}
+	}
+
+	function showPosition(position) {
+		var glat = position.coords.latitude;
+		var glong = position.coords.longitude;
+
+		$.post("<?= PC::BASE_URL ?>Session/set_loc", {
+			lat: glat,
+			long: glong
+		});
 	}
 </script>

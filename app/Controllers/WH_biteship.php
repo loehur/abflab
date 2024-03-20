@@ -6,7 +6,7 @@ class WH_biteship extends Controller
 
    public function __construct()
    {
-      $this->target_notif = $this->notif[$this->SETTING['production']];
+      $this->target_notif = PC::NOTIF[PC::SETTING['production']];
    }
 
    function status()

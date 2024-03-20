@@ -5,8 +5,8 @@
 				<div class="col-md-6">
 					<div class="row mb-2">
 						<div class="col ps-0">
-							<a href="<?= $this->BASE_URL ?>Home" class="navbar-brand">
-								<img style="height: 80px;" src="<?= $this->ASSETS_URL ?>img/logoe.png" class="img-logo-home px-2" alt="">
+							<a href="<?= PC::BASE_URL ?>Home" class="navbar-brand">
+								<img style="height: 80px;" src="<?= PC::ASSETS_URL ?>img/logoe.png" class="img-logo-home px-2" alt="">
 							</a>
 						</div>
 					</div>
@@ -14,8 +14,8 @@
 						<div class="col">
 							<h3>Tentang ASIA BARU FOTO - VITA PICTURA</h3>
 							<p align="justify">Selamat datang di ASIA BARU FOTO yang penuh inovasi! Kami dengan bangga memperkenalkan fitur terbaru kami: layanan pemesanan melalui web di Vita Pictura. Pengalaman berbelanja Anda akan semakin istimewa dengan kemudahan ini!
-							<br>
-							<br>Dengan fitur order melalui web, kami membawa kebebasan belanja Anda ke level yang lebih tinggi. Nikmati kenyamanan berbelanja tanpa batas, di mana pun Anda berada. Temukan keindahan dalam satu klik dan eksplorasi koleksi unik kami dengan mudah.
+								<br>
+								<br>Dengan fitur order melalui web, kami membawa kebebasan belanja Anda ke level yang lebih tinggi. Nikmati kenyamanan berbelanja tanpa batas, di mana pun Anda berada. Temukan keindahan dalam satu klik dan eksplorasi koleksi unik kami dengan mudah.
 							</p>
 						</div>
 					</div>
@@ -51,13 +51,15 @@
 					<div class="row mb-2">
 						<div class="col">
 							<h3>Head Office</h3>
-							<p align="justify"><h7><b>CV Sukses Damai Sejahtera</b></h7> 
-								<br>ASIA BARU FOTO 
-								<br>Jl. Jend. Sudirman No.331, Kota Pekanbaru 
-								<br>Kel. Sumahilang, Kec. Pekanbaru Kota, Kota Pekanbaru, Riau 28111 
+							<p align="justify">
+								<h7><b>CV Sukses Damai Sejahtera</b></h7>
+								<br>ASIA BARU FOTO
+								<br>Jl. Jend. Sudirman No.331, Kota Pekanbaru
+								<br>Kel. Sumahilang, Kec. Pekanbaru Kota, Kota Pekanbaru, Riau 28111
 								<br>No Telp:(0761) 21883
 								<br>Jam Operasional:
-								<br>08:00 - 18:00</p>
+								<br>08:00 - 18:00
+							</p>
 						</div>
 					</div>
 					<div class="row">

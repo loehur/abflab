@@ -35,7 +35,7 @@ $menu = $this->model("D_Group")->main();
             </tr>
             <?php foreach ($data['produk'] as $dp) { ?>
                 <tr>
-                    <td class=""><a href="<?= $this->BASE_URL ?>Varian1/index/<?= $dp['produk_id'] ?>"><i class="fa-solid fa-bars-progress"></i></a></td>
+                    <td class=""><a href="<?= PC::BASE_URL ?>Varian1/index/<?= $dp['produk_id'] ?>"><i class="fa-solid fa-bars-progress"></i></a></td>
                     <td><?= $dp['produk'] ?></td>
                     <td><?= $dp['img'] ?></td>
                     <td><?= $dp['img_detail'] ?></td>

@@ -16,8 +16,8 @@ foreach ($grup_list as $k => $m) {
 
 <div class="container mb-3 pt-2" style="min-height: 300px;">
     <h6 class="pb-2">
-        <b><a class="border rounded px-2 me-1 border-warning" href="<?= $this->BASE_URL ?>Produk/index/<?= $produk_grup ?>"><?= $produk_grup_name ?></a></b>
-        <b><a class="border rounded px-2 me-1 border-warning" href="<?= $this->BASE_URL ?>Varian1/index/<?= $produk_id ?>"><?= $produk_name ?></a></b>
+        <b><a class="border rounded px-2 me-1 border-warning" href="<?= PC::BASE_URL ?>Produk/index/<?= $produk_grup ?>"><?= $produk_grup_name ?></a></b>
+        <b><a class="border rounded px-2 me-1 border-warning" href="<?= PC::BASE_URL ?>Varian1/index/<?= $produk_id ?>"><?= $produk_name ?></a></b>
         <b class="text-secondary"><?= $data['v1']['varian'] ?></b>
     </h6>
     <nav>
@@ -108,7 +108,7 @@ foreach ($grup_list as $k => $m) {
                 <h6 class="modal-title">Tambah Varian</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form class="ajax" action="<?= $this->BASE_URL ?>Varian2/tambah/<?= $data['gid'] ?>/<?= $data['v1']['varian_id'] ?>" method="POST">
+            <form class="ajax" action="<?= PC::BASE_URL ?>Varian2/tambah/<?= $data['gid'] ?>/<?= $data['v1']['varian_id'] ?>" method="POST">
                 <div class="modal-body">
                     <div class="row mb-2">
                         <div class="col">
@@ -224,7 +224,7 @@ foreach ($grup_list as $k => $m) {
                 click = 0;
             } else {
                 $.ajax({
-                    url: '<?= $this->BASE_URL ?>Functions/updateCell',
+                    url: '<?= PC::BASE_URL ?>Functions/updateCell',
                     data: {
                         'id': id,
                         'value': value_after,

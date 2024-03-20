@@ -1,19 +1,19 @@
 <?php
 
-class Place extends Public_Variables
+class Place extends PC
 {
-    public $api_key = "gwfctr54EwUPf8";
+    public $key = "gwfctr54EwUPf8";
     public $host = "https://api.mdl.my.id/";
 
     public function provinsi()
     {
-        $url = $this->host . 'Wilayah/provinsi/' . $this->api_key;
+        $url = $this->host . 'Wilayah/provinsi/' . $this->key;
         return $this->curl_get($url);
     }
 
     public function kota($id)
     {
-        $url = $this->host . 'Wilayah/kota/' . $this->api_key;
+        $url = $this->host . 'Wilayah/kota/' . $this->key;
 
         $post = [
             'id' => $id,
@@ -31,7 +31,7 @@ class Place extends Public_Variables
 
     public function kecamatan($id)
     {
-        $url = $this->host . 'Wilayah/kecamatan/' . $this->api_key;
+        $url = $this->host . 'Wilayah/kecamatan/' . $this->key;
 
         $post = [
             'id' => $id,

@@ -5,7 +5,7 @@
                 <?php
                 for ($x = 1; $x <= $data['banner']; $x++) { ?>
                     <div class="carousel-item <?= ($x == 1) ? 'active' : '' ?>">
-                        <img src="<?= $this->ASSETS_URL ?>img/banner/<?= $x ?>.webp" class="d-block w-100">
+                        <img src="<?= PC::ASSETS_URL ?>img/banner/<?= $x ?>.webp" class="d-block w-100">
                     </div>
                 <?php } ?>
             </div>
@@ -59,8 +59,8 @@
                     <?php foreach ($produk as $pk => $p) {
                         if ($p['grup'] == $k) { ?>
                             <div class="rounded border item me-1 my-1 me-2">
-                                <a href="<?= ($p['link'] == 0) ? $this->BASE_URL . 'Detail/index/' . $pk : $p['link'] ?>" target="<?= $p['target'] ?>">
-                                    <img class="w-100 rounded bg-light" id="image<?= $p['img'] ?>0" onerror="no_image(<?= $p['img'] ?>0)" src="<?= $this->ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" alt="">
+                                <a href="<?= ($p['link'] == 0) ? PC::BASE_URL . 'Detail/index/' . $pk : $p['link'] ?>" target="<?= $p['target'] ?>">
+                                    <img class="w-100 rounded bg-light" id="image<?= $p['img'] ?>0" onerror="no_image(<?= $p['img'] ?>0)" src="<?= PC::ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" alt="">
                                     <div class="py-1 px-1 text-dark"><small><?= $p['produk'] ?></small></div>
                                 </a>
                             </div>
@@ -88,8 +88,8 @@
                             <div class="col-sm-2 mb-2 px-1 rounded">
                                 <div class="rounded border">
                                     <div class="img-zoom-border">
-                                        <a href="<?= ($p['link'] == 0) ? $this->BASE_URL . 'Detail/index/' . $p['produk_id'] : $p['link'] ?>" target="<?= $p['target'] ?>">
-                                            <img id="image<?= $p['img'] ?>" onerror="no_image(<?= $p['img'] ?>)" src="<?= $this->ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" class="img-zoom w-100 rounded-top" alt="">
+                                        <a href="<?= ($p['link'] == 0) ? PC::BASE_URL . 'Detail/index/' . $p['produk_id'] : $p['link'] ?>" target="<?= $p['target'] ?>">
+                                            <img id="image<?= $p['img'] ?>" onerror="no_image(<?= $p['img'] ?>)" src="<?= PC::ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" class="img-zoom w-100 rounded-top" alt="">
                                         </a>
                                     </div>
                                     <div class="w-100 fw-bold text-center text-dark py-2"><?= $p['produk'] ?></div>
@@ -106,8 +106,8 @@
                                 if ($p['grup'] == $km) { ?>
                                     <div class="col-sm-2 mb-2 px-1 rounded">
                                         <div class="rounded img-zoom-border border">
-                                            <a href="<?= ($p['link'] == 0) ? $this->BASE_URL . 'Detail/index/' . $k : $p['link'] ?>" target="<?= $p['target'] ?>">
-                                                <img id="image<?= $p['img'] ?>" onerror="no_image(<?= $p['img'] ?>)" src="<?= $this->ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" class="img-zoom w-100 rounded-top" alt="">
+                                            <a href="<?= ($p['link'] == 0) ? PC::BASE_URL . 'Detail/index/' . $k : $p['link'] ?>" target="<?= $p['target'] ?>">
+                                                <img id="image<?= $p['img'] ?>" onerror="no_image(<?= $p['img'] ?>)" src="<?= PC::ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" class="img-zoom w-100 rounded-top" alt="">
                                                 <div class="w-100 fw-bold text-center text-dark py-2"><?= $p['produk'] ?></div>
                                             </a>
                                         </div>
@@ -135,7 +135,7 @@
     });
 
     function no_image(x) {
-        $("#image" + x).prop("src", "<?= $this->ASSETS_URL ?>img/guide/no_image.webp");
+        $("#image" + x).prop("src", "<?= PC::ASSETS_URL ?>img/guide/no_image.webp");
     }
 
     const slider = document.querySelector(".wrapper");

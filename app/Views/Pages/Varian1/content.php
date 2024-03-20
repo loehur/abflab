@@ -15,7 +15,7 @@ foreach ($grup_list as $k => $m) {
 
 <div class="container mb-3 pt-2" style="min-height: 300px;">
     <h6 class="pb-2">
-        <b><a class="border rounded px-2 me-1 border-warning" href="<?= $this->BASE_URL ?>Produk/index/<?= $produk_grup ?>"><?= $produk_grup_name ?></a></b>
+        <b><a class="border rounded px-2 me-1 border-warning" href="<?= PC::BASE_URL ?>Produk/index/<?= $produk_grup ?>"><?= $produk_grup_name ?></a></b>
         <span><b class="text-secondary"><?= $produk_name ?></b></span>
     </h6>
     <nav>
@@ -71,7 +71,7 @@ foreach ($grup_list as $k => $m) {
                         <?php
                         $cek = $this->db(0)->get_where("varian_grup_2", "vg1_id = " . $dp['vg1_id']);
                         if (count($cek) > 0) { ?>
-                            <a href="<?= $this->BASE_URL ?>Varian2/index/<?= $parse ?>"><i class="fa-solid fa-bars-progress"></i></a>
+                            <a href="<?= PC::BASE_URL ?>Varian2/index/<?= $parse ?>"><i class="fa-solid fa-bars-progress"></i></a>
                         <?php } ?>
                     </td>
                     <td>
@@ -108,7 +108,7 @@ foreach ($grup_list as $k => $m) {
                 <h6 class="modal-title">Tambah Varian</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form class="ajax" action="<?= $this->BASE_URL ?>Varian1/tambah/<?= $data['gid'] ?>" method="POST">
+            <form class="ajax" action="<?= PC::BASE_URL ?>Varian1/tambah/<?= $data['gid'] ?>" method="POST">
                 <div class="modal-body">
                     <div class="row mb-2">
                         <div class="col">
@@ -215,7 +215,7 @@ foreach ($grup_list as $k => $m) {
                 click = 0;
             } else {
                 $.ajax({
-                    url: '<?= $this->BASE_URL ?>Functions/updateCell',
+                    url: '<?= PC::BASE_URL ?>Functions/updateCell',
                     data: {
                         'id': id,
                         'value': value_after,

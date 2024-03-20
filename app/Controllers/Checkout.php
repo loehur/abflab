@@ -5,7 +5,7 @@ class Checkout extends Controller
    public function index()
    {
       if (!isset($_SESSION['cart'])) {
-         header("Location: " . $this->BASE_URL . "Home");
+         header("Location: " . PC::BASE_URL . "Home");
          exit();
       }
 
@@ -90,7 +90,7 @@ class Checkout extends Controller
          $postal_code = $res[0]['postal_code'];
       } else {
          $this->model('Log')->write("Daftar Error, Not Found res[0]['id']");
-         header("Location: " . $this->BASE_URL . "Checkout");
+         header("Location: " . PC::BASE_URL . "Checkout");
          exit();
       }
 
@@ -102,12 +102,12 @@ class Checkout extends Controller
             $update = $this->db(0)->update("customer", $set, $where);
             if ($update['errno'] <> 0) {
                $this->model('Log')->write("Daftar Error, " . $update['error']);
-               header("Location: " . $this->BASE_URL . "Checkout");
+               header("Location: " . PC::BASE_URL . "Checkout");
                exit();
             }
          } else {
             $this->model('Log')->write("Daftar Error, !isset area_name");
-            header("Location: " . $this->BASE_URL . "Checkout");
+            header("Location: " . PC::BASE_URL . "Checkout");
             exit();
          }
       } else {
@@ -118,7 +118,7 @@ class Checkout extends Controller
             $this->db(0)->insertCols("customer", $cols, $vals);
          } else {
             $this->model('Log')->write("Daftar Error, !isset area_name");
-            header("Location: " . $this->BASE_URL . "Checkout");
+            header("Location: " . PC::BASE_URL . "Checkout");
             exit();
          }
       }
@@ -126,10 +126,10 @@ class Checkout extends Controller
       $cust = $this->db(0)->get_where_row("customer", $where);
       if (isset($cust['customer_id'])) {
          $_SESSION['log'] = $cust;
-         header("Location: " . $this->BASE_URL . "Checkout");
+         header("Location: " . PC::BASE_URL . "Checkout");
       } else {
          $this->model('Log')->write("Daftar Error, !cust['customer_id']");
-         header("Location: " . $this->BASE_URL . "Checkout");
+         header("Location: " . PC::BASE_URL . "Checkout");
          exit();
       }
    }
@@ -137,14 +137,14 @@ class Checkout extends Controller
    function ckout()
    {
       if (!isset($_SESSION['log']) || !isset($_SESSION['cart'])) {
-         header("Location: " . $this->BASE_URL . "Home");
+         header("Location: " . PC::BASE_URL . "Home");
          exit();
       } else {
          $d = $_SESSION['log'];
          $str = $d['area_id'] . $d['latt'] . $d['longt'] . $_SESSION['cart_key'];
          if (!isset($_SESSION['ongkir'][$str]) || !isset($_POST['kurir'])) {
             $this->model('Log')->write("ERROR checkout, SESSION ONGKIR not found");
-            header("Location: " . $this->BASE_URL . "Checkout");
+            header("Location: " . PC::BASE_URL . "Checkout");
             exit();
          } else {
             $ongkir_ar = $_SESSION['ongkir'][$str];
@@ -175,7 +175,7 @@ class Checkout extends Controller
 
       if (!isset($price)) {
          $this->model('Log')->write("ERROR checkout, Price not found");
-         header("Location: " . $this->BASE_URL . "Checkout");
+         header("Location: " . PC::BASE_URL . "Checkout");
          exit();
       }
 
@@ -186,7 +186,7 @@ class Checkout extends Controller
       $in = $this->db(0)->insertCols("order_step", $cols, $vals);
       if ($in['errno'] <> 0) {
          $this->model('Log')->write("Insert order_step Error, " . $in['error']);
-         header("Location: " . $this->BASE_URL . "Home");
+         header("Location: " . PC::BASE_URL . "Home");
          exit();
       }
 
@@ -202,7 +202,7 @@ class Checkout extends Controller
             $where = "order_ref = '" . $ref . "'";
             $this->db(0)->delete_where("order_step", $where);
             $this->model('Log')->write("Insert order_list Error, " . $in['error']);
-            header("Location: " . $this->BASE_URL . "Home");
+            header("Location: " . PC::BASE_URL . "Home");
             exit();
          }
       }
@@ -216,7 +216,7 @@ class Checkout extends Controller
          $this->db(0)->delete_where("order_step", $where);
          $this->db(0)->delete_where("order_list", $where);
          $this->model('Log')->write("Insert delivery Error, " . $in['error']);
-         header("Location: " . $this->BASE_URL . "Home");
+         header("Location: " . PC::BASE_URL . "Home");
          exit();
       }
 
@@ -231,7 +231,7 @@ class Checkout extends Controller
          $this->db(0)->delete_where("order_list", $where);
          $this->db(0)->delete_where("delivery", $where);
          $this->model('Log')->write("Insert payment Error, " . $in['error']);
-         header("Location: " . $this->BASE_URL . "Home");
+         header("Location: " . PC::BASE_URL . "Home");
          exit();
       }
 
@@ -250,7 +250,7 @@ class Checkout extends Controller
          header("Location: " . $redirect_url);
       } else {
          $this->model('Log')->write("Error get token payment midtrans");
-         header("Location: " . $this->BASE_URL . "Pesanan");
+         header("Location: " . PC::BASE_URL . "Pesanan");
       }
    }
 }

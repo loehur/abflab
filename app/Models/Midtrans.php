@@ -1,11 +1,19 @@
 <?php
 
-class Midtrans extends Public_Variables
+class Midtrans extends PC
 {
-    public $merchant_id = "G508678094";
-    public $key_client = "SB-Mid-client-yGhmZSPkw-EDcVl4";
-    public $key_server = "SB-Mid-server-ZHst9ED0Coy3bXI47MtueQQD";
-    public $host = "https://app.sandbox.midtrans.com/snap/v1/transactions";
+    private $merchant_id = "G508678094";
+    private $key_client = "SB-Mid-client-yGhmZSPkw-EDcVl4";
+    private $key_server = "SB-Mid-server-ZHst9ED0Coy3bXI47MtueQQD";
+    private $host = "https://app.sandbox.midtrans.com/snap/v1/transactions";
+
+    public function __construct()
+    {
+        $this->merchant_id = PC::API_KEY['midtrans'][PC::SETTING['production']]['merchant_id'];
+        $this->key_client = PC::API_KEY['midtrans'][PC::SETTING['production']]['key_client'];
+        $this->key_server = PC::API_KEY['midtrans'][PC::SETTING['production']]['key_server'];
+        $this->host = PC::API_KEY['midtrans'][PC::SETTING['production']]['host'];
+    }
 
     function token($id, $amount, $name, $email, $hp)
     {

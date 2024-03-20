@@ -1,6 +1,6 @@
 <?php
 
-class GeoIP extends Public_Variables
+class GeoIP extends PC
 {
     public $key = "8045B06062E726BABE070D6DEF49DEE2";
     public $host = "https://api.ip2location.io";

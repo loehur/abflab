@@ -17,8 +17,8 @@ if (isset($data['parse'])) {
 </body>
 
 <!-- JavaScript Libraries -->
-<script src="<?= $this->ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
-<script src="<?= $this->ASSETS_URL ?>plugins/bootstrap-5.1/bootstrap.bundle.min.js"></script>
+<script src="<?= PC::ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
+<script src="<?= PC::ASSETS_URL ?>plugins/bootstrap-5.1/bootstrap.bundle.min.js"></script>
 
 <script>
 	$(document).ready(function() {
@@ -30,9 +30,9 @@ if (isset($data['parse'])) {
 
 	function content(parse = "", parse2 = "") {
 		if (parse2 == "") {
-			$("div#content").load('<?= $this->BASE_URL ?><?= $con ?>/content/' + parse);
+			$("div#content").load('<?= PC::BASE_URL ?><?= $con ?>/content/' + parse);
 		} else {
-			$("div#content").load('<?= $this->BASE_URL ?><?= $con ?>/content/' + parse + '/' + parse2);
+			$("div#content").load('<?= PC::BASE_URL ?><?= $con ?>/content/' + parse + '/' + parse2);
 		}
 
 		$("input#parse_1").val(parse);
@@ -46,11 +46,11 @@ if (isset($data['parse'])) {
 	}
 
 	function cart_count() {
-		$("div#cart_count").load('<?= $this->BASE_URL ?>Load/cart');
+		$("div#cart_count").load('<?= PC::BASE_URL ?>Load/cart');
 	}
 
 	function user_name() {
-		$("span#user_name").load('<?= $this->BASE_URL ?>Load/account_admin');
+		$("span#user_name").load('<?= PC::BASE_URL ?>Load/account_admin');
 	}
 
 	function spinner(mode) {

@@ -13,14 +13,14 @@
     $("#kota").on("change", function() {
         var val = $(this).val()
         if (val != "") {
-            $("#selKecamatan").load("<?= $this->BASE_URL ?>Load/Spinner/1", function() {
-                $(this).load("<?= $this->BASE_URL ?>Checkout/kecamatan/" + val)
+            $("#selKecamatan").load("<?= PC::BASE_URL ?>Load/Spinner/1", function() {
+                $(this).load("<?= PC::BASE_URL ?>Checkout/kecamatan/" + val)
             })
         } else {
-            $("#selKecamatan").load("<?= $this->BASE_URL ?>Load/Spinner/1", function() {
+            $("#selKecamatan").load("<?= PC::BASE_URL ?>Load/Spinner/1", function() {
                 $(this).html("");
             })
-            $("#selKodePos").load("<?= $this->BASE_URL ?>Load/Spinner/1", function() {
+            $("#selKodePos").load("<?= PC::BASE_URL ?>Load/Spinner/1", function() {
                 $(this).html("");
             })
         }

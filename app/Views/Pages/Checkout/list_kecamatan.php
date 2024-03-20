@@ -13,13 +13,13 @@
     $("#kecamatan").on("change", function() {
         var val = $(this).val()
         if (val != "") {
-            $("#selKodePos").load("<?= $this->BASE_URL ?>Load/Spinner/1", function() {
-                $(this).load("<?= $this->BASE_URL ?>Checkout/kode_pos", {
+            $("#selKodePos").load("<?= PC::BASE_URL ?>Load/Spinner/1", function() {
+                $(this).load("<?= PC::BASE_URL ?>Checkout/kode_pos", {
                     input: val
                 })
             })
         } else {
-            $("#selKodePos").load("<?= $this->BASE_URL ?>Load/Spinner/1", function() {
+            $("#selKodePos").load("<?= PC::BASE_URL ?>Load/Spinner/1", function() {
                 $("#selKodePos").html("<small class='text-secondary'>Kode Pos</small>")
             })
         }
