@@ -117,7 +117,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
                     </div>
                 <?php
                 }
-                if (isset($d['mal']) && is_array($d['mal'])) { ?>
+                if (strlen($d['mal']) > 0) { ?>
                     <div class="row mb-2">
                         <div class="col-auto">
                             <label class=""><small>Template/Mal</small></label>
@@ -126,7 +126,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
                                     Download <i class="fa-regular fa-circle-down"></i>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <?php foreach ($d['mal'] as $m) { ?>
+                                    <?php foreach (unserialize($d['mal']) as $m) { ?>
                                         <li><a class="dropdown-item" href="<?= PC::ASSETS_URL ?>img/mal/<?= $m ?>" download=""><?= $m ?></a></li>
                                     <?php } ?>
                                 </ul>
