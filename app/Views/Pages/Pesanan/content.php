@@ -91,20 +91,25 @@ switch ($parse) {
                         } ?>
                         <div class="w-10 text-end mb-1 0 fw-bold me-1">Rp<?= number_format($total + $deliv['price_paid']) ?></div>
                         <div>
-                            <?php
-                            if ($parse == "sent") {
-                                $track = $this->model("Biteship")->tracking($deliv['tracking_id']);
-                                foreach ($track['history'] as $h) { ?>
+                            <?php if ($parse == "sent") {
+                                if (count($track['history']) == 0) { ?>
                                     <div class="alert alert-warning py-1 px-1 mb-1" role="alert">
                                         <small>
-                                            <b><?= $h['status'] ?></b><br>
-                                            <?= $h['updated_at'] ?><br>
-                                            <?= $h['note'] ?>
+                                            Courier has been ordered.
                                         </small>
                                     </div>
+                                    <?php } else {
+                                    foreach ($track['history'] as $h) { ?>
+                                        <div class="alert alert-warning py-1 px-1 mb-1" role="alert">
+                                            <small>
+                                                <b><?= $h['status'] ?></b><br>
+                                                <?= $h['updated_at'] ?><br>
+                                                <?= $h['note'] ?>
+                                            </small>
+                                        </div>
                             <?php }
-                            }
-                            ?>
+                                }
+                            } ?>
                         </div>
                     </div>
                 </div>
@@ -153,19 +158,25 @@ switch ($parse) {
                         } ?>
                         <div class="w-10 text-end mb-1 0 fw-bold me-1">Rp<?= number_format($total + $deliv['price_paid']) ?></div>
                         <div>
-                            <?php
-                            if ($parse == "sent") {
-                                foreach ($track['history'] as $h) { ?>
+                            <?php if ($parse == "sent") {
+                                if (count($track['history']) == 0) { ?>
                                     <div class="alert alert-warning py-1 px-1 mb-1" role="alert">
                                         <small>
-                                            <b><?= $h['status'] ?></b><br>
-                                            <?= $h['updated_at'] ?><br>
-                                            <?= $h['note'] ?>
+                                            Courier has been ordered.
                                         </small>
                                     </div>
+                                    <?php } else {
+                                    foreach ($track['history'] as $h) { ?>
+                                        <div class="alert alert-warning py-1 px-1 mb-1" role="alert">
+                                            <small>
+                                                <b><?= $h['status'] ?></b><br>
+                                                <?= $h['updated_at'] ?><br>
+                                                <?= $h['note'] ?>
+                                            </small>
+                                        </div>
                             <?php }
-                            }
-                            ?>
+                                }
+                            } ?>
                         </div>
                     </div>
                 </div>

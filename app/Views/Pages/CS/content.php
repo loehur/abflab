@@ -132,15 +132,23 @@ switch ($parse) {
                                     <?php
                                     if ($parse == "sent") {
                                         $track = $this->model("Biteship")->tracking($deliv['tracking_id']);
-                                        foreach ($track['history'] as $h) { ?>
+                                        if (count($track['history']) == 0) { ?>
                                             <div class="alert alert-warning py-1 px-1 mb-1" role="alert">
                                                 <small>
-                                                    <b><?= $h['status'] ?></b><br>
-                                                    <?= $h['updated_at'] ?><br>
-                                                    <?= $h['note'] ?>
+                                                    Courier has been ordered.
                                                 </small>
                                             </div>
+                                            <?php } else {
+                                            foreach ($track['history'] as $h) { ?>
+                                                <div class="alert alert-warning py-1 px-1 mb-1" role="alert">
+                                                    <small>
+                                                        <b><?= $h['status'] ?></b><br>
+                                                        <?= $h['updated_at'] ?><br>
+                                                        <?= $h['note'] ?>
+                                                    </small>
+                                                </div>
                                     <?php }
+                                        }
 
                                         if ($track['status'] == "delivered") {
                                             $where = "delivery_id = '" . $track['id'] . "'";
