@@ -39,6 +39,8 @@ class WH_midtrans extends Controller
          switch ($status) {
             case 'settlement':
                $os = 1; // paid
+               $text_o = "VitaPictura, order baru *DITERIMA*. REF#" . $order_ref . " " . PC::HOST . "/CS";
+               $this->model('WA')->send($this->target_notif, $text_o);
                break;
             case 'deny';
             case 'cancel';
@@ -47,6 +49,8 @@ class WH_midtrans extends Controller
             case 'expire';
             case 'failure';
                $os = 4; // cancel
+               $text_o = "VitaPictura, order *CANCELED* by " . $status . " Payment. REF#" . $order_ref . " " . PC::HOST . "/CS";
+               $this->model('WA')->send($this->target_notif, $text_o);
             default:
                $os = 0; //proses
                break;
