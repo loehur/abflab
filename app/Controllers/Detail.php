@@ -2,8 +2,11 @@
 
 class Detail extends Controller
 {
+   private $target_notif = null;
+
    public function __construct()
    {
+      $this->target_notif = PC::NOTIF[PC::SETTING['production']];
    }
 
    public function index($id_produk)
@@ -82,7 +85,7 @@ class Detail extends Controller
             if (!isset($v3['harga'])) {
                echo "Maaf, produk ini terkendala sistem, dan sedang dalam perbaikan";
                $text = "*Warning*\nProduk " . $produk_name . " Error. Customer terkendala Order";
-               $this->model('WA')->send(PC::SETTING['notif_group'], $text);
+               $this->model('WA')->send($this->target_notif, $text);
                exit();
             }
 
@@ -144,7 +147,7 @@ class Detail extends Controller
       if ($harga == 0) {
          echo "Maaf, produk ini terkendala sistem, dan sedang dalam perbaikan";
          $text = "*Warning*\nProduk " . $produk_name . " Error. Customer terkendala Order";
-         $this->model('WA')->send(PC::SETTING['notif_group'], $text);
+         $this->model('WA')->send($this->target_notif, $text);
       }
 
       $cart = [];
