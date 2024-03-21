@@ -33,7 +33,7 @@ class Daftar extends Controller
       if (isset($_SESSION['tools']['location'])) {
          $data['geo'] =  $_SESSION['tools']['location'];
       } else {
-         $ip = $this->model("GeoIP")->get_ip();
+         $ip = $this->model("GeoIP")->getUserIP();
          if ($ip == "127.0.0.1") {
             $ip = $this->model("GeoIP")->getPublicIP();
          }

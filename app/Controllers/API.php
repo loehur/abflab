@@ -2,6 +2,12 @@
 
 class API extends Controller
 {
+
+   function getUserIP()
+   {
+      echo $this->model("GeoIP")->getUserIP();
+   }
+
    function get_area($input)
    {
       $curl = curl_init();
