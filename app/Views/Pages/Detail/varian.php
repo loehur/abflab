@@ -6,7 +6,7 @@ foreach ($data['v'] as $v) {
         <div class="col-auto pe-0 mb-1">
             <label class=""><small><?= $v['vg'] ?>:</small></label>
             <select name="v2_<?= $v['vg2_id'] ?>" id="sel_<?= $v['vg2_id'] ?>" class="form-select shadow-none opHarga" required>
-                <option data-img="0" selected>-</option>
+                <option data-img="0" value="" selected>-</option>
                 <?php
                 foreach ($v2_ as $v2) {
                     $v2h_name = "";
