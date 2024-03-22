@@ -1,7 +1,7 @@
 <b><span class='text-danger'>Pastikan Kirimkan file dalam format PNG. dan ukuran yang sesuai orderan anda karna Acrylic akan dipotong menyesuaikan gambar yang anda kirim!</b></span>
 <br>
 <br>
-<h7><b>Acyrlic Figure :</b></h7>
+<h7><b>Acyrlic Frame :</b></h7>
     <br>untuk tambahan layer logo/tulisan bakal menjadi 2 layer acylic, dan untuk layer full + logo tulisan akan menjadi 3 layer acrylic
     <br>
     <br>Bingkai Akrilik Elegan kami adalah kombinasi sempurna antara keindahan estetika modern dan kekokohan desain yang tahan lama. 

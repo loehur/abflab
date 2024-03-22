@@ -33,6 +33,7 @@ $menu = $this->model("D_Group")->main();
                 <th>L</th>
                 <th>T</th>
                 <th>Freq</th>
+                <th>En</th>
             </tr>
             <?php foreach ($data['produk'] as $dp) {
                 $attr = 'class="cell_edit" data-tb="produk" data-primary="produk_id" data-id="' . $dp['produk_id'] . '"';
@@ -80,6 +81,7 @@ $menu = $this->model("D_Group")->main();
                     <td class="text-end"><span <?= $attr ?> data-col="l" data-tipe="number"><?= $dp['l'] ?></span></td>
                     <td class="text-end"><span <?= $attr ?> data-col="t" data-tipe="number"><?= $dp['t'] ?></span></td>
                     <td class="text-end"><?= $dp['freq'] ?></td>
+                    <td class="text-end"><span <?= $attr ?> data-col="en" data-tipe="number"><?= $dp['en'] ?></span></td>
                 </tr>
             <?php } ?>
         </table>
