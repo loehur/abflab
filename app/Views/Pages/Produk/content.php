@@ -8,7 +8,7 @@ $menu = $this->model("D_Group")->main();
             <?php
             foreach ($menu as $k => $m) { ?>
                 <li class="nav-item">
-                    <a class="nav-link <?= ($k == $data['grup']) ? 'active' : '' ?>" href="<?= PC::BASE_URL . $con ?>/index/<?= $k ?>"><?= $m['name'] ?></a>
+                    <a class="nav-link <?= ($k == $data['grup']) ? 'active' : '' ?>" href="<?= PC::BASE_URL . $con ?>/index/<?= $k ?>"><?= $m['name'] ?> <small>#<?= $k ?></small></a>
                 </li>
             <?php
             } ?>
@@ -19,6 +19,7 @@ $menu = $this->model("D_Group")->main();
             <tr>
                 <th></th>
                 <th><span class="text-primary" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal"><small>Produk (+)</small></span></th>
+                <th>Grup</th>
                 <th>Image</th>
                 <th>Image Detail</th>
                 <th>Mal</th>
@@ -33,37 +34,40 @@ $menu = $this->model("D_Group")->main();
                 <th>T</th>
                 <th>Freq</th>
             </tr>
-            <?php foreach ($data['produk'] as $dp) { ?>
+            <?php foreach ($data['produk'] as $dp) {
+                $attr = 'class="cell_edit" data-tb="produk" data-primary="produk_id" data-id="' . $dp['produk_id'] . '"';
+                $attr_des = 'class="cell_edit_des" data-tb="produk" data-primary="produk_id" data-id="' . $dp['produk_id'] . '"';
+                $attr_mal = 'class="cell_edit_mal" data-tb="produk" data-primary="produk_id" data-id="' . $dp['produk_id'] . '"';
+                $attr_grup = 'class="cell_edit_grup" data-tb="produk" data-primary="produk_id" data-id="' . $dp['produk_id'] . '"';
+            ?>
                 <tr>
                     <td class=""><a href="<?= PC::BASE_URL ?>Varian1/index/<?= $dp['produk_id'] ?>"><i class="fa-solid fa-bars-progress"></i></a></td>
-                    <td><?= $dp['produk'] ?></td>
-                    <td><?= $dp['img'] ?></td>
-                    <td><?= $dp['img_detail'] ?></td>
+                    <td><span <?= $attr ?> data-col="produk" data-tipe="text"><?= $dp['produk'] ?></span></td>
+                    <td class="text-end"><span <?= $attr_grup ?> data-col="grup" data-tipe="number"><?= $dp['grup'] ?></span></td>
+                    <td><span <?= $attr ?> data-col="img" data-tipe="text"><?= $dp['img'] ?></span></td>
+                    <td><span <?= $attr ?> data-col="img_detail" data-tipe="text"><?= $dp['img_detail'] ?></span></td>
                     <td>
-                        <?php
-                        if (strlen($dp['mal']) > 0) {
-                            $mal = unserialize(($dp['mal']));
-                            foreach ($mal as $m) { ?>
-                                <span><?= $m ?></span>,
-                        <?php }
-                        } ?>
+                        <span <?= $attr_mal ?> data-col="mal" data-tipe="text"><?php if (strlen($dp['mal']) > 0) {
+                                                                                    $mal = unserialize(($dp['mal']));
+                                                                                    foreach ($mal as $m) { ?><?= $m ?>,<?php }
+                                                                                                                } else {
+                                                                                                                    echo "_";
+                                                                                                                } ?></span>
                     </td>
-                    <td><?= $dp['link'] ?></td>
-                    <td><?= $dp['target'] ?></td>
+                    <td><span <?= $attr ?> data-col="link" data-tipe="text"><?= $dp['link'] ?></span></td>
+                    <td><span <?= $attr ?> data-col="target" data-tipe="text"><?= $dp['target'] ?></span></td>
                     <td>
-                        <?php $detail = unserialize($dp['detail']);
-                        foreach ($detail as $dt) { ?>
-                            <span><?= $dt['judul'] ?></span>: <span><?= $dt['konten'] ?></span>,
-                        <?php }
-                        ?>
+                        <span <?= $attr_des ?> data-col="detail" data-tipe="text"><?php $detail = unserialize($dp['detail']);
+                                                                                    foreach ($detail as $dt) { ?><?= $dt['judul'] ?>|<?= $dt['konten'] ?>, <?php } ?>
+                        </span>
                     </td>
-                    <td><?= $dp['perlu_file'] ?></td>
-                    <td class="text-end"><?= $dp['harga'] ?></td>
-                    <td><?= $dp['berat'] ?></td>
-                    <td><?= $dp['p'] ?></td>
-                    <td><?= $dp['l'] ?></td>
-                    <td><?= $dp['t'] ?></td>
-                    <td><?= $dp['freq'] ?></td>
+                    <td><span <?= $attr ?> data-col="perlu_file" data-tipe="number"><?= $dp['perlu_file'] ?></span></td>
+                    <td class="text-end"><span <?= $attr ?> data-col="harga" data-tipe="number"><?= $dp['harga'] ?></span></span></td>
+                    <td class="text-end"><span <?= $attr ?> data-col="berat" data-tipe="number"><?= $dp['berat'] ?></span></td>
+                    <td class="text-end"><span <?= $attr ?> data-col="p" data-tipe="number"><?= $dp['p'] ?></span></td>
+                    <td class="text-end"><span <?= $attr ?> data-col="l" data-tipe="number"><?= $dp['l'] ?></span></td>
+                    <td class="text-end"><span <?= $attr ?> data-col="t" data-tipe="number"><?= $dp['t'] ?></span></td>
+                    <td class="text-end"><?= $dp['freq'] ?></td>
                 </tr>
             <?php } ?>
         </table>
@@ -189,6 +193,207 @@ $menu = $this->model("D_Group")->main();
                     alert(res);
                 }
             },
+        });
+    });
+
+    var click = 0;
+    $(".cell_edit").on('dblclick', function() {
+        click = click + 1;
+        if (click != 1) {
+            return;
+        }
+
+        var id = $(this).attr('data-id');
+        var primary = $(this).attr('data-primary');
+        var col = $(this).attr('data-col');
+        var tb = $(this).attr('data-tb');
+        var tipe = $(this).attr('data-tipe');
+        var value = $(this).html();
+        var value_before = value;
+        var el = $(this);
+        var width = el.parent().width();
+        var align = "left";
+        if (tipe == "number") {
+            align = "right";
+        }
+
+        el.parent().css("width", width);
+        el.html("<input required type=" + tipe + " style='outline:none;border:none;width:" + width + ";text-align:" + align + "' id='value_' value='" + value + "'>");
+
+        $("#value_").focus();
+        $("#value_").focusout(function() {
+            var value_after = $(this).val();
+            if (value_after === value_before) {
+                el.html(value);
+                click = 0;
+            } else {
+                $.ajax({
+                    url: '<?= PC::BASE_URL ?>Functions/updateCell',
+                    data: {
+                        'id': id,
+                        'value': value_after,
+                        'col': col,
+                        'primary': primary,
+                        'tb': tb
+                    },
+                    type: 'POST',
+                    dataType: 'html',
+                    success: function(res) {
+                        click = 0;
+                        reload_content();
+                    },
+                });
+            }
+        });
+    });
+
+    $(".cell_edit_des").on('dblclick', function() {
+        click = click + 1;
+        if (click != 1) {
+            return;
+        }
+
+        var id = $(this).attr('data-id');
+        var primary = $(this).attr('data-primary');
+        var col = $(this).attr('data-col');
+        var tb = $(this).attr('data-tb');
+        var tipe = $(this).attr('data-tipe');
+        var value = $(this).html();
+        var value_before = value;
+        var el = $(this);
+        var width = el.parent().width();
+        var align = "left";
+        if (tipe == "number") {
+            align = "right";
+        }
+
+        el.parent().css("width", width);
+        el.html("<input required type=" + tipe + " style='outline:none;border:none;width:" + width + ";text-align:" + align + "' id='value_' value='" + value + "'>");
+
+        $("#value_").focus();
+        $("#value_").focusout(function() {
+            var value_after = $(this).val();
+            if (value_after === value_before) {
+                el.html(value);
+                click = 0;
+            } else {
+                $.ajax({
+                    url: '<?= PC::BASE_URL ?>Functions/updateCell_des',
+                    data: {
+                        'id': id,
+                        'value': value_after,
+                        'col': col,
+                        'primary': primary,
+                        'tb': tb
+                    },
+                    type: 'POST',
+                    dataType: 'html',
+                    success: function(res) {
+                        click = 0;
+                        reload_content();
+                    },
+                });
+            }
+        });
+    });
+
+    $(".cell_edit_mal").on('dblclick', function() {
+        click = click + 1;
+        if (click != 1) {
+            return;
+        }
+
+        var id = $(this).attr('data-id');
+        var primary = $(this).attr('data-primary');
+        var col = $(this).attr('data-col');
+        var tb = $(this).attr('data-tb');
+        var tipe = $(this).attr('data-tipe');
+        var value = $(this).html();
+        var value_before = value;
+        var el = $(this);
+        var width = el.parent().width();
+        var align = "left";
+        if (tipe == "number") {
+            align = "right";
+        }
+
+        el.parent().css("width", width);
+        el.html("<input required type=" + tipe + " style='outline:none;border:none;width:" + width + ";text-align:" + align + "' id='value_' value='" + value + "'>");
+
+        $("#value_").focus();
+        $("#value_").focusout(function() {
+            var value_after = $(this).val();
+            if (value_after === value_before) {
+                el.html(value);
+                click = 0;
+            } else {
+                $.ajax({
+                    url: '<?= PC::BASE_URL ?>Functions/updateCell_mal',
+                    data: {
+                        'id': id,
+                        'value': value_after,
+                        'col': col,
+                        'primary': primary,
+                        'tb': tb
+                    },
+                    type: 'POST',
+                    dataType: 'html',
+                    success: function(res) {
+                        click = 0;
+                        reload_content();
+                    },
+                });
+            }
+        });
+    });
+
+    $(".cell_edit_grup").on('dblclick', function() {
+        click = click + 1;
+        if (click != 1) {
+            return;
+        }
+
+        var id = $(this).attr('data-id');
+        var primary = $(this).attr('data-primary');
+        var col = $(this).attr('data-col');
+        var tb = $(this).attr('data-tb');
+        var tipe = $(this).attr('data-tipe');
+        var value = $(this).html();
+        var value_before = value;
+        var el = $(this);
+        var width = el.parent().width();
+        var align = "left";
+        if (tipe == "number") {
+            align = "right";
+        }
+
+        el.parent().css("width", width);
+        el.html("<input required type=" + tipe + " style='outline:none;border:none;width:" + width + ";text-align:" + align + "' id='value_' value='" + value + "'>");
+
+        $("#value_").focus();
+        $("#value_").focusout(function() {
+            var value_after = $(this).val();
+            if (value_after === value_before) {
+                el.html(value);
+                click = 0;
+            } else {
+                $.ajax({
+                    url: '<?= PC::BASE_URL ?>Functions/updateCell_grup',
+                    data: {
+                        'id': id,
+                        'value': value_after,
+                        'col': col,
+                        'primary': primary,
+                        'tb': tb
+                    },
+                    type: 'POST',
+                    dataType: 'html',
+                    success: function(res) {
+                        click = 0;
+                        reload_content();
+                    },
+                });
+            }
         });
     });
 </script>
