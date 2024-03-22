@@ -49,7 +49,11 @@ $menu = $this->model("D_Group")->main();
                     <td>
                         <span <?= $attr_mal ?> data-col="mal" data-tipe="text"><?php if (strlen($dp['mal']) > 0) {
                                                                                     $mal = unserialize(($dp['mal']));
-                                                                                    foreach ($mal as $m) { ?><?= $m ?>,<?php }
+                                                                                    if (count($mal) == 0) {
+                                                                                        echo "_";
+                                                                                    } else {
+                                                                                        foreach ($mal as $m) { ?><?= $m ?>,<?php }
+                                                                                                                    }
                                                                                                                 } else {
                                                                                                                     echo "_";
                                                                                                                 } ?></span>
@@ -57,8 +61,16 @@ $menu = $this->model("D_Group")->main();
                     <td><span <?= $attr ?> data-col="link" data-tipe="text"><?= $dp['link'] ?></span></td>
                     <td><span <?= $attr ?> data-col="target" data-tipe="text"><?= $dp['target'] ?></span></td>
                     <td>
-                        <span <?= $attr_des ?> data-col="detail" data-tipe="text"><?php $detail = unserialize($dp['detail']);
-                                                                                    foreach ($detail as $dt) { ?><?= $dt['judul'] ?>|<?= $dt['konten'] ?>, <?php } ?>
+                        <span <?= $attr_des ?> data-col="detail" data-tipe="text"><?php if (strlen($dp['detail']) > 0) {
+                                                                                        $detail = unserialize($dp['detail']);
+                                                                                        if (count($detail) == 0) {
+                                                                                            echo "_";
+                                                                                        } else {
+                                                                                            foreach ($detail as $dt) { ?><?= $dt['judul'] ?>|<?= $dt['konten'] ?>, <?php }
+                                                                                                                                                            }
+                                                                                                                                                        } else {
+                                                                                                                                                            echo "_";
+                                                                                                                                                        }  ?>
                         </span>
                     </td>
                     <td><span <?= $attr ?> data-col="perlu_file" data-tipe="number"><?= $dp['perlu_file'] ?></span></td>
