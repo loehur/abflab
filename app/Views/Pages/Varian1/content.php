@@ -129,21 +129,21 @@ foreach ($grup_list as $k => $m) {
                         </div>
                         <div class="col">
                             <label>Berat (gram)</label>
-                            <input required type="number" min="0" class="form-control form-control-sm shadow-none" name="berat">
+                            <input required type="number" min="0" value="0" class="form-control form-control-sm shadow-none" name="berat">
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col">
                             <label>Panjang (mm)</label>
-                            <input required type="number" min="0" class="form-control form-control-sm shadow-none" name="p">
+                            <input required type="number" min="0" value="0" class="form-control form-control-sm shadow-none" name="p">
                         </div>
                         <div class="col">
                             <label>Lebar (mm)</label>
-                            <input required type="number" min="0" class="form-control form-control-sm shadow-none" name="l">
+                            <input required type="number" min="0" value="0" class="form-control form-control-sm shadow-none" name="l">
                         </div>
                         <div class="col">
                             <label>Tinggi (mm)</label>
-                            <input required type="number" min="0" class="form-control form-control-sm shadow-none" name="t">
+                            <input required type="number" min="0" value="0" class="form-control form-control-sm shadow-none" name="t">
                         </div>
                     </div>
                 </div>
