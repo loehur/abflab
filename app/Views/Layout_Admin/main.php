@@ -4,6 +4,12 @@ if (isset($data['parse'])) {
 } else {
 	$parse = "";
 }
+
+if (isset($data['parse2'])) {
+	$parse2 = $data['parse2'];
+} else {
+	$parse2 = "";
+}
 ?>
 <?php include_once("head.php"); ?>
 
@@ -22,7 +28,10 @@ if (isset($data['parse'])) {
 
 <script>
 	$(document).ready(function() {
-		content("<?= $parse ?>");
+		var parse = "<?= $parse ?>";
+		var parse2 = "<?= $parse2 ?>";
+
+		content(parse, parse2);
 		cart_count();
 		user_name();
 		device();

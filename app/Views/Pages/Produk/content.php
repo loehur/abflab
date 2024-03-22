@@ -8,7 +8,7 @@ $menu = $this->model("D_Group")->main();
             <?php
             foreach ($menu as $k => $m) { ?>
                 <li class="nav-item">
-                    <a class="nav-link cekGrup <?= ($k == $data['grup']) ? 'active' : '' ?>" data-grup="<?= $k ?>" href="#"><?= $m['name'] ?></a>
+                    <a class="nav-link <?= ($k == $data['grup']) ? 'active' : '' ?>" href="<?= PC::BASE_URL . $con ?>/index/<?= $k ?>"><?= $m['name'] ?></a>
                 </li>
             <?php
             } ?>
@@ -18,7 +18,7 @@ $menu = $this->model("D_Group")->main();
         <table class="mb-0 table table-sm" style="font-size: small;">
             <tr>
                 <th></th>
-                <th>Produk</th>
+                <th><span class="text-primary" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal"><small>Produk (+)</small></span></th>
                 <th>Image</th>
                 <th>Image Detail</th>
                 <th>Mal</th>
@@ -69,14 +69,126 @@ $menu = $this->model("D_Group")->main();
         </table>
     </div>
 </div>
+
+<div class="modal" id="exampleModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Tambah Produk</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="ajax" action="<?= PC::BASE_URL . $con ?>/tambah" method="POST">
+                <div class="modal-body">
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Nama Produk</label>
+                            <input required type="text" class="form-control form-control-sm shadow-none" name="produk">
+                        </div>
+                        <div class="col">
+                            <label>Produk Group</label>
+                            <select class="form-select form-select-sm" name="grup" aria-label="Default select example" required>
+                                <option selected></option>
+                                <?php foreach ($this->model("D_Group")->main() as $key => $dg) { ?>
+                                    <option <?= $key == $data['grup'] ? 'selected' : '' ?> value="<?= $key ?>"><?= $dg['name'] ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Harga</label>
+                            <input required type="number" min="0" class="form-control form-control-sm shadow-none" name="harga">
+                        </div>
+                        <div class="col">
+                            <label>Mal | <small class="text-danger">ex: mal_cd.rar,mal_apg.rar</small></label>
+                            <input type="text" class="form-control form-control-sm shadow-none" name="mal">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Deskripsi | <small class="text-danger">ex: Ukuran|ukuran_cetak,Deskripsi|detail_cetak</small></label>
+                            <input required type="text" class="form-control form-control-sm shadow-none" name="deskripsi">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Img Utama (home_produk/file)</label>
+                            <input required type="text" class="form-control form-control-sm shadow-none" name="img_utama">
+                        </div>
+                        <div class="col">
+                            <label>Img Detail (produk_detail/folder)</label>
+                            <input required type="text" class="form-control form-control-sm shadow-none" name="img_detail">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Link <small>(0 Jika internal)</small></label>
+                            <input type="text" value="0" class="form-control form-control-sm shadow-none" name="link" required>
+                        </div>
+                        <div class="col">
+                            <label>Target Link</label>
+                            <select class="form-select form-select-sm" aria-label="Default select example" name="target" required>
+                                <option value="_self" selected>_self (internal)</option>
+                                <option value="_self">_blank (diluar <?= PC::APP_NAME ?>)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Perlu File?</label>
+                            <select class="form-select form-select-sm" name="perlu_file" aria-label="Default select example" required>
+                                <option value="1" selected>Ya</option>
+                                <option value="0">Tidak</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label>Berat (gram)</label>
+                            <input required type="number" min="0" class="form-control form-control-sm shadow-none" name="berat">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Panjang (mm)</label>
+                            <input required type="number" min="0" class="form-control form-control-sm shadow-none" name="p">
+                        </div>
+                        <div class="col">
+                            <label>Lebar (mm)</label>
+                            <input required type="number" min="0" class="form-control form-control-sm shadow-none" name="l">
+                        </div>
+                        <div class="col">
+                            <label>Tinggi (mm)</label>
+                            <input required type="number" min="0" class="form-control form-control-sm shadow-none" name="t">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Tambah</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <script>
     $(document).ready(function() {
         device();
         spinner(0);
     });
 
-    $(".cekGrup").click(function() {
-        var id = $(this).attr("data-grup");
-        content(id);
-    })
+    $("form.ajax").on("submit", function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            type: $(this).attr("method"),
+            success: function(res) {
+                if (res == 1) {
+                    $(".btn-close").click();
+                    reload_content();
+                } else {
+                    alert(res);
+                }
+            },
+        });
+    });
 </script>

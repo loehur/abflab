@@ -36,68 +36,70 @@ foreach ($grup_list as $k => $m) {
             <?php
             foreach ($vg1_d as $m) { ?>
                 <li class="nav-item">
-                    <a class="nav-link cekGrup <?= ($m['vg1_id'] == $data['gid']) ? 'active' : '' ?>" data-grup="<?= $m['vg1_id'] ?>" href="#"><?= $m['vg'] ?></a>
+                    <a class="nav-link <?= ($m['vg1_id'] == $data['gid']) ? 'active' : '' ?>" href="<?= PC::BASE_URL . $con ?>/index/<?= $produk_id ?>/<?= $m['vg1_id'] ?>"><?= $m['vg'] ?></a>
                 </li>
             <?php
             } ?>
+            <li class="nav-item py-2">
+                <span class="px-2 text-primary" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal202"><small>Head (+)</small></span>
+            </li>
         </ul>
     </nav>
     <div class="border p-2 pt-3 border-top-0">
-        <table class="mb-0 table table-sm" style="font-size: small;">
-            <tr>
-                <th></th>
-                <th><span class="" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal"><small>Varian (+)</small></span></th>
-                <th class="text-end">Harga</th>
-                <th>Img</th>
-                <th class="text-end">Berat</th>
-                <th class="text-end">P</th>
-                <th class="text-end">L</th>
-                <th class="text-end">T</th>
-            </tr>
-            <?php foreach ($data['varian1'] as $dp) {
-                $parse = [
-                    "v1_id" => $dp['varian_id'],
-                    "vg1_id" => $dp['vg1_id'],
-                    "produk_id" => $produk_id
-                ];
-
-                $parse = serialize($parse);
-                $parse = base64_encode($parse);
-
-                $attr = 'class="cell_edit" data-tb="varian_1" data-primary="varian_id" data-id="' . $dp['varian_id'] . '"';
-            ?>
+        <?php if (count($vg1_d) > 0) { ?>
+            <table class="mb-0 table table-sm" style="font-size: small;">
                 <tr>
-                    <td>
-                        <?php
-                        $cek = $this->db(0)->get_where("varian_grup_2", "vg1_id = " . $dp['vg1_id']);
-                        if (count($cek) > 0) { ?>
-                            <a href="<?= PC::BASE_URL ?>Varian2/index/<?= $parse ?>"><i class="fa-solid fa-bars-progress"></i></a>
-                        <?php } ?>
-                    </td>
-                    <td>
-                        <span <?= $attr ?> data-col="varian" data-tipe="text"><?= $dp['varian'] ?></span>
-                    </td>
-                    <td class="text-end">
-                        <span <?= $attr ?> data-col="harga" data-tipe="number"><?= $dp['harga'] ?></span>
-                    </td>
-                    <td>
-                        <span <?= $attr ?> data-col="img" data-tipe="text"><?= $dp['img'] == '' ? "_" : $dp['img'] ?></span>
-                    </td>
-                    <td class="text-end">
-                        <span <?= $attr ?> data-col="berat" data-tipe="number"><?= $dp['berat'] ?></span>
-                    </td>
-                    <td class="text-end">
-                        <span <?= $attr ?> data-col="p" data-tipe="number"><?= $dp['p'] ?></span>
-                    </td>
-                    <td class="text-end">
-                        <span <?= $attr ?> data-col="l" data-tipe="number"><?= $dp['l'] ?></span>
-                    </td>
-                    <td class="text-end">
-                        <span <?= $attr ?> data-col="t" data-tipe="number"><?= $dp['t'] ?></span>
-                    </td>
+                    <th></th>
+                    <th><span class="text-primary" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal"><small>Varian (+)</small></span></th>
+                    <th class="text-end">Harga</th>
+                    <th>Img</th>
+                    <th class="text-end">Berat</th>
+                    <th class="text-end">P</th>
+                    <th class="text-end">L</th>
+                    <th class="text-end">T</th>
                 </tr>
-            <?php } ?>
-        </table>
+                <?php
+                foreach ($data['varian1'] as $dp) {
+                    $parse = [
+                        "v1_id" => $dp['varian_id'],
+                        "vg1_id" => $dp['vg1_id'],
+                        "produk_id" => $produk_id
+                    ];
+
+                    $parse = serialize($parse);
+                    $parse = base64_encode($parse);
+
+                    $attr = 'class="cell_edit" data-tb="varian_1" data-primary="varian_id" data-id="' . $dp['varian_id'] . '"';
+                ?>
+                    <tr>
+                        <td>
+                            <a href="<?= PC::BASE_URL ?>Varian2/index/<?= $parse ?>"><i class="fa-solid fa-bars-progress"></i></a>
+                        </td>
+                        <td>
+                            <span <?= $attr ?> data-col="varian" data-tipe="text"><?= $dp['varian'] ?></span>
+                        </td>
+                        <td class="text-end">
+                            <span <?= $attr ?> data-col="harga" data-tipe="number"><?= $dp['harga'] ?></span>
+                        </td>
+                        <td>
+                            <span <?= $attr ?> data-col="img" data-tipe="text"><?= $dp['img'] == '' ? "_" : $dp['img'] ?></span>
+                        </td>
+                        <td class="text-end">
+                            <span <?= $attr ?> data-col="berat" data-tipe="number"><?= $dp['berat'] ?></span>
+                        </td>
+                        <td class="text-end">
+                            <span <?= $attr ?> data-col="p" data-tipe="number"><?= $dp['p'] ?></span>
+                        </td>
+                        <td class="text-end">
+                            <span <?= $attr ?> data-col="l" data-tipe="number"><?= $dp['l'] ?></span>
+                        </td>
+                        <td class="text-end">
+                            <span <?= $attr ?> data-col="t" data-tipe="number"><?= $dp['t'] ?></span>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </table>
+        <?php } ?>
     </div>
 </div>
 
@@ -154,17 +156,36 @@ foreach ($grup_list as $k => $m) {
     </div>
 </div>
 
+<div class="modal" id="exampleModal202" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Tambah Varian</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="ajax" action="<?= PC::BASE_URL ?>Varian1/tambah_head/<?= $produk_id ?>" method="POST">
+                <div class="modal-body">
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Head Varian 1</label>
+                            <input required type="text" class="form-control form-control-sm shadow-none" name="name">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Tambah</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function() {
         device();
         spinner(0);
     });
-
-    $(".cekGrup").click(function() {
-        var produk_id = <?= $produk_id ?>;
-        var id = $(this).attr("data-grup");
-        content(produk_id, id);
-    })
 
     $("form.ajax").on("submit", function(e) {
         e.preventDefault();

@@ -4,7 +4,13 @@ $produk_id = $data['produk']['produk_id'];
 $produk_name = $data['produk']['produk'];
 $produk_grup = $data['produk']['grup'];
 $produk_grup_name = "";
-$v2_head = $this->db(0)->get_where("v2_head", "vg2_id = " . $data['gid']);
+$vg1_id = $data['vg1_id'];
+
+if (isset($data['gid'])) {
+    $v2_head = $this->db(0)->get_where("v2_head", "vg2_id = " . $data['gid']);
+} else {
+    $v2_head = [];
+}
 
 $grup_list = $this->model("D_Group")->main();
 foreach ($grup_list as $k => $m) {
@@ -18,7 +24,7 @@ foreach ($grup_list as $k => $m) {
     <h6 class="pb-2">
         <b><a class="border rounded px-2 me-1 border-warning" href="<?= PC::BASE_URL ?>Produk/index/<?= $produk_grup ?>"><?= $produk_grup_name ?></a></b>
         <b><a class="border rounded px-2 me-1 border-warning" href="<?= PC::BASE_URL ?>Varian1/index/<?= $produk_id ?>"><?= $produk_name ?></a></b>
-        <b class="text-secondary"><?= $data['v1']['varian'] ?></b>
+        <b class="text-secondary"><?= isset($data['v1']['varian']) ? $data['v1']['varian'] : "" ?></b>
     </h6>
     <nav>
         <label class="mb-1"><small><b>Head</b> | Varian 2</small></label>
@@ -46,58 +52,62 @@ foreach ($grup_list as $k => $m) {
                 $parse = base64_encode($parse);
             ?>
                 <li class="nav-item">
-                    <a id="h<?= $m['vg2_id'] ?>" class="nav-link cekGrup <?= ($m['vg2_id'] == $data['gid']) ? 'active' : '' ?>" data-gid="<? $m['vg2_id'] ?>" data-parse="<?= $parse ?>" href="#"><?= $m['vg'] ?></a>
+                    <a id="h<?= $m['vg2_id'] ?>" class="nav-link <?= ($m['vg2_id'] == $data['gid']) ? 'active' : '' ?>" href="<?= PC::BASE_URL . $con ?>/index/<?= $parse ?>/<?= $m['vg2_id'] ?>"><?= $m['vg'] ?></a>
                 </li>
             <?php
             } ?>
+            <li class="nav-item py-2">
+                <span class="px-2 text-primary" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal202"><small>Head (+)</small></span>
+            </li>
         </ul>
     </nav>
     <div class="border p-2 pt-2 border-top-0">
-        <table class="mb-0 table table-sm" style="font-size: small;">
-            <tr>
-                <th><span class="" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal"><small>Varian (+)</small></span></th>
-                <th class="text-end">Harga</th>
-                <th>Img</th>
-                <th class="text-end">Berat</th>
-                <th class="text-end">P</th>
-                <th class="text-end">L</th>
-                <th class="text-end">T</th>
-            </tr>
-            <?php
-
-            foreach ($data['varian2'] as $dp) {
-                $varian = "";
-                $attr = 'class="cell_edit" data-tb="varian_2" data-primary="varian_id" data-id="' . $dp['varian_id'] . '"';
-                foreach ($v2_head as $vh) {
-                    if ($vh['v2_head_id'] == $dp['v2_head_id']) {
-                        $varian = $vh['v2_head'];
-                    }
-                } ?>
+        <?php if (count($menu) > 0) { ?>
+            <table class="mb-0 table table-sm" style="font-size: small;">
                 <tr>
-                    <td>
-                        <span class="cell_edit" data-tb="v2_head" data-primary="v2_head_id" data-id="<?= $dp['v2_head_id'] ?>" data-col="v2_head" data-tipe="text"><?= $varian ?></span>
-                    </td>
-                    <td class="text-end">
-                        <span <?= $attr ?> data-col="harga" data-tipe="number"><?= $dp['harga'] ?></span>
-                    </td>
-                    <td>
-                        <span <?= $attr ?> data-col="img" data-tipe="text"><?= $dp['img'] == '' ? "_" : $dp['img'] ?></span>
-                    </td>
-                    <td class="text-end">
-                        <span <?= $attr ?> data-col="berat" data-tipe="number"><?= $dp['berat'] ?></span>
-                    </td>
-                    <td class="text-end">
-                        <span <?= $attr ?> data-col="p" data-tipe="number"><?= $dp['p'] ?></span>
-                    </td>
-                    <td class="text-end">
-                        <span <?= $attr ?> data-col="l" data-tipe="number"><?= $dp['l'] ?></span>
-                    </td>
-                    <td class="text-end">
-                        <span <?= $attr ?> data-col="t" data-tipe="number"><?= $dp['t'] ?></span>
-                    </td>
+                    <th><span class="text-primary" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal"><small>Varian (+)</small></span></th>
+                    <th class="text-end">Harga</th>
+                    <th>Img</th>
+                    <th class="text-end">Berat</th>
+                    <th class="text-end">P</th>
+                    <th class="text-end">L</th>
+                    <th class="text-end">T</th>
                 </tr>
-            <?php } ?>
-        </table>
+                <?php
+                foreach ($data['varian2'] as $dp) {
+                    $varian = "";
+                    $attr = 'class="cell_edit" data-tb="varian_2" data-primary="varian_id" data-id="' . $dp['varian_id'] . '"';
+                    foreach ($v2_head as $vh) {
+                        if ($vh['v2_head_id'] == $dp['v2_head_id']) {
+                            $varian = $vh['v2_head'];
+                        }
+                    } ?>
+                    <tr>
+                        <td>
+                            <span class="cell_edit" data-tb="v2_head" data-primary="v2_head_id" data-id="<?= $dp['v2_head_id'] ?>" data-col="v2_head" data-tipe="text"><?= $varian ?></span>
+                        </td>
+                        <td class="text-end">
+                            <span <?= $attr ?> data-col="harga" data-tipe="number"><?= $dp['harga'] ?></span>
+                        </td>
+                        <td>
+                            <span <?= $attr ?> data-col="img" data-tipe="text"><?= $dp['img'] == '' ? "_" : $dp['img'] ?></span>
+                        </td>
+                        <td class="text-end">
+                            <span <?= $attr ?> data-col="berat" data-tipe="number"><?= $dp['berat'] ?></span>
+                        </td>
+                        <td class="text-end">
+                            <span <?= $attr ?> data-col="p" data-tipe="number"><?= $dp['p'] ?></span>
+                        </td>
+                        <td class="text-end">
+                            <span <?= $attr ?> data-col="l" data-tipe="number"><?= $dp['l'] ?></span>
+                        </td>
+                        <td class="text-end">
+                            <span <?= $attr ?> data-col="t" data-tipe="number"><?= $dp['t'] ?></span>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </table>
+        <?php } ?>
     </div>
 </div>
 
@@ -117,10 +127,12 @@ foreach ($grup_list as $k => $m) {
 
                             <datalist id="varian_list">
                                 <?php
-                                $cek = $this->db(0)->get_where("v2_head", "vg2_id = " . $data['gid']);
-                                foreach ($cek as $vr) { ?>
-                                    <option value="<?= $vr['v2_head'] ?>">
-                                    <?php } ?>
+                                if (isset($data['gid'])) {
+                                    $cek = $this->db(0)->get_where("v2_head", "vg2_id = " . $data['gid']);
+                                    foreach ($cek as $vr) { ?>
+                                        <option value="<?= $vr['v2_head'] ?>">
+                                    <?php }
+                                } ?>
                             </datalist>
                         </div>
                         <div class="col">
@@ -162,17 +174,36 @@ foreach ($grup_list as $k => $m) {
     </div>
 </div>
 
+<div class="modal" id="exampleModal202" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Tambah Varian</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="ajax" action="<?= PC::BASE_URL ?>Varian2/tambah_head/<?= $vg1_id ?>" method="POST">
+                <div class="modal-body">
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Head Varian 2</label>
+                            <input required type="text" class="form-control form-control-sm shadow-none" name="name">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Tambah</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function() {
         device();
         spinner(0);
     });
-
-    $(".cekGrup").click(function() {
-        var gid = $(this).attr("data-gid");
-        var parse = $(this).attr("data-parse");
-        content(parse, gid);
-    })
 
     $("form.ajax").on("submit", function(e) {
         e.preventDefault();
@@ -181,7 +212,7 @@ foreach ($grup_list as $k => $m) {
             data: $(this).serialize(),
             type: $(this).attr("method"),
             success: function(res) {
-                if (res == 1) {
+                if (res == 0) {
                     $(".btn-close").click();
                     reload_content();
                 } else {

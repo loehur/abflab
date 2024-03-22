@@ -51,6 +51,7 @@ class WH_midtrans extends Controller
                $os = 4; // cancel
                $text_o = "VitaPictura, order *CANCELED* by " . $status . " Payment. REF#" . $order_ref . ". " . PC::HOST . "/CS";
                $this->model('WA')->send($this->target_notif, $text_o);
+               break;
             default:
                $os = 0; //proses
                break;

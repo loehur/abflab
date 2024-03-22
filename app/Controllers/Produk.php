@@ -94,4 +94,49 @@ class Produk extends Controller
       unset($_SESSION['log_admin']);
       echo 1;
    }
+
+   function tambah()
+   {
+      $des_ok = [];
+      $deskripsi = $_POST['deskripsi'];
+      $des = explode(",", $deskripsi);
+      foreach ($des as $key => $d) {
+         $des2 = explode("|", $d);
+         if (isset($des2[0]) && isset($des2[1])) {
+            $des_ok[$key] = [
+               "judul" => $des2[0],
+               "konten" => $des2[1],
+            ];
+         } else {
+            continue;
+         }
+      }
+      $deskripsi = serialize($des_ok);
+      $mal = $_POST['mal'];
+      if (strlen($mal) > 0) {
+         $mal = serialize(explode(",", $mal));
+      }
+
+      $produk = $_POST['produk'];
+      $grup = $_POST['grup'];
+      $harga = $_POST['harga'];
+      $img_utama = $_POST['img_utama'];
+      $img_detail = $_POST['img_detail'];
+      $link = $_POST['link'];
+      $target = $_POST['target'];
+      $perlu_file = $_POST['perlu_file'];
+      $berat = $_POST['berat'];
+      $p = $_POST['p'];
+      $l = $_POST['l'];
+      $t = $_POST['t'];
+
+      $cols = "produk, grup, img, img_detail, mal, link, target, detail, perlu_file, harga, berat, p, l, t";
+      $vals = "'" . $produk . "'," . $grup . ",'" . $img_utama . "','" . $img_detail . "','" . $mal . "','" . $link . "','" . $target . "','" . $deskripsi . "'," . $perlu_file . "," . $harga . "," . $berat . "," . $p . "," . $l . "," . $t . "";
+      $in = $this->db(0)->insertCols("produk", $cols, $vals);
+      if ($in['errno'] <> 0) {
+         print_r($in['error']);
+      } else {
+         echo 1;
+      }
+   }
 }
