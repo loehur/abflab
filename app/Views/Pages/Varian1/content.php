@@ -119,7 +119,7 @@ foreach ($grup_list as $k => $m) {
                         </div>
                         <div class="col">
                             <label>Harga</label>
-                            <input required type="number" min="0" class="form-control form-control-sm shadow-none" name="harga">
+                            <input required type="number" min="0" value="0" class="form-control form-control-sm shadow-none" name="harga">
                         </div>
                     </div>
                     <div class="row mb-2">
