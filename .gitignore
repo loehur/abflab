@@ -1,5 +1,6 @@
 .htaccess
 .zip
+.ini
 app/Config/
 *copy*
 error_log
