@@ -10,7 +10,7 @@ class D_Group
                 "aktif" => "Cetak",
             ],
             1 => [
-                "name" => "Frame",
+                "name" => "Wall Display",
                 "aktif" => "Frame",
             ],
             2 => [
@@ -26,7 +26,7 @@ class D_Group
                 "aktif" => "Plakat",
             ],
             51 => [
-                "name" => "Display",
+                "name" => "Brand Display",
                 "aktif" => "Display",
             ],
         ];
