@@ -77,6 +77,11 @@ class Detail extends Controller
             if (!isset($_POST["v2_" . $v2['vg2_id']])) {
                break;
             }
+
+            if ($_POST["v2_" . $v2['vg2_id']] == '') {
+               break;
+            }
+
             $input2 = $_POST["v2_" . $v2['vg2_id']];
             $v3 = $this->db(0)->get_where_row("varian_2", "varian_id = " . $input2);
 
