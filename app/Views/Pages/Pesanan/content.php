@@ -79,6 +79,7 @@ switch ($parse) {
                                 </tr>
                             </table>
                         </small>
+                        <div class="w-10 text-end mb-1 0 fw-bold me-1">Rp<?= number_format($total + $deliv['price_paid']) ?></div>
                         <?php if ($parse == "bb") {
                             $where_p = "order_ref = '" . $ref . "'";
                             $pay = $this->db(0)->get_where_row("payment", $where_p);
@@ -89,7 +90,6 @@ switch ($parse) {
                                 <span class="text-warning">Pembayaran dalam proses verifikasi</span>
                         <?php }
                         } ?>
-                        <div class="w-10 text-end mb-1 0 fw-bold me-1">Rp<?= number_format($total + $deliv['price_paid']) ?></div>
                         <div>
                             <?php if ($parse == "sent") {
                                 $track = $this->model("Biteship")->tracking($deliv['tracking_id']);
@@ -147,6 +147,7 @@ switch ($parse) {
                                 </tr>
                             </table>
                         </small>
+                        <div class="w-10 text-end mb-1 0 fw-bold me-1">Rp<?= number_format($total + $deliv['price_paid']) ?></div>
                         <?php if ($parse == "bb") {
                             $where_p = "order_ref = '" . $ref . "'";
                             $pay = $this->db(0)->get_where_row("payment", $where_p);
@@ -157,7 +158,6 @@ switch ($parse) {
                                 <span class="text-warning">Pembayaran dalam proses verifikasi</span>
                         <?php }
                         } ?>
-                        <div class="w-10 text-end mb-1 0 fw-bold me-1">Rp<?= number_format($total + $deliv['price_paid']) ?></div>
                         <div>
                             <?php if ($parse == "sent") {
                                 if (count($track['history']) == 0) { ?>

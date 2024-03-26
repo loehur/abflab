@@ -191,9 +191,13 @@ class Checkout extends Controller
       }
 
       if (!isset($price)) {
-         $this->model('Log')->write("ERROR checkout, Price not found");
-         header("Location: " . PC::BASE_URL . "Checkout");
-         exit();
+         if ($kur_company == "abf") {
+            $price = 0;
+         } else {
+            $this->model('Log')->write("ERROR checkout, Price not found");
+            header("Location: " . PC::BASE_URL . "Checkout");
+            exit();
+         }
       }
 
       $ref = date("Ymdhis") . rand(0, 9) . rand(0, 9);
