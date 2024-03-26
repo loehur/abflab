@@ -138,9 +138,7 @@ class Detail extends Controller
       }
 
       if ($harga == 0) {
-         echo "Maaf, produk ini terkendala sistem, dan sedang dalam perbaikan";
-         $text = "*Warning*\nProduk " . $produk_name . " Error. Customer terkendala Order";
-         $this->model('Log')->write($this->target_notif, $text);
+         echo "Mohon pilih Varian yang diperlukan.";
          exit();
       }
 

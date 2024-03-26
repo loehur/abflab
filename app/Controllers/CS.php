@@ -166,7 +166,7 @@ class CS extends Controller
                $otp = rand(0, 9) . rand(0, 9) . rand(0, 9) . rand(0, 9);
                $otp_en = $this->model("Encrypt")->enc($otp);
                setcookie($number, $otp_en, time() + (300), "/");
-               $this->model('WA')->send($number, $otp);
+               print_r($this->model('WA')->send($number, $otp));
                echo "OTP berhasil dikirimkan!";
             }
             exit();

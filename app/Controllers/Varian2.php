@@ -27,7 +27,7 @@ class Varian2 extends Controller
    function content($parse, $gid = null)
    {
       if ($this->access == false) {
-         $this->view(__CLASS__, __CLASS__ . "/login");
+         echo "<script>location.href='" . PC::BASE_URL . "Produk';</script>";
          exit();
       }
 

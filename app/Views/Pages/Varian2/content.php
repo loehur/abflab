@@ -65,6 +65,7 @@ foreach ($grup_list as $k => $m) {
         <?php if (count($menu) > 0) { ?>
             <table class="mb-0 table table-sm" style="font-size: small;">
                 <tr>
+                    <th></th>
                     <th><span class="text-primary" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal"><small>Varian (+)</small></span></th>
                     <th class="text-end">Harga</th>
                     <th>Img</th>
@@ -83,6 +84,9 @@ foreach ($grup_list as $k => $m) {
                         }
                     } ?>
                     <tr>
+                        <td>
+                            <span class="cell_delete" data-tb="varian_2" data-primary="varian_id" data-id="<?= $dp['varian_id'] ?>"><i class="fa-regular fa-trash-can"></i></span>
+                        </td>
                         <td>
                             <span class="cell_edit" data-tb="v2_head" data-primary="v2_head_id" data-id="<?= $dp['v2_head_id'] ?>" data-col="v2_head" data-tipe="text"><?= $varian ?></span>
                         </td>
@@ -218,6 +222,26 @@ foreach ($grup_list as $k => $m) {
                 } else {
                     alert(res);
                 }
+            },
+        });
+    });
+
+    $(".cell_delete").dblclick(function() {
+        var id = $(this).attr('data-id');
+        var primary = $(this).attr('data-primary');
+        var tb = $(this).attr('data-tb');
+
+        $.ajax({
+            url: '<?= PC::BASE_URL ?>Functions/deleteCell',
+            data: {
+                'id': id,
+                'primary': primary,
+                'tb': tb
+            },
+            type: 'POST',
+            dataType: 'html',
+            success: function(res) {
+                reload_content();
             },
         });
     });

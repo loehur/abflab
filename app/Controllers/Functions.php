@@ -14,6 +14,15 @@ class Functions extends Controller
       print_r($this->db(0)->update($tb, $set, $where));
    }
 
+   public function deleteCell()
+   {
+      $id = $_POST['id'];
+      $primary = $_POST['primary'];
+      $tb = $_POST['tb'];
+      $where = $primary . " = " . $id;
+      print_r($this->db(0)->delete_where($tb, $where));
+   }
+
    public function updateCell_des()
    {
       $id = $_POST['id'];
