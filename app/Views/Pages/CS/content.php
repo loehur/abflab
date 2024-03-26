@@ -83,7 +83,7 @@ switch ($parse) {
                                             ?>
                                                     <tr>
                                                         <td style="width: 10px;"><?= strlen($da['file']) > 0 ? '<a href="' . $da['file'] . '" download><i class="fa-regular fa-circle-down"></i></a>' : '' ?></td>
-                                                        <td style="width: 10px;"><?= strlen($da['link_drive']) > 0 ? '<a href="' . $da['link_drive'] . '" download><i class="fa-solid fa-link"></i></a>' : '' ?></td>
+                                                        <td style="width: 10px;"><?= strlen($da['link_drive']) > 0 ? '<a href="' . $da['link_drive'] . '" target="_blank"><i class="fa-solid fa-link"></i></a>' : '' ?></td>
                                                         <td><?= $da['product'] ?>, <?= $da['detail'] ?></td>
                                                         <td><small class="text-danger"><?= $da['note'] ?></small></td>
                                                         <td class="text-end"><?= $da['qty'] ?>pcs</td>
@@ -97,6 +97,7 @@ switch ($parse) {
                                             $deliv = $this->db(0)->get_where_row("delivery", $where_d);
                                             ?>
                                             <tr>
+                                                <td></td>
                                                 <td></td>
                                                 <td colspan="2">Pengiriman:
                                                     <span class="me-2 fw-bold"><?= $deliv['courier_company'] ?> <?= $deliv['courier_type'] ?></span>
