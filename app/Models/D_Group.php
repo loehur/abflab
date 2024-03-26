@@ -26,7 +26,7 @@ class D_Group
                 "aktif" => "Plakat",
             ],
             51 => [
-                "name" => "Brand Display",
+                "name" => "Branding",
                 "aktif" => "Display",
             ],
         ];
