@@ -13,6 +13,11 @@
 <form action="<?= PC::BASE_URL ?>Checkout/daftar" method="POST">
     <div class="container">
         <div style="max-width: 500px;">
+            <div class="row mt-1">
+                <div class="col px-1 mb-1">
+                    <div id="map"></div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col px-1 mb-1">
                     <div class="form-floating">
@@ -20,12 +25,18 @@
                         <label for="floatingInput456">Nama Lengkap</label>
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col px-1 mb-1">
                     <div class="form-floating">
                         <input type="text" class="form-control shadow-none" <?= isset($log['hp']) ? "readonly" : "" ?> name="hp" required value="<?= isset($log['hp']) ? $log['hp'] : "" ?>" id="floatingInput1654">
                         <label for="floatingInput1654">Nomor HP (08..)</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col px-1 mb-1">
+                    <div class="form-floating">
+                        <input class="form-control shadow-none alamat" required name="alamat" value="<?= isset($log['address']) ? $log['address'] : "" ?>" id="floatingTextarea" />
+                        <label for="floatingTextarea">Alamat (Jalan/No. Rumah/Dll)</label>
                     </div>
                 </div>
                 <div class="col px-1 mb-1">
@@ -38,19 +49,11 @@
             <div class="row">
                 <div class="col px-1 mb-1">
                     <div class="form-floating">
-                        <input class="form-control shadow-none alamat" required name="alamat" value="<?= isset($log['address']) ? $log['address'] : "" ?>" id="floatingTextarea" />
-                        <label for="floatingTextarea">Alamat (Jalan/No. Rumah/Dll)</label>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col px-1 mb-1">
-                    <div class="form-floating">
                         <select class="form-select" id="provinsi" name="provinsi" aria-label=".form-select-sm example" required>
                             <option selected value=""></option>
                             <?php
                             foreach ($data['provinsi'] as $dp) { ?>
-                                <option value="<?= $dp ?>"><?= str_replace("+", " ", $dp) ?></option>
+                                <option value="<?= base64_encode($dp) ?>"><?= str_replace("+", " ", $dp) ?></option>
                             <?php } ?>
                         </select>
                         <label for="provinsi">Provinsi</label>
@@ -70,7 +73,7 @@
                     <small class='text-secondary'>Kode Pos</small>
                 </div>
             </div>
-            <div class="row">
+            <div class="row d-none">
                 <div class="col px-1 mb-1">
                     <div class="form-floating">
                         <input readonly id="latitude" class="form-control shadow-none alamat" name="lat" value="<?= isset($log['latt']) ? $log['latt'] : "" ?>" required />
@@ -84,22 +87,15 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row mt-1">
-            <div class="col px-1 mb-1">
-                <div id="map"></div>
+            <div class="row mt-1">
+                <div class="col px-1 mb-1">
+                    <button type="submit" class="btn btn-success">Simpan</button>
+                </div>
+                <div class="col-auto px-1 mb-1 text-end">
+                    <a href="<?= PC::BASE_URL ?>Checkout"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button></a>
+                </div>
             </div>
         </div>
-
-        <div class="row mt-1">
-            <div class="col px-1 mb-1">
-                <button type="submit" class="btn btn-success">Simpan</button>
-            </div>
-            <div class="col-auto px-1 mb-1 text-end">
-                <a href="<?= PC::BASE_URL ?>Checkout"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button></a>
-            </div>
-        </div>
-
     </div>
 </form>
 

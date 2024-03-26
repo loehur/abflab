@@ -30,29 +30,45 @@ class Checkout extends Controller
 
    public function kota($id)
    {
-      $data = $this->model("Place")->kota($id);
+      $data = $this->model("Place")->kota(base64_decode($id));
       $this->view(__CLASS__, __CLASS__ . "/list_kota", $data);
    }
 
    public function kecamatan($id)
    {
-      $data = $this->model("Place")->kecamatan($id);
-      $_SESSION['tools']['kecamatan'] = $data;
+      $data['kec'] = $this->model("Place")->kecamatan(base64_decode($id));
+      $data['kota'] = $id;
+      $_SESSION['tools']['kecamatan'] = $data['kec'];
       $this->view(__CLASS__, __CLASS__ . "/list_kecamatan", $data);
    }
 
    function kode_pos()
    {
       $input = $_POST['input'];
+      $kota = str_replace("+", " ", base64_decode($_POST['kota']));
       $data = [];
       foreach ($_SESSION['tools']['kecamatan'] as $key => $kp) {
          if ($input == $key) {
+            $g1 = $this->model("Biteship")->get_area($key);
+            if (count($g1) > 0) {
+               $find1 = 0;
+               foreach ($g1 as $kg1 => $g_1) {
+                  if (str_replace("+", " ", $kota) == strtoupper($g_1['administrative_division_level_2_name'])) {
+                     $find1 += 1;
+                     array_push($data, $g1[$kg1]);
+                  }
+               }
+               if ($find1 > 0) {
+                  break;
+               }
+            }
+
             foreach ($kp as $k) {
                $g = $this->model("Biteship")->get_area($k);
                if (count($g) > 1) {
                   $find = 0;
                   foreach ($g as $kg => $g_) {
-                     if (str_replace("+", " ", $key) == strtoupper($g_['administrative_division_level_3_name'])) {
+                     if (str_replace("+", " ", $kota) == strtoupper($g_['administrative_division_level_2_name'])) {
                         $find += 1;
                         array_push($data, $g[$kg]);
                         break;
@@ -66,6 +82,7 @@ class Checkout extends Controller
                } elseif (count($g) == 1) {
                   array_push($data, $g[0]);
                }
+               sleep(1);
             }
             break;
          }

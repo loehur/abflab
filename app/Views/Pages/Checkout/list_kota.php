@@ -3,7 +3,7 @@
         <option selected value=""></option>
         <?php
         foreach ($data as $dp) { ?>
-            <option value="<?= $dp ?>"><?= str_replace("+", " ", $dp) ?></option>
+            <option value="<?= base64_encode($dp) ?>"><?= str_replace("+", " ", $dp) ?></option>
         <?php } ?>
     </select>
     <label for="kota">Kota</label>

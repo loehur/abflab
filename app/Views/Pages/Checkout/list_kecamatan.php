@@ -2,7 +2,7 @@
     <select class="form-select shadow-none" id="kecamatan" name="kecamatan" required>
         <option selected value=""></option>
         <?php
-        foreach ($data as $key => $dp) { ?>
+        foreach ($data['kec'] as $key => $dp) { ?>
             <option value="<?= $key ?>"><?= str_replace("+", " ", $key) ?></option>
         <?php } ?>
     </select>
@@ -15,7 +15,8 @@
         if (val != "") {
             $("#selKodePos").load("<?= PC::BASE_URL ?>Load/Spinner/1", function() {
                 $(this).load("<?= PC::BASE_URL ?>Checkout/kode_pos", {
-                    input: val
+                    input: val,
+                    kota: '<?= $data['kota'] ?>'
                 })
             })
         } else {

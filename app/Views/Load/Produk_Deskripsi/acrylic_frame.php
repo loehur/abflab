@@ -2,11 +2,10 @@
 <br>
 <br>
 <h7><b>Acyrlic Frame :</b></h7>
-    <br>untuk tambahan layer logo/tulisan bakal menjadi 2 layer acylic, dan untuk layer full + logo tulisan akan menjadi 3 layer acrylic
-    <br>
+    
     <br>Bingkai Akrilik Elegan kami adalah kombinasi sempurna antara keindahan estetika modern dan kekokohan desain yang tahan lama. 
     <br>Terbuat dari bahan akrilik berkualitas tinggi, produk kami menghadirkan nuansa yang segar dan menyegarkan untuk setiap gambar atau foto yang Anda pajang.
-    <br>
+    <br>Acrylic tebal 2 mm dengan 2 layer yang membuat lebih kuat saat di pajang.
     <br>
 
 <ul>
