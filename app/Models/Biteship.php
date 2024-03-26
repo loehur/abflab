@@ -221,6 +221,7 @@ class Biteship extends PC
             "origin_contact_name" => PC::SETTING['origin_name'],
             "origin_contact_phone" => PC::SETTING['origin_contact_phone'],
             "origin_address" => PC::SETTING['origin_address'],
+            "origin_note" => PC::SETTING['origin_contact_phone'],
             "origin_postal_code" => 28111,
             "origin_area_id" => PC::SETTING['origin_id'],
             "origin_collection_method" => $method,
@@ -231,7 +232,7 @@ class Biteship extends PC
             "destination_contact_name" => $p['name'],
             "destination_contact_phone" => $p['hp'],
             "destination_address" => $p['address'],
-            "destination_note" => "",
+            "destination_note" => $p['hp'],
             "destination_postal_code" => $p['postal_code'],
             "destination_area_id " => $p['area_id'],
             "destination_coordinate" => [
