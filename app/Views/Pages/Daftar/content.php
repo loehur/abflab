@@ -36,7 +36,7 @@
                 <div class="col px-1 mb-1">
                     <div class="form-floating">
                         <input class="form-control shadow-none alamat" required name="alamat" value="<?= isset($log['address']) ? $log['address'] : "" ?>" id="floatingTextarea" />
-                        <label for="floatingTextarea">Alamat (Jalan/No. Rumah/Dll)</label>
+                        <label for="floatingTextarea">Jalan/No. Rumah/Dll</label>
                     </div>
                 </div>
                 <div class="col px-1 mb-1">
@@ -87,12 +87,9 @@
                     </div>
                 </div>
             </div>
-            <div class="row mt-1">
+            <div class="row mt-1 border-top pt-2">
                 <div class="col px-1 mb-1">
-                    <button type="submit" class="btn btn-success">Simpan</button>
-                </div>
-                <div class="col-auto px-1 mb-1 text-end">
-                    <a href="<?= PC::BASE_URL ?>Checkout"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button></a>
+                    <button type="submit" class="btn btn-outline-success w-100">Simpan Alamat</button>
                 </div>
             </div>
         </div>
