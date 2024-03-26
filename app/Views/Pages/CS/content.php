@@ -83,6 +83,7 @@ switch ($parse) {
                                             ?>
                                                     <tr>
                                                         <td style="width: 10px;"><?= strlen($da['file']) > 0 ? '<a href="' . $da['file'] . '" download><i class="fa-regular fa-circle-down"></i></a>' : '' ?></td>
+                                                        <td style="width: 10px;"><?= strlen($da['link_drive']) > 0 ? '<a href="' . $da['link_drive'] . '" download><i class="fa-solid fa-link"></i></a>' : '' ?></td>
                                                         <td><?= $da['product'] ?>, <?= $da['detail'] ?></td>
                                                         <td><small class="text-danger"><?= $da['note'] ?></small></td>
                                                         <td class="text-end"><?= $da['qty'] ?>pcs</td>
