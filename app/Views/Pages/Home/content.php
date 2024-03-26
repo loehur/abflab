@@ -106,7 +106,7 @@
                                 if ($p['grup'] == $km) { ?>
                                     <div class="col-sm-2 mb-2 px-1 rounded">
                                         <div class="rounded img-zoom-border border">
-                                            <a href="<?= ($p['link'] == 0) ? PC::BASE_URL . 'Detail/index/' . $k : $p['link'] ?>" target="<?= $p['target'] ?>">
+                                            <a href="<?= ($p['link'] == 0) ? PC::BASE_URL . 'Detail/index/' . $p['produk_id'] : $p['link'] ?>" target="<?= $p['target'] ?>">
                                                 <img id="image<?= $p['img'] ?>" onerror="no_image(<?= $p['img'] ?>)" src="<?= PC::ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" class="img-zoom w-100 rounded-top" alt="">
                                                 <div class="w-100 fw-bold text-center text-dark py-2"><?= $p['produk'] ?></div>
                                             </a>
