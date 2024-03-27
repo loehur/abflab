@@ -55,14 +55,16 @@ switch ($parse) {
                         <u>Order Ref. <?= $ref ?></u>
                         <div class="float-end text-end">
                             <span class="float-end text-warning"><small><?= $status ?></small></span><br>
-                            <?php switch ($parse) {
-                                case 'cancel': ?>
-                                    <span class="text-secondary"><?= $pay['transaction_status'] ?></span>
+                            <small>
+                                <?php switch ($parse) {
+                                    case 'cancel': ?>
+                                        <span class="text-secondary"><?= $pay['transaction_status'] ?></span>
+                                    <?php break;
+                                    case 'bb': ?>
+                                        <span class="text-secondary">Batas Bayar: <?= $pay['expired_time'] ?></span>
                                 <?php break;
-                                case 'bb': ?>
-                                    <span class="text-secondary">Batas Bayar: <?= $pay['expired_time'] ?></span>
-                            <?php break;
-                            } ?>
+                                } ?>
+                            </small>
                         </div>
                         <small>
                             <table class="table table-sm mb-0">
@@ -125,14 +127,16 @@ switch ($parse) {
 
                         <div class="float-end text-end">
                             <span class="float-end text-warning"><small><?= $status ?></small></span><br>
-                            <?php switch ($parse) {
-                                case 'cancel': ?>
-                                    <span class="text-secondary"><?= $pay['transaction_status'] ?></span>
+                            <small>
+                                <?php switch ($parse) {
+                                    case 'cancel': ?>
+                                        <span class="text-secondary"><?= $pay['transaction_status'] ?></span>
+                                    <?php break;
+                                    case 'bb': ?>
+                                        <span class="text-secondary">Batas Bayar: <?= $pay['expired_time'] ?></span>
                                 <?php break;
-                                case 'bb': ?>
-                                    <span class="text-secondary">Batas Bayar: <?= $pay['expired_time'] ?></span>
-                            <?php break;
-                            } ?>
+                                } ?>
+                            </small>
                         </div>
 
                         <small>
