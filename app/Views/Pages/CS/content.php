@@ -23,7 +23,7 @@ switch ($parse) {
         $status = "Selesai";
         break;
     case 'cancel':
-        $status = "Dibatalkan";
+        $status = "Batal";
         break;
     default:
         $status = "Belum Bayar";
@@ -38,7 +38,7 @@ switch ($parse) {
             <a href="<?= PC::BASE_URL ?>CS/index/paid" class="btn-sm nav-link <?= $parse == 'paid' ? 'active' : '' ?>">Proses</a>
             <a href="<?= PC::BASE_URL ?>CS/index/sent" class="btn-sm nav-link <?= $parse == 'sent' ? 'active' : '' ?>">Dikirim</a>
             <a href="<?= PC::BASE_URL ?>CS/index/done" class="btn-sm nav-link <?= $parse == 'done' ? 'active' : '' ?>">Selesai</a>
-            <a href="<?= PC::BASE_URL ?>CS/index/cancel" class="btn-sm nav-link <?= $parse == 'cancel' ? 'active' : '' ?>">Dibatalkan</a>
+            <a href="<?= PC::BASE_URL ?>CS/index/cancel" class="btn-sm nav-link <?= $parse == 'cancel' ? 'active' : '' ?>">Batal</a>
         </div>
     </nav>
     <div class="tab-content mx-1 mt-1">
@@ -78,7 +78,7 @@ switch ($parse) {
                                         <tr>
                                             <td>REF#<?= $ref ?></td>
                                         </tr>
-                                        <div class="float-end">
+                                        <div class="float-end text-end">
                                             <span class="float-end text-warning"><?= $status ?></span><br>
                                             <?php switch ($parse) {
                                                 case 'cancel': ?>

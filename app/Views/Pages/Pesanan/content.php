@@ -23,7 +23,7 @@ switch ($parse) {
         $status = "Selesai";
         break;
     case 'cancel':
-        $status = "Dibatalkan";
+        $status = "Batal";
         break;
     default:
         $status = "Belum Bayar";
@@ -38,7 +38,7 @@ switch ($parse) {
             <a href="<?= PC::BASE_URL ?>Pesanan/index/paid" class="btn-sm nav-link <?= $parse == 'paid' ? 'active' : '' ?>">Proses</a>
             <a href="<?= PC::BASE_URL ?>Pesanan/index/sent" class="btn-sm nav-link <?= $parse == 'sent' ? 'active' : '' ?>">Dikirim</a>
             <a href="<?= PC::BASE_URL ?>Pesanan/index/done" class="btn-sm nav-link <?= $parse == 'done' ? 'active' : '' ?>">Selesai</a>
-            <a href="<?= PC::BASE_URL ?>Pesanan/index/cancel" class="btn-sm nav-link <?= $parse == 'cancel' ? 'active' : '' ?>">Dibatalkan</a>
+            <a href="<?= PC::BASE_URL ?>Pesanan/index/cancel" class="btn-sm nav-link <?= $parse == 'cancel' ? 'active' : '' ?>">Batal</a>
         </div>
     </nav>
     <div class="tab-content mx-1 mt-1">
@@ -53,7 +53,7 @@ switch ($parse) {
                 <div class="row desktop">
                     <div class="col mx-2 border rounded pb-2 py-2 mb-2">
                         <u>Order Ref. <?= $ref ?></u>
-                        <div class="float-end">
+                        <div class="float-end text-end">
                             <span class="float-end text-warning"><small><?= $status ?></small></span><br>
                             <?php switch ($parse) {
                                 case 'cancel': ?>
@@ -121,7 +121,20 @@ switch ($parse) {
                 </div>
                 <div class="row mobile">
                     <div class="col mx-2 border rounded py-2 mb-2">
-                        <small><u>Ref#<?= $ref ?></u></small> <small><span class="float-end text-warning"><?= $status ?></span></small>
+                        <small><u>Ref#<?= $ref ?></u></small>
+
+                        <div class="float-end text-end">
+                            <span class="float-end text-warning"><small><?= $status ?></small></span><br>
+                            <?php switch ($parse) {
+                                case 'cancel': ?>
+                                    <span class="text-secondary"><?= $pay['transaction_status'] ?></span>
+                                <?php break;
+                                case 'bb': ?>
+                                    <span class="text-secondary">Batas Bayar: <?= $pay['expired_time'] ?></span>
+                            <?php break;
+                            } ?>
+                        </div>
+
                         <small>
                             <table class="table table-sm table-borderless">
                                 <?php
