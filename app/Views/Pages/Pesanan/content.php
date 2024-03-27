@@ -46,10 +46,24 @@ switch ($parse) {
             <?php
             foreach ($data['order'] as $key => $d) {
                 $ref = $key;
+                $where_d = "order_ref = '" . $ref . "'";
+                $deliv = $this->db(0)->get_where_row("delivery", $where_d);
+                $pay = $this->db(0)->get_where_row("payment", $where_d);
             ?>
                 <div class="row desktop">
                     <div class="col mx-2 border rounded pb-2 py-2 mb-2">
-                        <u>Order Ref. <?= $ref ?></u> <span class="float-end text-warning"><small><?= $status ?></small></span>
+                        <u>Order Ref. <?= $ref ?></u>
+                        <div class="float-end">
+                            <span class="float-end text-warning"><small><?= $status ?></small></span><br>
+                            <?php switch ($parse) {
+                                case 'cancel': ?>
+                                    <span class="text-secondary"><?= $pay['transaction_status'] ?></span>
+                                <?php break;
+                                case 'bb': ?>
+                                    <span class="text-secondary">Batas Bayar: <?= $pay['expired_time'] ?></span>
+                            <?php break;
+                            } ?>
+                        </div>
                         <small>
                             <table class="table table-sm mb-0">
                                 <?php
@@ -67,10 +81,6 @@ switch ($parse) {
                                 <?php
                                 }
                                 ?>
-                                <?php
-                                $where_d = "order_ref = '" . $ref . "'";
-                                $deliv = $this->db(0)->get_where_row("delivery", $where_d);
-                                ?>
                                 <tr>
                                     <td>Pengiriman:</td>
                                     <td><?= $deliv['courier_company'] ?> <?= $deliv['courier_type'] ?></td>
@@ -80,16 +90,11 @@ switch ($parse) {
                             </table>
                         </small>
                         <div class="w-10 text-end mb-1 0 fw-bold me-1">Rp<?= number_format($total + $deliv['price_paid']) ?></div>
-                        <?php if ($parse == "bb") {
-                            $where_p = "order_ref = '" . $ref . "'";
-                            $pay = $this->db(0)->get_where_row("payment", $where_p);
-                            if (strlen($pay['transaction_id']) == 0) {
-                        ?>
-                                <a target="_blank" href="<?= $pay['redirect_url'] ?>" class="btn btn-sm btn-danger">Bayar</a>
-                            <?php } else { ?>
-                                <span class="text-warning">Pembayaran dalam proses verifikasi</span>
-                        <?php }
-                        } ?>
+
+                        <?php if ($parse == "bb") { ?>
+                            <a target="_blank" href="<?= $pay['redirect_url'] ?>" class="btn btn-sm btn-danger">Bayar</a>
+                        <?php } ?>
+
                         <div>
                             <?php if ($parse == "sent") {
                                 $track = $this->model("Biteship")->tracking($deliv['tracking_id']);
@@ -148,16 +153,11 @@ switch ($parse) {
                             </table>
                         </small>
                         <div class="w-10 text-end mb-1 0 fw-bold me-1">Rp<?= number_format($total + $deliv['price_paid']) ?></div>
-                        <?php if ($parse == "bb") {
-                            $where_p = "order_ref = '" . $ref . "'";
-                            $pay = $this->db(0)->get_where_row("payment", $where_p);
-                            if (strlen($pay['transaction_id']) == 0) {
-                        ?>
-                                <a target="_blank" href="<?= $pay['redirect_url'] ?>" class="btn btn-sm btn-danger">Bayar</a>
-                            <?php } else { ?>
-                                <span class="text-warning">Pembayaran dalam proses verifikasi</span>
-                        <?php }
-                        } ?>
+
+                        <?php if ($parse == "bb") { ?>
+                            <a target="_blank" href="<?= $pay['redirect_url'] ?>" class="btn btn-sm btn-danger">Bayar</a>
+                        <?php } ?>
+
                         <div>
                             <?php if ($parse == "sent") {
                                 if (count($track['history']) == 0) { ?>

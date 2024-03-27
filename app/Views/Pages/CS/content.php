@@ -54,6 +54,10 @@ switch ($parse) {
                         $insertTime = $data['step'][$key]['time'];
                         $start_date = new DateTime($insertTime);
                         $since_start = $start_date->diff(new DateTime(date("Y-m-d H:i:s")));
+
+                        $where_d = "order_ref = '" . $ref . "'";
+                        $deliv = $this->db(0)->get_where_row("delivery", $where_d);
+                        $pay = $this->db(0)->get_where_row("payment", $where_d);
                     ?>
                         <div class="row">
                             <div class="col mx-2 border rounded pb-2 mb-2">
@@ -63,12 +67,29 @@ switch ($parse) {
                                             <td><span style="cursor: pointer;" class="text-success" onclick="cs_detail(<?= $ref ?>)" data-bs-toggle="modal" data-bs-target="#exampleModal_cs"><?= $customer ?></span></td>
                                         </tr>
                                         <tr>
-                                            <td><?= $insertTime ?> <small class="text-dark"><b>(<?= $since_start->days ?> Hari, <?= $since_start->h ?> Jam)</b></small></td>
+                                            <td><?= $insertTime ?>
+                                                <?php if ($parse == "paid") { ?>
+                                                    <small class="text-dark">
+                                                        <b>(<?= $since_start->days ?> Hari, <?= $since_start->h ?> Jam)</b>
+                                                    </small>
+                                                <?php } ?>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>REF#<?= $ref ?></td>
                                         </tr>
-                                        <span class="float-end text-warning"><?= $status ?></span>
+                                        <div class="float-end">
+                                            <span class="float-end text-warning"><?= $status ?></span><br>
+                                            <?php switch ($parse) {
+                                                case 'cancel': ?>
+                                                    <span class="text-secondary"><?= $pay['transaction_status'] ?></span>
+                                                <?php break;
+                                                case 'bb': ?>
+                                                    <span class="text-secondary">Batas Bayar: <?= $pay['expired_time'] ?></span>
+                                            <?php break;
+                                            }
+                                            ?>
+                                        </div>
                                     </table>
                                 </small>
                                 <div class="border-top mt-2">
@@ -91,10 +112,6 @@ switch ($parse) {
                                                     </tr>
                                             <?php }
                                             }
-                                            ?>
-                                            <?php
-                                            $where_d = "order_ref = '" . $ref . "'";
-                                            $deliv = $this->db(0)->get_where_row("delivery", $where_d);
                                             ?>
                                             <tr>
                                                 <td></td>
@@ -126,8 +143,6 @@ switch ($parse) {
                                 </div>
                                 <?php
                                 $total_ = $total + $deliv['price_paid'];
-                                $where_p = "order_ref = '" . $ref . "'";
-                                $pay = $this->db(0)->get_where_row("payment", $where_p);
                                 ?>
                                 <div class="fw-bold me-1 w-100 text-end mb-1"><span class="">Rp<?= number_format($total_) ?></span></div>
                                 <div>

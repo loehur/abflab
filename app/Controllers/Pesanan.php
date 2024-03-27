@@ -43,6 +43,7 @@ class Pesanan extends Controller
             $where = "customer_id = '" . $cust_id . "' AND order_status = " . $order_status . " ORDER BY order_ref DESC LIMIT 10";
             break;
          default:
+            $parse = 'bb';
             $order_status = 0;
             $where = "customer_id = '" . $cust_id . "' AND order_status = " . $order_status . " ORDER BY order_ref DESC";
             break;

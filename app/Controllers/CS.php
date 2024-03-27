@@ -51,6 +51,7 @@ class CS extends Controller
             $where = "order_status = " . $order_status . " ORDER BY order_ref DESC LIMIT 10";
             break;
          default:
+            $parse = 'bb';
             $order_status = 0;
             $where = "order_status = " . $order_status . " ORDER BY order_ref DESC";
             break;
