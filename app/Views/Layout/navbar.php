@@ -49,7 +49,7 @@ $t = $data['title'];
 						</ul>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row pe-2">
 					<?php if (isset($_SESSION['log'])) { ?>
 						<div class="col-auto px-1 desktop">
 							<a href=" <?= PC::BASE_URL ?>Pesanan" class="btn btn-sm pt-2 me-1 bg-white shadow-sm">
