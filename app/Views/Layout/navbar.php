@@ -75,40 +75,6 @@ $t = $data['title'];
 </div>
 <!-- Navbar End -->
 
-<div class="fix_menu mobile bg-white py-2" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
-	<div class="row px-2">
-		<div class="col-auto">
-			<a href="<?= PC::BASE_URL ?>Home">
-				<span class="btn shadow-none">
-					<i class="fa-solid fa-house"></i>
-				</span>
-			</a>
-		</div>
-		<div class="col">
-			<div data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2">
-				<span class="btn btn-sm shadow-none">
-					Produk
-				</span>
-			</div>
-		</div>
-		<?php if (isset($_SESSION['log'])) { ?>
-			<div class="col">
-				<a href=" <?= PC::BASE_URL ?>Pesanan" class="btn btn-sm shadow-none">
-					Pesanan
-				</a>
-			</div>
-		<?php } ?>
-		<div class="col-auto">
-			<span class="btn shadow-none">
-				<a href="https://api.whatsapp.com/send?phone=<?= PC::SETTING['wa_float'] ?>&text=Halo <?= PC::APP_NAME ?>, " class="text-success" target="_blank">
-					<i class="fa-brands fa-whatsapp"></i>
-				</a>
-			</span>
-		</div>
-	</div>
-</div>
-
-
 <!-- Modal -->
 <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog">

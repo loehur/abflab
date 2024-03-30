@@ -48,26 +48,43 @@
         <div class="mobile">
             <?php
             $menu = $this->model("D_Group")->main();
-            $produk = $this->db(0)->get("produk");
             ?>
 
-            <?php foreach ($menu as $k => $m) { ?>
-                <div>
-                    <label class="fw-bold"><small><?= $m['name'] ?></small></label>
-                </div>
-                <div class="wrapper rounded mb-2">
-                    <?php foreach ($produk as $pk => $p) {
-                        if ($p['grup'] == $k) { ?>
-                            <div class="rounded border item me-1 my-1 me-2">
-                                <a href="<?= ($p['link'] == 0) ? PC::BASE_URL . 'Detail/index/' . $p['produk_id'] : $p['link'] ?>" target="<?= $p['target'] ?>">
-                                    <img class="w-100 rounded bg-light" id="image<?= $p['img'] ?>0" onerror="no_image(<?= $p['img'] ?>0)" src="<?= PC::ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" alt="">
-                                    <div class="py-1 px-1 text-dark"><small><?= $p['produk'] ?></small></div>
-                                </a>
-                            </div>
-                    <?php }
-                    } ?>
-                </div>
-            <?php } ?>
+            <div>
+                <label class="fw-bold"><small>Top 10 Populer Products</small></label>
+            </div>
+            <div class="wrapper rounded mb-2">
+                <?php
+                $ten = 0;
+                foreach ($data['product'] as $pk => $p) {
+                    if ($ten <= 10) { ?>
+                        <div class="rounded shadow-sm item me-1 my-1 me-2">
+                            <a href="<?= ($p['link'] == 0) ? PC::BASE_URL . 'Detail/index/' . $p['produk_id'] : $p['link'] ?>" target="<?= $p['target'] ?>">
+                                <img class="w-100 rounded bg-light" id="image<?= $p['img'] ?>0" onerror="no_image(<?= $p['img'] ?>0)" src="<?= PC::ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" alt="">
+                                <div class="py-1 px-1 text-dark"><small><?= $p['produk'] ?></small></div>
+                            </a>
+                        </div>
+                <?php }
+                    $ten += 1;
+                } ?>
+            </div>
+            <div>
+                <label class="fw-bold"><small>Our Products</small></label>
+            </div>
+
+            <div class="row row-cols-2 px-1">
+                <?php foreach ($data['product'] as $p) { ?>
+                    <div class="col p-1 rounded">
+                        <div class="rounded shadow-sm">
+                            <a href="<?= ($p['link'] == 0) ? PC::BASE_URL . 'Detail/index/' . $p['produk_id'] : $p['link'] ?>" target="<?= $p['target'] ?>">
+                                <img id="image<?= $p['img'] ?>" onerror="no_image(<?= $p['img'] ?>)" src="<?= PC::ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" class="w-100 rounded-top" alt="">
+                            </a>
+                            <div class="w-100 text-center text-dark py-2"><?= $p['produk'] ?></div>
+                        </div>
+                    </div>
+                <?php
+                } ?>
+            </div>
 
         </div>
         <div class="desktop">
@@ -86,7 +103,7 @@
                     <div class="row px-2 row-cols-auto">
                         <?php foreach ($data['product'] as $p) { ?>
                             <div class="col-sm-2 mb-2 px-1 rounded">
-                                <div class="rounded border">
+                                <div class="rounded shadow-sm">
                                     <div class="img-zoom-border">
                                         <a href="<?= ($p['link'] == 0) ? PC::BASE_URL . 'Detail/index/' . $p['produk_id'] : $p['link'] ?>" target="<?= $p['target'] ?>">
                                             <img id="image<?= $p['img'] ?>" onerror="no_image(<?= $p['img'] ?>)" src="<?= PC::ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" class="img-zoom w-100 rounded-top" alt="">
@@ -105,11 +122,13 @@
                             <?php foreach ($data['product'] as $k => $p) {
                                 if ($p['grup'] == $km) { ?>
                                     <div class="col-sm-2 mb-2 px-1 rounded">
-                                        <div class="rounded img-zoom-border border">
-                                            <a href="<?= ($p['link'] == 0) ? PC::BASE_URL . 'Detail/index/' . $p['produk_id'] : $p['link'] ?>" target="<?= $p['target'] ?>">
-                                                <img id="image<?= $p['img'] ?>" onerror="no_image(<?= $p['img'] ?>)" src="<?= PC::ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" class="img-zoom w-100 rounded-top" alt="">
+                                        <div class="rounded shadow-sm">
+                                            <div class="img-zoom-border">
+                                                <a href="<?= ($p['link'] == 0) ? PC::BASE_URL . 'Detail/index/' . $p['produk_id'] : $p['link'] ?>" target="<?= $p['target'] ?>">
+                                                    <img id="image<?= $p['img'] ?>" onerror="no_image(<?= $p['img'] ?>)" src="<?= PC::ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" class="img-zoom w-100 rounded-top" alt="">
+                                                </a>
                                                 <div class="w-100 fw-bold text-center text-dark py-2"><?= $p['produk'] ?></div>
-                                            </a>
+                                            </div>
                                         </div>
                                     </div>
                             <?php }
