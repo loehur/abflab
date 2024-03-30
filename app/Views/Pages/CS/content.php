@@ -57,7 +57,7 @@ switch ($parse) {
 
                         $where_d = "order_ref = '" . $ref . "'";
 
-                        if ($since_start->days >= 2) {
+                        if ($since_start->days >= 2 && $parse == "bb") {
                             $set = "order_status = 4";
                             $this->db(0)->update("order_step", $set, $where_d);
                         }
