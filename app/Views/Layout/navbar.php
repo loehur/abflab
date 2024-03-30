@@ -75,7 +75,7 @@ $t = $data['title'];
 </div>
 <!-- Navbar End -->
 
-<div class="fix_menu mobile bg-light py-1 shadow border-top">
+<div class="fix_menu mobile bg-white py-2" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
 	<div class="row px-2">
 		<div class="col-auto">
 			<a href="<?= PC::BASE_URL ?>Home">
