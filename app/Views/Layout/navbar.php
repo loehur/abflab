@@ -2,25 +2,32 @@
 $t = $data['title'];
 ?>
 
+<style>
+	.fix_menu {
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		text-align: center;
+		background-color: white;
+		z-index: 9999;
+	}
+</style>
+
 <!-- Navbar start -->
-<div class="fixed-top shadow-sm bg-white" style="max-height: 80px;">
+<div class="fixed-top shadow-sm bg-light" style="max-height: 80px;">
 	<div class="container px-0">
-		<nav class="navbar navbar-light navbar-expand-xl">
+		<nav class="navbar navbar-light navbar-expand-sm">
 			<div class="container-fluid">
-				<a href="<?= PC::BASE_URL ?>Home" class="navbar-brand">
-					<img src="<?= PC::ASSETS_URL ?>img/logo.png" class="img-logo-home px-2" alt="">
+				<a href="<?= PC::BASE_URL ?>Home">
+					<img style="height: 40px;" src="<?= PC::ASSETS_URL ?>img/logo.png" alt="">
 				</a>
-				<div class="navbar-toggler border-0" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2">
-					<span class="fa fa-bars"></span>
-				</div>
-				<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar2" aria-labelledby="offcanvasNavbar2Label">
+				<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar2" style="width: 270px;">
 					<div class="offcanvas-header">
-						<a href="<?= PC::BASE_URL ?>Home" class="navbar-brand">
-							<img src="<?= PC::ASSETS_URL ?>img/logo.png" class="img-logo-home px-2" alt="">
-						</a>
+						<h1 class="p-0">Products</h1>
 						<button type="button" class="btn-close text-reset me-2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 					</div>
-					<div class="offcanvas-body">
+					<div class="offcanvas-body pe-2">
 						<ul class="navbar-nav justify-content-end flex-grow-1 mb-2">
 							<?php
 							$menu = $this->model("D_Group")->main();
@@ -40,21 +47,26 @@ $t = $data['title'];
 								</div>
 							<?php } ?>
 						</ul>
-						<div class="mt-2">
-							<?php if (isset($_SESSION['log'])) { ?>
-								<a href=" <?= PC::BASE_URL ?>Pesanan" class="btn btn-sm border position-relative pt-2 me-1 bg-white">
-									<i class="fa-regular fa-rectangle-list"></i> Pesanan
-								</a>
-							<?php } ?>
-							<a href="#" class="btn btn-sm border position-relative pt-2 me-1 bg-white text-success fw-bold" data-bs-toggle="modal" data-bs-target="#exampleModal">
-								<i class="fa-regular fa-circle-user"></i>
-								<span id="user_name"></span>
-							</a>
-							<a href=" <?= PC::BASE_URL ?>Cart" class="btn btn-sm border bg-white position-relative pt-2">
-								<i class="fa-solid fa-cart-shopping"></i> Cart
-								<div id="cart_count"></div>
+					</div>
+				</div>
+				<div class="row">
+					<?php if (isset($_SESSION['log'])) { ?>
+						<div class="col-auto px-1 desktop">
+							<a href=" <?= PC::BASE_URL ?>Pesanan" class="btn btn-sm pt-2 me-1 bg-white shadow-sm">
+								<i class="fa-regular fa-rectangle-list"></i> Pesanan
 							</a>
 						</div>
+					<?php } ?>
+					<div class="col-auto px-1">
+						<a href=" <?= PC::BASE_URL ?>Cart" class="btn btn-sm bg-white pt-2 shadow-sm border-bottom position-relative">
+							<i class="fa-solid fa-cart-shopping"></i> Cart
+							<div id="cart_count"></div>
+						</a>
+					</div>
+					<div class="col-auto px-1">
+						<a href="#" class="btn btn-sm pt-2 text-primary bg-white shadow-sm border-bottom fw-bold" data-bs-toggle="modal" data-bs-target="#exampleModal">
+							<span id="user_name"></span>
+						</a>
 					</div>
 				</div>
 			</div>
@@ -62,6 +74,39 @@ $t = $data['title'];
 	</div>
 </div>
 <!-- Navbar End -->
+
+<div class="fix_menu mobile bg-light py-1 shadow border-top">
+	<div class="row px-2">
+		<div class="col-auto">
+			<a href="<?= PC::BASE_URL ?>Home">
+				<span class="btn shadow-none">
+					<i class="fa-solid fa-house"></i>
+				</span>
+			</a>
+		</div>
+		<div class="col">
+			<div data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2">
+				<span class="btn btn-sm shadow-none">
+					Produk
+				</span>
+			</div>
+		</div>
+		<?php if (isset($_SESSION['log'])) { ?>
+			<div class="col">
+				<a href=" <?= PC::BASE_URL ?>Pesanan" class="btn btn-sm shadow-none">
+					Pesanan
+				</a>
+			</div>
+		<?php } ?>
+		<div class="col-auto">
+			<span class="btn shadow-none">
+				<a href="https://api.whatsapp.com/send?phone=<?= PC::SETTING['wa_float'] ?>&text=Halo <?= PC::APP_NAME ?>, " class="text-success" target="_blank">
+					<i class="fa-brands fa-whatsapp"></i>
+				</a>
+			</span>
+		</div>
+	</div>
+</div>
 
 
 <!-- Modal -->

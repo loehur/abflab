@@ -56,6 +56,12 @@ switch ($parse) {
                         $since_start = $start_date->diff(new DateTime(date("Y-m-d H:i:s")));
 
                         $where_d = "order_ref = '" . $ref . "'";
+
+                        if ($since_start->days >= 2) {
+                            $set = "order_status = 4";
+                            $this->db(0)->update("order_step", $set, $where_d);
+                        }
+
                         $deliv = $this->db(0)->get_where_row("delivery", $where_d);
                         $pay = $this->db(0)->get_where_row("payment", $where_d);
                     ?>

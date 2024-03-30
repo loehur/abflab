@@ -4,6 +4,6 @@
  </div>
  <!-- Spinner End -->
 
- <a href="https://api.whatsapp.com/send?phone=<?= PC::SETTING['wa_float'] ?>&text=Halo <?= PC::APP_NAME ?>, " class="float-green" target="_blank">
+ <a href="https://api.whatsapp.com/send?phone=<?= PC::SETTING['wa_float'] ?>&text=Halo <?= PC::APP_NAME ?>, " class="float-green desktop" target="_blank">
  	<i class="fa-brands fa-whatsapp float-center"></i>
  </a>

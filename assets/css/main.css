@@ -58,11 +58,6 @@ a:active {
   overflow: hidden;
 }
 
-.img-logo-home{
-  height: 40px;
-  object-fit: cover;
-}
-
 .cursor-pointer{
   cursor: pointer;
 }

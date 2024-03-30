@@ -25,7 +25,7 @@ class Load extends Controller
             unset($_SESSION['log']);
          }
       } else {
-         echo "Login";
+         echo "Account";
       }
    }
 
