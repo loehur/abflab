@@ -30,7 +30,7 @@
                         <div class="col">
                             <div class="form-floating mb-2">
                                 <input type="password" class="form-control" name="pass2" required id="floatingInput">
-                                <label for="floatingInput">Ulangi Password Baru</label>
+                                <label for="floatingInput">Ulangi Password</label>
                             </div>
                         </div>
                     </div>

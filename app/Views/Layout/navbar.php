@@ -92,11 +92,10 @@ $t = $data['title'];
 						</div>
 						<div class="form-floating mb-2">
 							<input type="password" class="form-control" name="pass" id="floatingInput12">
-							<label for="floatingInput12">Password <small>(Kosongkan bila belum pernah setup)</small></label>
+							<label for="floatingInput12">Password <small>(Kosongkan jika tidak ada)</small></label>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 						<a href="<?= PC::BASE_URL ?>Set_Password"><button type="button" class="btn btn-warning">Lupa Password</button></a>
 						<button type="submit" class="btn btn-primary">Login</button>
 					</div>
@@ -109,7 +108,6 @@ $t = $data['title'];
 					<div class="modal-footer">
 						<a href="<?= PC::BASE_URL ?>Set_Password"><button type="button" class="btn btn-warning">Atur Password</button></a>
 						<button type="submit" class="btn btn-danger">Logout</button>
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 					</div>
 				<?php } ?>
 			</form>
