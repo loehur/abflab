@@ -100,7 +100,7 @@ switch ($parse) {
                                 </small>
                                 <div class="border-top mt-2">
                                     <small>
-                                        <table class="table table-sm desktop mb-0">
+                                        <table class="table table-sm mb-0">
                                             <?php
                                             $total = 0;
                                             foreach ($d as $da) {
