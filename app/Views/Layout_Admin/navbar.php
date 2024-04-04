@@ -7,15 +7,15 @@ $t = $data['title'];
 	<div class="container px-0">
 		<nav class="navbar navbar-light navbar-expand-xl">
 			<div class="container-fluid">
-				<a href="<?= PC::BASE_URL . $_GET['url'] ?>" class="navbar-brand">
-					<img src="<?= PC::ASSETS_URL ?>img/logo.png" class="img-logo-home px-2" alt="">
+				<a href="<?= PC::BASE_URL . $_GET['url'] ?>">
+					<img style="height: 40px;" src="<?= PC::ASSETS_URL ?>img/logo.png" alt="">
 				</a>
 				<div class="navbar-toggler border-0" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2">
 					<span class="fa fa-bars"></span>
 				</div>
 				<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar2" aria-labelledby="offcanvasNavbar2Label">
 					<div class="offcanvas-header">
-						<a href="<?= PC::BASE_URL ?>CS" class="navbar-brand">
+						<a href="<?= PC::BASE_URL ?>CS">
 							<img src="<?= PC::ASSETS_URL ?>img/logo.png" class="img-logo-home px-2" alt="">
 						</a>
 						<button type="button" class="btn-close text-reset me-2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
