@@ -3,7 +3,7 @@
 class Place extends PC
 {
     public $key = "gwfctr54EwUPf8";
-    public $host = "https://api.mdl.my.id/";
+    public $host = "https://api.abfteams.com/";
 
     public function provinsi()
     {
