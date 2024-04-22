@@ -96,7 +96,8 @@ $t = $data['title'];
 						</div>
 					</div>
 					<div class="modal-footer">
-						<a href="<?= PC::BASE_URL ?>Set_Password"><button type="button" class="btn btn-warning">Lupa Password</button></a>
+						<a href="<?= PC::BASE_URL ?>Daftar" class="me-auto"><button type="button" class="btn btn-outline-success">Register</button></a>
+						<a href="<?= PC::BASE_URL ?>Set_Password"><button type="button" class="btn btn-outline-secondary">Lupa Password</button></a>
 						<button type="submit" class="btn btn-primary">Login</button>
 					</div>
 				<?php } else { ?>

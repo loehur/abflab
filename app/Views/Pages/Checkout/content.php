@@ -9,7 +9,7 @@
                         $d = $_SESSION['log']; ?>
                         <div class="row">
                             <div class="col mt-auto"><?= $d['name'] ?></div>
-                            <div class="col text-end"><a href="<?= PC::BASE_URL ?>Daftar"><small>Ubah Alamat</small></a></div>
+                            <div class="col text-end"><a href="<?= PC::BASE_URL ?>Daftar"><small>Ubah Data</small></a></div>
                         </div>
                         <div class="row">
                             <div class="col"><?= $d['hp'] ?></div>
@@ -21,7 +21,7 @@
                             <div class="col"><?= $d['address'] ?></div>
                         </div>
                     <?php } else { ?>
-                        <a class="btn btn-sm btn-primary shadow-none" href="<?= PC::BASE_URL ?>Daftar">Atur Alamat Baru</a>
+                        <a class="btn btn-sm btn-primary shadow-none" href="<?= PC::BASE_URL ?>Daftar">Registrasi / Atur Alamat</a>
                         <a class="btn btn-sm btn-success shadow-none" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">Login</a>
                     <?php }
                     ?>

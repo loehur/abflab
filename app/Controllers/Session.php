@@ -17,11 +17,7 @@ class Session extends Controller
    function login()
    {
       if (!isset($_SESSION['log']['hp'])) {
-         if (strlen($_POST['pass']) == 0) {
-            $pass = "";
-         } else {
-            $pass = $this->model("Encrypt")->enc($_POST['pass']);
-         }
+         $pass = $this->model("Encrypt")->enc($_POST['pass']);
          $where = "hp = '" . $_POST['hp'] . "' AND password = '" . $pass . "'";
          $cust = $this->db(0)->get_where_row("customer", $where);
          if (isset($cust['customer_id'])) {
