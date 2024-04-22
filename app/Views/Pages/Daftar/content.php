@@ -204,7 +204,7 @@
             type: $(this).attr("method"),
             success: function(res) {
                 if (res == 0) {
-                    alert("Registrasi Success!");
+                    alert("Success!");
                     window.location.href = "<?= PC::BASE_URL ?>Checkout";
                 } else if (res == 1) {
                     window.location.href = "<?= PC::BASE_URL ?>Home";
