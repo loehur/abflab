@@ -108,7 +108,7 @@
                     <div class="col">
                         <div class="input-group mb-3">
                             <input type="text" class="form-control shadow-none" required name="otp" placeholder="OTP" aria-label="Recipient's username" aria-describedby="button-addon2">
-                            <button class="btn btn-outline-secondary" type="button" id="otp">Minta OTP</button>
+                            <button class="btn btn-outline-secondary" type="button" id="otp">Minta</button>
                         </div>
                     </div>
                 <?php } ?>

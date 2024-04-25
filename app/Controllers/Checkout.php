@@ -90,67 +90,6 @@ class Checkout extends Controller
       $this->view(__CLASS__, __CLASS__ . "/list_kodepos", $data);
    }
 
-   function daftar()
-   {
-      $hp =   $_POST['hp'];
-      $nama = $_POST['nama'];
-      $alamat = $_POST['alamat'];
-      $area_id = $_POST['kodepos'];
-      $lat = $_POST['lat'];
-      $long = $_POST['long'];
-      $email = $_POST['email'];
-
-      $res = $this->model("Biteship")->get_area_id($area_id);
-      if (isset($res[0]['id'])) {
-         $area_id = $res[0]['id'];
-         $area_name = $res[0]['name'];
-         $postal_code = $res[0]['postal_code'];
-      } else {
-         $this->model('Log')->write("Daftar Error, Not Found res[0]['id']");
-         header("Location: " . PC::BASE_URL . "Checkout");
-         exit();
-      }
-
-      $where = "hp = '" . $hp . "'";
-      $cek = $this->db(0)->get_where_row("customer", $where);
-      if (isset($cek['customer_id'])) {
-         if (isset($area_name)) {
-            $set = "name = '" . $nama . "', address = '" . $alamat . "', area_name = '" . $area_name . "', area_id = '" . $area_id . "', postal_code = '" . $postal_code . "', latt = '" . $lat . "', longt = '" . $long . "', email = '" . $email . "'";
-            $update = $this->db(0)->update("customer", $set, $where);
-            if ($update['errno'] <> 0) {
-               $this->model('Log')->write("Daftar Error, " . $update['error']);
-               header("Location: " . PC::BASE_URL . "Checkout");
-               exit();
-            }
-         } else {
-            $this->model('Log')->write("Daftar Error, !isset area_name");
-            header("Location: " . PC::BASE_URL . "Checkout");
-            exit();
-         }
-      } else {
-         if (isset($area_name)) {
-            $cust_id = date("Ymdhis") . rand(0, 9) . rand(0, 9);
-            $cols = "customer_id, name, hp, area_id, area_name, address, postal_code, latt, longt, email";
-            $vals = "'" . $cust_id . "', '" . $nama . "', '" . $hp . "','" . $area_id . "','" . $area_name . "','" . $alamat . "','" . $postal_code . "','" . $lat . "','" . $long . "','" . $email . "'";
-            $this->db(0)->insertCols("customer", $cols, $vals);
-         } else {
-            $this->model('Log')->write("Daftar Error, !isset area_name");
-            header("Location: " . PC::BASE_URL . "Checkout");
-            exit();
-         }
-      }
-
-      $cust = $this->db(0)->get_where_row("customer", $where);
-      if (isset($cust['customer_id'])) {
-         $_SESSION['log'] = $cust;
-         header("Location: " . PC::BASE_URL . "Checkout");
-      } else {
-         $this->model('Log')->write("Daftar Error, !cust['customer_id']");
-         header("Location: " . PC::BASE_URL . "Checkout");
-         exit();
-      }
-   }
-
    function ckout()
    {
       if (!isset($_SESSION['log']) || !isset($_SESSION['cart'])) {

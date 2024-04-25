@@ -92,12 +92,12 @@ $t = $data['title'];
 						</div>
 						<div class="form-floating mb-2">
 							<input type="password" class="form-control" name="pass" id="floatingInput12">
-							<label for="floatingInput12">Password <small>(Kosongkan jika tidak ada)</small></label>
+							<label for="floatingInput12">Password</label>
 						</div>
 					</div>
 					<div class="modal-footer">
 						<a href="<?= PC::BASE_URL ?>Daftar" class="me-auto"><button type="button" class="btn btn-outline-success">Register</button></a>
-						<a href="<?= PC::BASE_URL ?>Set_Password"><button type="button" class="btn btn-outline-secondary">Lupa Password</button></a>
+						<a href="<?= PC::BASE_URL ?>Set_Password"><button type="button" class="btn btn-sm">Lupa Password</button></a>
 						<button type="submit" class="btn btn-primary">Login</button>
 					</div>
 				<?php } else { ?>
