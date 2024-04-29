@@ -107,7 +107,7 @@ class CS extends Controller
 
    function selesai($ref)
    {
-      $cs = $_SESSION['cs']['no'];
+      $cs = $_SESSION['log_admin']['no'];
 
       $date = date("Y-m-d H:i:s");
       $where_o = "order_ref = '" . $ref . "'";
