@@ -137,7 +137,7 @@ switch ($parse) {
                                                                 ?>
                                                             <?php }
                                                         } else { ?>
-                                                            <a href="#">Selesai/Siap Jemput</a>
+                                                            <a class="me-1 done_order" href="<?= PC::BASE_URL . $con ?>/selesai/<?= $deliv['order_ref'] ?>">Selesai/Siap Jemput</a>
                                                     <?php }
                                                     } ?>
                                                 </td>
@@ -229,6 +229,13 @@ switch ($parse) {
         e.preventDefault();
         $.post($(this).attr('href'), function() {
             content('paid');
+        });
+    })
+
+    $(".done_order").click(function(e) {
+        e.preventDefault();
+        $.post($(this).attr('href'), function() {
+            content('done');
         });
     })
 

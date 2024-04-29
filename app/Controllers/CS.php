@@ -105,30 +105,18 @@ class CS extends Controller
    }
 
 
-   function selesai()
+   function selesai($ref)
    {
       $cs = $_SESSION['cs']['no'];
-      $ref = $_POST['ref'];
-      $resi = $_POST['resi'];
 
       $date = date("Y-m-d H:i:s");
       $where_o = "order_ref = '" . $ref . "'";
-      $set_o = "processing_step = 2, done_date = '" . $date . "', done_cs = '" . $cs . "'";
-      $this->db(0)->update("order_list", $set_o, $where_o);
+      $set_o = "order_status = 3, done_date = '" . $date . "', cs_done = '" . $cs . "'";
+      $this->db(0)->update("order_step", $set_o, $where_o);
 
-      $where_d = "order_ref = '" . $ref . "'";
-      $set_d = "resi = '" . $resi . "'";
-      $this->db(0)->update("order_list", $set_d, $where_d);
-
-      $deliv = $_POST['deliv'];
-      $cust_id = $_POST['cust'];
-      $where = "customer_id = '" . $cust_id . "'";
-      $cust = $this->db(0)->get_where_row("customer", $where);
-      if ($deliv == 1) {
-         $text = "*" . PC::APP_NAME . "*\nREF#" . $ref . "\nOrderan telah selesai dan siap dijemput";
-      } else {
-         $text = "*" . PC::APP_NAME . "*\nREF#" . $ref . "\nOrderan telah selesai dan sedang dalam proses pengiriman.\nResi: " . $resi;
-      }
+      $where = "order = '" . $ref . "'";
+      $cust = $this->db(0)->get_where_row("delivery", $where);
+      $text = "*" . PC::APP_NAME . "*\nREF#" . $ref . "\nOrderan telah selesai dan siap dijemput";
       $this->model('WA')->send($cust['hp'], $text);
    }
 
