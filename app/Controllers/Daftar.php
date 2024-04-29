@@ -45,7 +45,7 @@ class Daftar extends Controller
 
    function daftar()
    {
-      $hp =   $_POST['number'];
+      $hp = $_POST['number'];
       $hp = preg_replace('/[^0-9]/', '', $hp);
       if (substr($hp, 0, 2) == "62") {
          $hp = "0" . substr($hp, 2);
