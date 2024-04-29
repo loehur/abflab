@@ -46,6 +46,11 @@ class Daftar extends Controller
    function daftar()
    {
       $hp =   $_POST['number'];
+      $hp = preg_replace('/[^0-9]/', '', $hp);
+      if (substr($hp, 0, 2) == "62") {
+         $hp = "0" . substr($hp, 2);
+      }
+
       $nama = $_POST['nama'];
       $alamat = $_POST['alamat'];
       $area_id = $_POST['kodepos'];

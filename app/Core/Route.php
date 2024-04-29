@@ -41,4 +41,4 @@ class Route
         //PANGGIL CLASS(yg sudah di panggil init/core beserta fungsi dan parameter)
         call_user_func_array([$this->controller, $this->method], $this->param);
     }
-}
+} 
