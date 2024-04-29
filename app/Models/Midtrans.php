@@ -29,10 +29,10 @@ class Midtrans extends PC
                         if ($c == 2) {
                             $lname = $n;
                         } else {
-                            $lname += $n;
+                            $lname .= $n;
                         }
                     } else {
-                        $lname += $n . " ";
+                        $lname .= $n . " ";
                     }
                 }
             }
