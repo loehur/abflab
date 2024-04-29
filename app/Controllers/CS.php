@@ -114,7 +114,7 @@ class CS extends Controller
       $set_o = "order_status = 3, done_date = '" . $date . "', cs_done = '" . $cs . "'";
       $this->db(0)->update("order_step", $set_o, $where_o);
 
-      $where = "order = '" . $ref . "'";
+      $where = "order_ref = '" . $ref . "'";
       $cust = $this->db(0)->get_where_row("delivery", $where);
       $text = "*" . PC::APP_NAME . "*\nREF#" . $ref . "\nOrderan telah selesai dan siap dijemput";
       $this->model('WA')->send($cust['hp'], $text);
