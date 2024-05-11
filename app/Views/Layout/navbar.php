@@ -15,12 +15,12 @@ $t = $data['title'];
 </style>
 
 <!-- Navbar start -->
-<div class="fixed-top shadow-sm bg-light" style="max-height: 80px;">
+<div class="fixed-top border-bottom shadow-sm bg-light" style="max-height: 80px;">
 	<div class="container px-0">
 		<nav class="navbar navbar-light navbar-expand-sm">
 			<div class="container-fluid">
 				<a href="<?= PC::BASE_URL ?>Home">
-					<img style="height: 40px;" src="<?= PC::ASSETS_URL ?>img/logo.png" alt="">
+					<img style="height: 50px;" src="<?= PC::ASSETS_URL ?>img/logo.png" alt="">
 				</a>
 				<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar2" style="width: 270px;">
 					<div class="offcanvas-header">
@@ -36,7 +36,7 @@ $t = $data['title'];
 
 							<?php foreach ($menu as $k => $m) { ?>
 								<div class="nav-item dropdown">
-									<a href="#" class="nav-link bg-light rounded text-dark px-2 mt-2 me-2 py-1 <?= (str_contains($t, $m['aktif'])) ? 'active' : '' ?>" data-bs-toggle="dropdown"><?= $m['name'] ?></a>
+									<a href="#" class="nav-link shadow-sm text-success bg-light rounded px-2 mt-2 me-2 py-1 <?= (str_contains($t, $m['aktif'])) ? 'active' : '' ?>" data-bs-toggle="dropdown"><?= $m['name'] ?></a>
 									<div class="dropdown-menu m-0 rounded-0 bg-light me-2">
 										<?php foreach ($produk as $p) {
 											if ($p['grup'] == $k) { ?>

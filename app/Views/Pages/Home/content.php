@@ -90,11 +90,11 @@
         <div class="desktop">
             <ul class="nav nav-tabs mb-2" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="pills-all-tab" data-bs-toggle="pill" data-bs-target="#pills-all" type="button" role="tab" aria-controls="pills-all" aria-selected="true">Semua</button>
+                    <button class="nav-link active text-success" id="pills-all-tab" data-bs-toggle="pill" data-bs-target="#pills-all" type="button" role="tab" aria-controls="pills-all" aria-selected="true">Semua</button>
                 </li>
                 <?php foreach ($menu as $k => $m) { ?>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pills-<?= $m['aktif'] ?>-tab" data-bs-toggle="pill" data-bs-target="#pills-<?= $m['aktif'] ?>" type="button" role="tab" aria-controls="pills-<?= $m['aktif'] ?>" aria-selected="true"><?= $m['name'] ?></button>
+                        <button class="nav-link text-success" id="pills-<?= $m['aktif'] ?>-tab" data-bs-toggle="pill" data-bs-target="#pills-<?= $m['aktif'] ?>" type="button" role="tab" aria-controls="pills-<?= $m['aktif'] ?>" aria-selected="true"><?= $m['name'] ?></button>
                     </li>
                 <?php } ?>
             </ul>
