@@ -36,8 +36,8 @@ $t = $data['title'];
 
 							<?php foreach ($menu as $k => $m) { ?>
 								<div class="nav-item dropdown">
-									<a href="#" class="nav-link shadow-sm bg-white text-dark border-top px-2 mt-2 me-2 py-1 <?= (str_contains($t, $m['aktif'])) ? 'active' : '' ?>" data-bs-toggle="dropdown"><?= $m['name'] ?></a>
-									<div class="dropdown-menu m-0 rounded-0">
+									<a href="#" class="nav-link bg-light rounded text-dark px-2 mt-2 me-2 py-1 <?= (str_contains($t, $m['aktif'])) ? 'active' : '' ?>" data-bs-toggle="dropdown"><?= $m['name'] ?></a>
+									<div class="dropdown-menu m-0 rounded-0 bg-light me-2">
 										<?php foreach ($produk as $p) {
 											if ($p['grup'] == $k) { ?>
 												<a href="<?= ($p['link'] == 0) ? PC::BASE_URL . 'Detail/index/' . $p['produk_id'] : $p['link'] ?>" class="dropdown-item"><?= $p['produk'] ?></a>
