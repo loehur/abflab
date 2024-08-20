@@ -144,11 +144,18 @@ switch ($parse) {
                                                 <td></td>
                                                 <td class="text-end">Rp<?= number_format($deliv['price_paid']) ?>/<?= number_format($deliv['price']) ?></td>
                                             </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td colspan="2">Diskon Ongkir:</td>
+                                                <td></td>
+                                                <td class="text-end">Rp<?= number_format($deliv['discount']) ?></td>
+                                            </tr>
                                         </table>
                                     </small>
                                 </div>
                                 <?php
-                                $total_ = $total + $deliv['price_paid'];
+                                $total_ = $total + $deliv['price_paid'] - $deliv['discount'];
                                 ?>
                                 <div class="fw-bold me-1 w-100 text-end mb-1"><span class="">Rp<?= number_format($total_) ?></span></div>
                                 <div>

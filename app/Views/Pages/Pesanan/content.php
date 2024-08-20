@@ -89,9 +89,15 @@ switch ($parse) {
                                     <td></td>
                                     <td class="text-end">Rp<?= number_format($deliv['price_paid']) ?></td>
                                 </tr>
+                                <tr>
+                                    <td>Diskon Ongkir</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-end">Rp<?= number_format($deliv['discount']) ?></td>
+                                </tr>
                             </table>
                         </small>
-                        <div class="w-10 text-end mb-1 0 fw-bold me-1">Rp<?= number_format($total + $deliv['price_paid']) ?></div>
+                        <div class="w-10 text-end mb-1 0 fw-bold me-1">Rp<?= number_format($total + $deliv['price_paid'] - $deliv['discount']) ?></div>
 
                         <?php if ($parse == "bb") { ?>
                             <a target="_blank" href="<?= $pay['redirect_url'] ?>" class="btn btn-sm btn-danger">Bayar</a>
@@ -167,9 +173,12 @@ switch ($parse) {
                                 <tr>
                                     <td>Pengiriman: <?= $deliv['courier_company'] ?> <?= $deliv['courier_type'] ?> <span class="float-end">Rp<?= number_format($deliv['price_paid']) ?></span></td>
                                 </tr>
+                                <tr>
+                                    <td>Diskon Ongkir: <span class="float-end">Rp<?= number_format($deliv['discount']) ?></span></td>
+                                </tr>
                             </table>
                         </small>
-                        <div class="w-10 text-end mb-1 0 fw-bold me-1">Rp<?= number_format($total + $deliv['price_paid']) ?></div>
+                        <div class="w-10 text-end mb-1 0 fw-bold me-1">Rp<?= number_format($total + $deliv['price_paid'] - $deliv['discount']) ?></div>
 
                         <?php if ($parse == "bb") { ?>
                             <a target="_blank" href="<?= $pay['redirect_url'] ?>" class="btn btn-sm btn-danger">Bayar</a>

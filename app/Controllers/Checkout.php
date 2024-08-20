@@ -167,19 +167,6 @@ class Checkout extends Controller
          }
       }
 
-      //DELIVERY
-      $cols = "order_ref, name, hp, address, area_id, area_name, postal_code, latt, longt, courier_company, courier_type, price_paid, price";
-      $vals = "'" . $ref . "','" . $name . "','" . $hp . "','" . $address . "','" . $area_id . "','" . $area_name . "','" . $postal_code . "','" . $latt . "','" . $longt . "','" . $kur_company . "','" . $kur_type . "'," . $price . "," . $price;
-      $in = $this->db(0)->insertCols("delivery", $cols, $vals);
-      if ($in['errno'] <> 0) {
-         $where = "order_ref = '" . $ref . "'";
-         $this->db(0)->delete_where("order_step", $where);
-         $this->db(0)->delete_where("order_list", $where);
-         $this->model('Log')->write("Insert delivery Error, " . $in['error']);
-         header("Location: " . PC::BASE_URL . "Home");
-         exit();
-      }
-
       //DISKON ONGKIR
       $lj = 0;
       $diskon_ongkir = 0;
@@ -192,9 +179,26 @@ class Checkout extends Controller
          $lj = $jumlah;
       }
 
+      if ($diskon_ongkir > $price) {
+         $diskon_ongkir = $price;
+      }
+
+      //DELIVERY
+      $cols = "order_ref, name, hp, address, area_id, area_name, postal_code, latt, longt, courier_company, courier_type, price_paid, price, discount";
+      $vals = "'" . $ref . "','" . $name . "','" . $hp . "','" . $address . "','" . $area_id . "','" . $area_name . "','" . $postal_code . "','" . $latt . "','" . $longt . "','" . $kur_company . "','" . $kur_type . "'," . $price . "," . $price . "," . $diskon_ongkir;
+      $in = $this->db(0)->insertCols("delivery", $cols, $vals);
+      if ($in['errno'] <> 0) {
+         $where = "order_ref = '" . $ref . "'";
+         $this->db(0)->delete_where("order_step", $where);
+         $this->db(0)->delete_where("order_list", $where);
+         $this->model('Log')->write("Insert delivery Error, " . $in['error']);
+         header("Location: " . PC::BASE_URL . "Home");
+         exit();
+      }
+
       //PAYMENT
+      $price -= $diskon_ongkir;
       $total += $price;
-      $total -= $diskon_ongkir;
 
       $cols = "order_ref, amount";
       $vals = "'" . $ref . "'," . $total;
