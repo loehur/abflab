@@ -125,9 +125,9 @@
         ongkir(0);
     });
     var sub = <?= $total ?>;
-    var dis_ongkir = <?= $diskon_ongkir ?>;
 
     function ongkir(biaya) {
+        var dis_ongkir = <?= $diskon_ongkir ?>;
         if (dis_ongkir > biaya) {
             dis_ongkir = biaya;
         }
