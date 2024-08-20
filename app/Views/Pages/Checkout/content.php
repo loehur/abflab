@@ -103,6 +103,7 @@
                                 }
                             }
                             $lj = $jumlah;
+                            echo $key . " " . $jumlah . "<br>";
                         }
                         ?>
                         <tr>
