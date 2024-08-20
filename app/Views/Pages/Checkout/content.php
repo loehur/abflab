@@ -93,11 +93,6 @@
                             <td>Biaya Pengiriman</td>
                             <td class="text-end" id="ongkir"></td>
                         </tr>
-                        <tr>
-                            <td>Diskon Ongkir</td>
-                            <td class="text-end" id="dis_ongkir"></td>
-                        </tr>
-
                         <?php
                         $lj = 0;
                         $diskon_ongkir = 0;
@@ -110,6 +105,10 @@
                             $lj = $jumlah;
                         }
                         ?>
+                        <tr>
+                            <td>Diskon Ongkir</td>
+                            <td class="text-end" id="dis_ongkir"><?= $diskon_ongkir ?></td>
+                        </tr>
                     </table>
                 </small>
 
