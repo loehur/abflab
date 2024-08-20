@@ -180,8 +180,22 @@ class Checkout extends Controller
          exit();
       }
 
+      //DISKON ONGKIR
+      $lj = 0;
+      $diskon_ongkir = 0;
+      foreach (PC::DISKON_ONGKIR as $key => $jumlah) {
+         if ($total >= $jumlah) {
+            if ($jumlah > $lj) {
+               $diskon_ongkir = ($key / 100) * $total;
+            }
+         }
+         $lj = $jumlah;
+      }
+
       //PAYMENT
       $total += $price;
+      $total -= $diskon_ongkir;
+
       $cols = "order_ref, amount";
       $vals = "'" . $ref . "'," . $total;
       $in = $this->db(0)->insertCols("payment", $cols, $vals);

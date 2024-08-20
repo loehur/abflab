@@ -93,6 +93,24 @@
                             <td>Biaya Pengiriman</td>
                             <td class="text-end" id="ongkir"></td>
                         </tr>
+                        <?php
+                        $lj = 0;
+                        $diskon_ongkir = 0;
+                        foreach (PC::DISKON_ONGKIR as $key => $jumlah) {
+                            if ($total >= $jumlah) {
+                                if ($jumlah > $lj) {
+                                    $diskon_ongkir = $key;
+                                }
+                            }
+                            $lj = $jumlah;
+                        }
+                        if ($diskon_ongkir > 0) { ?>
+                            <tr>
+                                <td>Diskon Ongkir</td>
+                                <td><?= number_format(($diskon_ongkir / 100) * $total) ?></td>
+                            </tr>
+                        <?php }
+                        ?>
                     </table>
                 </small>
 

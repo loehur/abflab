@@ -132,6 +132,8 @@
     var glat = <?= $data['geo']['lat'] ?>;
     var glong = <?= $data['geo']['long'] ?>;
 
+    var datatabel = 1;
+
     $(document).ready(function() {
         let mapOptions = {
             center: [glat, glong],
