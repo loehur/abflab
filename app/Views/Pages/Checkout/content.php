@@ -103,8 +103,8 @@
                                 }
                             }
                             $lj = $jumlah;
-                            echo $key . " " . $jumlah . "<br>";
                         }
+                        echo $diskon_ongkir;
                         ?>
                         <tr>
                             <td>Diskon Ongkir</td>
