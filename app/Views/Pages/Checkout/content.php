@@ -128,9 +128,6 @@
     var dis_ongkir = <?= $diskon_ongkir ?>;
 
     function ongkir(biaya) {
-        if (parseInt(dis_ongkir) > parseInt(biaya)) {
-            dis_ongkir = biaya;
-        }
         $("td#ongkir").html("Rp" + addCommas(biaya));
         $("td#dis_ongkir").html("Rp" + addCommas(dis_ongkir));
         var new_total = parseInt(sub) + parseInt(biaya) - parseInt(dis_ongkir);
