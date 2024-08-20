@@ -129,7 +129,7 @@
 
     function ongkir(biaya) {
         if (dis_ongkir > biaya) {
-            alert("mantap");
+            dis_ongkir = biaya;
         }
         $("td#ongkir").html("Rp" + addCommas(biaya));
         $("td#dis_ongkir").html("Rp" + addCommas(dis_ongkir));
