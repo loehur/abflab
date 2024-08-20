@@ -104,11 +104,10 @@
                             }
                             $lj = $jumlah;
                         }
-                        echo $diskon_ongkir;
                         ?>
                         <tr>
                             <td>Diskon Ongkir</td>
-                            <td class="text-end" id="dis_ongkir"><?= $diskon_ongkir ?></td>
+                            <td class="text-end" id="dis_ongkir">0</td>
                         </tr>
                     </table>
                 </small>
