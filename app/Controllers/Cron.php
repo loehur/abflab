@@ -20,7 +20,6 @@ class Cron extends Controller
             $expired = true;
          }
          if ($expired == true) {
-            echo "Expired<br>";
             $where = "order_ref = '" . $order_ref . "'";
             $set = "order_status = 4";
             $up2 = $this->db(0)->update("order_step", $set, $where);
