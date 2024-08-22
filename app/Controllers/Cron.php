@@ -7,7 +7,6 @@ class Cron extends Controller
       $where = "order_status = 0";
       $step = $this->db(0)->get_where("order_step", $where);
       foreach ($step as $s) {
-         print_r($s);
          $order_time = $s['insertTime'];
          $order_ref = $s['order_ref'];
          $expired = false;
@@ -18,6 +17,7 @@ class Cron extends Controller
             $expired = true;
          }
          if ($expired == true) {
+            echo "Expired<br>";
             $where = "order_ref = '" . $order_ref . "'";
             $set = "order_status = 4";
             $up2 = $this->db(0)->update("order_step", $set, $where);
