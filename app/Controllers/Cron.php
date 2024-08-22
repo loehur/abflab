@@ -12,7 +12,7 @@ class Cron extends Controller
          $expired = false;
          $date1 = new DateTime($order_time);
          $date2 = new DateTime(date("Y-m-d H:i:s"));
-         $diff = $date2->diff($date1);
+         $diff = $date1->diff($date2);
          if ($diff->h > 25) {
             $expired = true;
          }
