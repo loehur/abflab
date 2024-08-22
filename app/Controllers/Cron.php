@@ -10,10 +10,13 @@ class Cron extends Controller
          $order_time = $s['insertTime'];
          $order_ref = $s['order_ref'];
          $expired = false;
-         $date1 = new DateTime($order_time);
-         $date2 = new DateTime(date("Y-m-d H:i:s"));
-         $diff = $date1->diff($date2);
-         if ($diff->h > 25) {
+
+         $t1 = strtotime($s['insertTime']);
+         $t2 = strtotime(date("Y-m-d H:i:s"));
+         $diff = $t2 - $t1;
+         $hours = round($diff / (60 * 60), 1);
+
+         if ($hours > 25) {
             $expired = true;
          }
          if ($expired == true) {
