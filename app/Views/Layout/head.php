@@ -13,5 +13,5 @@
 
 	<!-- Icon -->
 	<script src="<?= PC::ASSETS_URL ?>js/feather.min.js"></script>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+	<link href="<?= PC::ASSETS_URL ?>css/bootstrap-icons.css" rel="stylesheet">
 </head>
