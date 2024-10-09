@@ -104,10 +104,29 @@
                             }
                             $lj = $jumlah;
                         }
+
+                        //DISKON BELANJA
+                        $lj2 = 0;
+                        $diskon_belanja = 0;
+                        foreach (PC::DISKON_BELANJA as $key => $jumlah) {
+                            if ($total >= $jumlah) {
+                                if ($jumlah > $lj2) {
+                                    $diskon_belanja = ($key / 100) * $total;
+                                }
+                            }
+                            $lj2 = $jumlah;
+                        }
                         ?>
+
                         <tr>
                             <td>Diskon Ongkir</td>
                             <td class="text-end" id="dis_ongkir">0</td>
+                        </tr>
+
+
+                        <tr>
+                            <td>Diskon Belanja</td>
+                            <td class="text-end" id="dis_belanja">0</td>
                         </tr>
                     </table>
                 </small>
@@ -128,13 +147,16 @@
 
     function ongkir(biaya) {
         var dis_ongkir = <?= $diskon_ongkir ?>;
+        var dis_belanja = <?= $diskon_belanja ?>;
+
         if (dis_ongkir > biaya) {
             dis_ongkir = biaya;
         }
         $("td#ongkir").html("Rp" + addCommas(biaya));
         $("td#dis_ongkir").html("Rp" + addCommas(dis_ongkir));
-        var new_total = parseInt(sub) + parseInt(biaya) - parseInt(dis_ongkir);
-        $("#total").html("Rp" + addCommas(new_total))
+        $("td#dis_belanja").html("Rp" + addCommas(dis_belanja));
+        var new_total = parseInt(sub) + parseInt(biaya) - parseInt(dis_ongkir) - parseInt(dis_belanja);
+        $("#total").html("Rp" + addCommas(new_total));
     }
 
     function addCommas(nStr) {

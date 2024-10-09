@@ -29,6 +29,7 @@ switch ($parse) {
         $status = "Belum Bayar";
         break;
 }
+
 ?>
 
 <div class="container mb-3 pt-2" style="min-height: 300px;">
@@ -61,7 +62,7 @@ switch ($parse) {
                                         <span class="text-secondary"><?= $pay['transaction_status'] ?></span>
                                     <?php break;
                                     case 'bb': ?>
-                                        <span class="text-secondary">Batas Bayar: <?= $pay['expired_time'] ?></span>
+                                        <span class="text-secondary">Batas Bayar: <?= $pay['expiry_time'] ?></span>
                                 <?php break;
                                 } ?>
                             </small>
@@ -70,6 +71,8 @@ switch ($parse) {
                             <table class="table table-sm mb-0">
                                 <?php
                                 $total = 0;
+                                $diskon_belanja = isset($data['discount'][$ref]) ? $data['discount'][$ref] : 0;
+
                                 foreach ($d as $da) {
                                     $subTotal = $da['total'];
                                     $total += $subTotal;
@@ -95,9 +98,15 @@ switch ($parse) {
                                     <td></td>
                                     <td class="text-end">Rp<?= number_format($deliv['discount']) ?></td>
                                 </tr>
+                                <tr>
+                                    <td>Diskon Belanja</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-end">Rp<?= number_format($diskon_belanja) ?></td>
+                                </tr>
                             </table>
                         </small>
-                        <div class="w-10 text-end mb-1 0 fw-bold me-1">Rp<?= number_format($total + $deliv['price_paid'] - $deliv['discount']) ?></div>
+                        <div class="w-10 text-end mb-1 0 fw-bold me-1">Rp<?= number_format($total + $deliv['price_paid'] - $deliv['discount'] - $diskon_belanja) ?></div>
 
                         <?php if ($parse == "bb") { ?>
                             <a target="_blank" href="<?= $pay['redirect_url'] ?>" class="btn btn-sm btn-danger">Bayar</a>
@@ -127,6 +136,8 @@ switch ($parse) {
                         </div>
                     </div>
                 </div>
+
+                <!----------- MOBILE --------------------->
                 <div class="row mobile">
                     <div class="col mx-2 border rounded py-2 mb-2">
                         <small><u>Ref#<?= $ref ?></u></small>
@@ -176,9 +187,12 @@ switch ($parse) {
                                 <tr>
                                     <td>Diskon Ongkir: <span class="float-end">Rp<?= number_format($deliv['discount']) ?></span></td>
                                 </tr>
+                                <tr>
+                                    <td>Diskon Belanja: <span class="float-end">Rp<?= number_format($diskon_belanja) ?></span></td>
+                                </tr>
                             </table>
                         </small>
-                        <div class="w-10 text-end mb-1 0 fw-bold me-1">Rp<?= number_format($total + $deliv['price_paid'] - $deliv['discount']) ?></div>
+                        <div class="w-10 text-end mb-1 0 fw-bold me-1">Rp<?= number_format($total + $deliv['price_paid'] - $deliv['discount'] - $diskon_belanja) ?></div>
 
                         <?php if ($parse == "bb") { ?>
                             <a target="_blank" href="<?= $pay['redirect_url'] ?>" class="btn btn-sm btn-danger">Bayar</a>

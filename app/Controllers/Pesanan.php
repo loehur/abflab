@@ -57,6 +57,13 @@ class Pesanan extends Controller
          $data['order'][$s['order_ref']] = $get;
       }
 
+      $data['diskon_belanja'] = [];
+      foreach ($step as $s) {
+         $where = "order_ref = '" . $s['order_ref'] . "'";
+         $get = $this->db(0)->get_where_row("order_discount", $where);
+         $data['discount'][$s['order_ref']] = isset($get['discount']) ? $get['discount'] : 0;
+      }
+
       $data['parse'] = $parse;
       $this->view(__CLASS__, __CLASS__ . "/content", $data);
    }

@@ -183,12 +183,38 @@ class Checkout extends Controller
          $diskon_ongkir = $price;
       }
 
+      //DISKON BELANJA
+      $lj2 = 0;
+      $diskon_belanja = 0;
+      foreach (PC::DISKON_BELANJA as $key => $jumlah) {
+         if ($total >= $jumlah) {
+            if ($jumlah > $lj2) {
+               $diskon_belanja = ($key / 100) * $total;
+            }
+         }
+         $lj2 = $jumlah;
+      }
+
+      //INSERT DISCOUNT
+      $cols = "order_ref, discount";
+      $vals = "'" . $ref . "'," . $diskon_belanja;
+      $in = $this->db(0)->insertCols("order_discount", $cols, $vals);
+      if ($in['errno'] <> 0) {
+         $where = "order_ref = '" . $ref . "'";
+         $this->db(0)->delete_where("order_step", $where);
+         $this->db(0)->delete_where("order_list", $where);
+         $this->model('Log')->write("Insert discount Error, " . $in['error']);
+         header("Location: " . PC::BASE_URL . "Home");
+         exit();
+      }
+
       //DELIVERY
       $cols = "order_ref, name, hp, address, area_id, area_name, postal_code, latt, longt, courier_company, courier_type, price_paid, price, discount";
       $vals = "'" . $ref . "','" . $name . "','" . $hp . "','" . $address . "','" . $area_id . "','" . $area_name . "','" . $postal_code . "','" . $latt . "','" . $longt . "','" . $kur_company . "','" . $kur_type . "'," . $price . "," . $price . "," . $diskon_ongkir;
       $in = $this->db(0)->insertCols("delivery", $cols, $vals);
       if ($in['errno'] <> 0) {
          $where = "order_ref = '" . $ref . "'";
+         $this->db(0)->delete_where("order_discount", $where);
          $this->db(0)->delete_where("order_step", $where);
          $this->db(0)->delete_where("order_list", $where);
          $this->model('Log')->write("Insert delivery Error, " . $in['error']);
@@ -198,10 +224,11 @@ class Checkout extends Controller
 
       //PAYMENT
       $price -= $diskon_ongkir;
+      $price -= $diskon_belanja;
       $total += $price;
 
-      $cols = "order_ref, amount";
-      $vals = "'" . $ref . "'," . $total;
+      $cols = "order_ref, amount, expiry_time";
+      $vals = "'" . $ref . "'," . $total . ",'" . date("Y-m-d H:i:s", strtotime(date("Y-m-d H:i:s") . " +1 day")) . "'";
       $in = $this->db(0)->insertCols("payment", $cols, $vals);
       if ($in['errno'] <> 0) {
          $where = "order_ref = '" . $ref . "'";

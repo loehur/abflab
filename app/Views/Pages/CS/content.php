@@ -91,7 +91,7 @@ switch ($parse) {
                                                     <span class="text-secondary"><?= $pay['transaction_status'] ?></span>
                                                 <?php break;
                                                 case 'bb': ?>
-                                                    <span class="text-secondary">Batas Bayar: <?= $pay['expired_time'] ?></span>
+                                                    <span class="text-secondary">Batas Bayar: <?= $pay['expiry_time'] ?></span>
                                             <?php break;
                                             }
                                             ?>
@@ -102,6 +102,7 @@ switch ($parse) {
                                     <small>
                                         <table class="table table-sm mb-0">
                                             <?php
+                                            $diskon_belanja = isset($data['discount'][$ref]) ? $data['discount'][$ref] : 0;
                                             $total = 0;
                                             foreach ($d as $da) {
                                                 if ($da['order_ref'] == $ref) {
@@ -151,11 +152,18 @@ switch ($parse) {
                                                 <td></td>
                                                 <td class="text-end">Rp<?= number_format($deliv['discount']) ?></td>
                                             </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td colspan="2">Diskon Belanja:</td>
+                                                <td></td>
+                                                <td class="text-end">Rp<?= number_format($diskon_belanja) ?></td>
+                                            </tr>
                                         </table>
                                     </small>
                                 </div>
                                 <?php
-                                $total_ = $total + $deliv['price_paid'] - $deliv['discount'];
+                                $total_ = $total + $deliv['price_paid'] - $deliv['discount'] - $diskon_belanja;
                                 ?>
                                 <div class="fw-bold me-1 w-100 text-end mb-1"><span class="">Rp<?= number_format($total_) ?></span></div>
                                 <div>
