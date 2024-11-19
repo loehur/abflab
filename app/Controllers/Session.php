@@ -27,7 +27,7 @@ class Session extends Controller
             echo "Login Failed!";
          }
       } else {
-         unset($_SESSION['log']);
+         session_destroy();
          echo 2;
       }
    }
