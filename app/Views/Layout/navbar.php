@@ -30,7 +30,7 @@ $t = $data['title'];
 					<div class="offcanvas-body pe-2">
 						<ul class="navbar-nav justify-content-end flex-grow-1 mb-2">
 							<?php
-							$menu = $this->model("D_Group")->main();
+							$menu = PC::Group;
 							$produk = $this->db(0)->get_where("produk", "en = 0 ORDER BY freq DESC");
 							?>
 
