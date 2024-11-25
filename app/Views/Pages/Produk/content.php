@@ -1,5 +1,5 @@
 <?php
-$menu = $this->model("D_Group")->main();
+$menu = PC::Group;
 ?>
 
 <div class="container mb-3 pt-2" style="min-height: 300px;">
@@ -106,7 +106,7 @@ $menu = $this->model("D_Group")->main();
                             <label>Produk Group</label>
                             <select class="form-select form-select-sm" name="grup" aria-label="Default select example" required>
                                 <option selected></option>
-                                <?php foreach ($this->model("D_Group")->main() as $key => $dg) { ?>
+                                <?php foreach (PC::Group as $key => $dg) { ?>
                                     <option <?= $key == $data['grup'] ? 'selected' : '' ?> value="<?= $key ?>"><?= $dg['name'] ?></option>
                                 <?php } ?>
                             </select>

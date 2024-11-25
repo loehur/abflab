@@ -47,7 +47,7 @@
     <div class="container pb-2 px-0">
         <div class="mobile">
             <?php
-            $menu = $this->model("D_Group")->main();
+            $menu = PC::Group;
             ?>
 
             <div>

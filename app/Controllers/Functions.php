@@ -77,7 +77,7 @@ class Functions extends Controller
       $id = $_POST['id'];
       $value = $_POST['value'];
 
-      foreach ($this->model("D_Group")->main() as $k => $dg) {
+      foreach (PC::Group as $k => $dg) {
          if ($k == $value) {
             $col = $_POST['col'];
             $primary = $_POST['primary'];

@@ -12,7 +12,7 @@ if (isset($data['gid'])) {
     $v2_head = [];
 }
 
-$grup_list = $this->model("D_Group")->main();
+$grup_list = PC::Group;
 foreach ($grup_list as $k => $m) {
     if ($k == $produk_grup) {
         $produk_grup_name = $m['name'];
