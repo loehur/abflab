@@ -6,5 +6,4 @@ app/Config/
 error_log
 logs/
 files/
-assets/img
 *ENC_PRIVATE*
