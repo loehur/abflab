@@ -111,33 +111,42 @@ class Detail extends Controller
       }
 
       $file = "";
+      $allowExt   = array('png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG', 'zip', 'rar', 'ZIP', 'RAR');
 
-      if (isset($_FILES['file'])) {
-
-         $uploads_dir = "files/order/" . date("Y-m-d");
+      if (isset($_FILES['file']) && !empty($_FILES['file']) && is_array($_FILES['file'])) {
+         $uploads_dir = "files/order/" . date("Y-m-d") . "/";
          //BUAT FOLDER KALAU BELUM ADA
          if (!file_exists($uploads_dir)) {
             mkdir($uploads_dir, 0777, TRUE);
          }
 
-         $file_ = $_FILES['order'];
-         $imageTemp = $_FILES['file']['tmp_name'];
-         $file_name = basename($file_['name']);
-         $imageUploadPath =  $uploads_dir . '/' . rand(0, 9) . rand(0, 9) . "_" . $file_name;
-         $allowExt   = array('png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG', 'zip', 'rar', 'ZIP', 'RAR');
-         $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION);
-         $fileSize   = $file_['size'];
-         $file = $imageUploadPath;
+         $zip = new ZipArchive();
+         $zip_file_name = $uploads_dir . rand(0, 9) . rand(0, 9) . rand(0, 9) . rand(0, 9) . '.zip';
+         $file = $zip_file_name;
+         foreach ($_FILES['order']['tmp_name'] as $key => $tmpName) {
+            $file_name = $_FILES['order']['name'][$key];
+            $fileType = pathinfo($file_name, PATHINFO_EXTENSION);
+            $fileSize   = $_FILES['order']['size'][$key];
 
-         if (in_array($fileType, $allowExt) === true) {
-            if ($fileSize < 400000000) { //400mb
-               move_uploaded_file($imageTemp, $imageUploadPath);
+            if (in_array($fileType, $allowExt) === true) {
+               if ($fileSize > 400000000) { //400mb
+                  echo "GAGAL, UPLOAD MELEBIHI 400MB";
+                  exit();
+               }
             } else {
-               echo "MAX FILE SIZE 400MB";
+               echo "GAGAL, FILE YANG DI TERIMA .png .jpg .jpeg .zip .rar";
                exit();
             }
+         }
+
+         if ($zip->open($zip_file_name, ZipArchive::CREATE) || ZipArchive::OVERWRITE) {
+            foreach ($_FILES['order']['tmp_name'] as $key => $tmpName) {
+               $file_name = $_FILES['order']['name'][$key];
+               $zip->addFile($tmpName, $file_name);
+            }
+            $zip->close();
          } else {
-            echo "ALLOWED FILE EXT (.png .jpg .jpeg .zip .rar)";
+            echo "MAAF, ARSIP FILE GAGAL";
             exit();
          }
       }

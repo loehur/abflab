@@ -92,7 +92,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
                                     <div id="radio_1" class="radio_">
                                         <label><small class="text-danger">Max. <b>400MB</b></small></label> <small class="text-danger">(.jpg .jpeg .png .zip .rar)</small>
                                         <div class="">
-                                            <input id="file" name="order" class="form-control form-control-sm" type="file">
+                                            <input id="file" name="order[]" class="form-control form-control-sm" type="file" multiple>
                                             <small class="float-end">Upload process <span id="persen">0</span><b> %</b></small>
                                         </div>
                                     </div>

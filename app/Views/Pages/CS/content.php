@@ -110,7 +110,7 @@ switch ($parse) {
                                                     $total += $subTotal;
                                             ?>
                                                     <tr>
-                                                        <td style="width: 10px;"><?= strlen($da['file']) > 0 ? '<a href="/' . $da['file'] . '" download><i class="fa-regular fa-circle-down"></i></a>' : '' ?></td>
+                                                        <td style="width: 10px;"><?= strlen($da['file']) > 0 ? '<a href="' . PC::BASE_PATH . '/' . $da['file'] . '" download><i class="fa-regular fa-circle-down"></i></a>' : '' ?></td>
                                                         <td style="width: 10px;"><?= strlen($da['link_drive']) > 0 ? '<a href="' . $da['link_drive'] . '" target="_blank"><i class="fa-solid fa-link"></i></a>' : '' ?></td>
                                                         <td><?= $da['product'] ?>, <?= $da['detail'] ?></td>
                                                         <td><small class="text-danger"><?= $da['note'] ?></small></td>
