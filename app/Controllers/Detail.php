@@ -121,7 +121,7 @@ class Detail extends Controller
          }
 
          $zip = new ZipArchive();
-         $zip_file_name = $uploads_dir . rand(0, 9) . rand(0, 9) . rand(0, 9) . rand(0, 9) . '.zip';
+         $zip_file_name = $uploads_dir . date('His') . rand(0, 9) . rand(0, 9) . '.zip';
          $file = $zip_file_name;
          foreach ($_FILES['order']['tmp_name'] as $key => $tmpName) {
             $file_name = $_FILES['order']['name'][$key];
