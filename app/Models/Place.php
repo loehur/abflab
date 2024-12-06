@@ -2,8 +2,15 @@
 
 class Place extends PC
 {
-    public $key = "gwfctr54EwUPf8";
-    public $host = "https://api.abfteams.com/";
+
+    public $key;
+    public $host;
+
+    public function __construct()
+    {
+        $this->key = PC::API_KEY['place']['key'];
+        $this->host = PC::API_KEY['place']['host'];
+    }
 
     public function provinsi()
     {
