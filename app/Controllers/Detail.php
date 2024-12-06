@@ -120,16 +120,9 @@ class Detail extends Controller
             mkdir($uploads_dir, 0777, TRUE);
          }
 
-         $dirlist = new RecursiveDirectoryIterator($uploads_dir);
-         $filelist = new RecursiveIteratorIterator($dirlist);
-
          $zip = new ZipArchive();
-         $zip_file_name = rand(0, 9) . rand(0, 9) . rand(0, 9) . rand(0, 9) . '.zip';
-
-         if ($zip->open($zip_file_name, ZipArchive::CREATE) !== TRUE | ZipArchive::OVERWRITE !== TRUE) {
-            die("Could not open archive");
-         }
-
+         $zip_file_name = $uploads_dir . rand(0, 9) . rand(0, 9) . rand(0, 9) . rand(0, 9) . '.zip';
+         $file = $zip_file_name;
          foreach ($_FILES['order']['tmp_name'] as $key => $tmpName) {
             $file_name = $_FILES['order']['name'][$key];
             $fileType = pathinfo($file_name, PATHINFO_EXTENSION);
@@ -137,16 +130,24 @@ class Detail extends Controller
 
             if (in_array($fileType, $allowExt) === true) {
                if ($fileSize > 400000000) { //400mb
-                  echo "MAX FILE SIZE 400MB";
+                  echo "GAGAL, UPLOAD MELEBIHI 400MB";
                   exit();
                }
             } else {
-               echo "Extensi yang diperbolehkan (.png .jpg .jpeg .zip .rar)";
+               echo "GAGAL, FILE YANG DI TERIMA .png .jpg .jpeg .zip .rar";
                exit();
             }
          }
-         foreach ($filelist as $key => $value) {
-            $zip->addFile(realpath($key), $key) or die("ERROR: Could not add file: $key");
+
+         if ($zip->open($zip_file_name, ZipArchive::CREATE) || ZipArchive::OVERWRITE) {
+            foreach ($_FILES['order']['tmp_name'] as $key => $tmpName) {
+               $file_name = $_FILES['order']['name'][$key];
+               $zip->addFile($tmpName, $file_name);
+            }
+            $zip->close();
+         } else {
+            echo "MAAF, ARSIP FILE GAGAL";
+            exit();
          }
       }
 
