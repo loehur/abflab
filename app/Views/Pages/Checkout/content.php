@@ -1,8 +1,8 @@
 <?php $total = 0; ?>
 <div class="container mb-3" style="min-height: 300px;">
     <div class="row mx-0">
-        <div class="col" style="min-width: 300px;">
-            <div class="row mb-2 mt-2">
+        <div class="col px-1" style="min-width: 300px;">
+            <div class="row mx-0 mb-2 mt-2">
                 <div class="col border rounded py-2">
                     <?php
                     if (isset($_SESSION['log'])) {
@@ -61,7 +61,7 @@
                 </div>
             </di>
         </div>
-        <div class="col pb-5">
+        <div class="col px-1 pb-5">
             <?php if (isset($_SESSION['cart'])) {
                 $berat_total = 0; ?>
                 <?php if ($_SESSION['new_user'] == true) {
