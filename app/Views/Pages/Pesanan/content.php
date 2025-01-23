@@ -75,7 +75,7 @@ switch ($parse) {
 
                                 foreach ($d as $da) {
                                     $subTotal = $da['total'];
-                                    $total += ($subTotal - $da['diskon']);
+                                    $total += $subTotal;
                                 ?>
                                     <tr>
                                         <td><?= $da['product'] ?>, <?= $da['detail'] ?></td>
@@ -162,7 +162,7 @@ switch ($parse) {
                                 $total = 0;
                                 foreach ($d as $da) {
                                     $subTotal = $da['total'];
-                                    $total += ($subTotal - $da['diskon']);
+                                    $total += $subTotal;
                                 ?>
                                     <tr>
                                         <td><small><?= $da['product'] ?> <?= $da['detail'] ?></small><br>
