@@ -74,14 +74,14 @@ switch ($parse) {
                                 $diskon_belanja = isset($data['discount'][$ref]) ? $data['discount'][$ref] : 0;
 
                                 foreach ($d as $da) {
-                                    $subTotal = $da['total'] - $da['diskon'];
-                                    $total += $subTotal;
+                                    $subTotal = $da['total'];
+                                    $total += ($subTotal - $da['diskon']);
                                 ?>
                                     <tr>
                                         <td><?= $da['product'] ?>, <?= $da['detail'] ?></td>
                                         <td class="text=danger"><small class="text-danger"><?= $da['note'] ?></small></td>
                                         <td class="text-end"><?= $da['qty'] ?>pcs</td>
-                                        <td class="text-end">Rp<?= number_format($subTotal) ?></td>
+                                        <td class="text-end">Rp<?= number_format($subTotal - $da['diskon']) ?></td>
                                     </tr>
                                 <?php
                                 }
@@ -161,8 +161,8 @@ switch ($parse) {
                                 <?php
                                 $total = 0;
                                 foreach ($d as $da) {
-                                    $subTotal = $da['total'] - $da['diskon'];
-                                    $total += $subTotal;
+                                    $subTotal = $da['total'];
+                                    $total += ($subTotal - $da['diskon']);
                                 ?>
                                     <tr>
                                         <td><small><?= $da['product'] ?> <?= $da['detail'] ?></small><br>
@@ -172,7 +172,7 @@ switch ($parse) {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="text-end"><?= $da['qty'] ?>pcs, Rp<?= number_format($subTotal) ?></td>
+                                        <td class="text-end"><?= $da['qty'] ?>pcs, Rp<?= number_format($subTotal - $da['diskon']) ?></td>
                                     </tr>
                                 <?php
                                 }
