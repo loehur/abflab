@@ -7,6 +7,20 @@ if (isset($data['parse'])) {
 ?>
 <?php include_once("head.php"); ?>
 
+<?php
+//SESSION DATA
+if (isset($_SESSION['log'])) {
+	$count = $this->db(0)->count_where("order_step", "customer_id = '" . $_SESSION['log']['customer_id'] . "' AND order_status <> 0 AND order_status <> 4");
+	if ($count > 0) {
+		$_SESSION['new_user'] = false;
+	} else {
+		$_SESSION['new_user'] = true;
+	}
+} else {
+	$_SESSION['new_user'] = true;
+}
+?>
+
 <body>
 	<?php include_once("fix.php"); ?>
 	<?php include_once("navbar.php"); ?>
