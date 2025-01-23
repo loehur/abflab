@@ -106,7 +106,7 @@ switch ($parse) {
                                             $total = 0;
                                             foreach ($d as $da) {
                                                 if ($da['order_ref'] == $ref) {
-                                                    $subTotal = $da['total'];
+                                                    $subTotal = $da['total'] - $da['diskon'];
                                                     $total += $subTotal;
                                             ?>
                                                     <tr>

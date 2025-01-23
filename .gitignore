@@ -2,7 +2,6 @@
 .zip
 .ini
 app/Config/
-assets/img/
 *copy*
 error_log
 logs/

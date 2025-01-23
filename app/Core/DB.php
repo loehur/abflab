@@ -24,36 +24,80 @@ class DB extends DBC
         return self::$_instance[$db];
     }
 
-    public function get($table, $index = null)
+    public function get($table, $index, $group)
     {
         $reply = [];
         $query = "SELECT * FROM $table";
         $result = $this->mysqli->query($query);
 
-        while ($row = $result->fetch_assoc())
-            if ($index == null)
-                $reply[] = $row;
-            else
-                $reply[$row[$index]] = $row;
+        if ($result) {
+            $no = 0;
+            while ($row = $result->fetch_assoc())
+                if ($index == "") {
+                    $reply[] = $row;
+                } else {
+                    if ($group == 0) {
+                        $reply[$row[$index]] = $row;
+                    } else {
+                        $no += 1;
+                        $reply[$row[$index]][$no] = $row;
+                    }
+                }
+        }
 
         return $reply;
     }
 
-    public function get_where($table, $where, $index = "")
+    public function get_where($table, $where, $index, $group)
     {
         $reply = [];
         $query = "SELECT * FROM $table WHERE $where";
         $result = $this->mysqli->query($query);
 
         if ($result) {
+            $no = 0;
             while ($row = $result->fetch_assoc())
-                if ($index == "")
+                if ($index == "") {
                     $reply[] = $row;
-                else
-                    $reply[$row[$index]] = $row;
+                } else {
+                    if ($group == 0) {
+                        $reply[$row[$index]] = $row;
+                    } else {
+                        $no += 1;
+                        $reply[$row[$index]][$no] = $row;
+                    }
+                }
         }
 
         return $reply;
+    }
+
+    public function get_cols($table, $cols, $row = 1, $index = "")
+    {
+        $reply = [];
+        $query = "SELECT $cols FROM $table";
+        $result = $this->mysqli->query($query);
+        if ($result) {
+            switch ($row) {
+                case "0":
+                    $reply = $result->fetch_assoc();
+                case "1";
+                    while ($row = $result->fetch_assoc())
+                        if ($index == "")
+                            $reply[] = $row;
+                        else
+                            $reply[$row[$index]] = $row;
+                    break;
+            }
+
+            if (is_array($reply)) {
+                return $reply;
+            } else {
+                return [];
+            }
+        } else {
+            return array('query' => $query, 'error' => $this->mysqli->error, 'errno' => $this->mysqli->errno);
+        }
     }
 
     public function get_cols_where($table, $cols, $where, $row = 1, $index = "")
@@ -170,8 +214,12 @@ class DB extends DBC
     public function update($table, $set, $where)
     {
         $query = "UPDATE $table SET $set WHERE $where";
-        $this->mysqli->query($query);
-        return array('query' => $query, 'error' => $this->mysqli->error, 'errno' => $this->mysqli->errno, 'db' => $this->db_name);
+        try {
+            $this->mysqli->query($query);
+            return array('query' => $query, 'error' => $this->mysqli->error, 'errno' => $this->mysqli->errno, 'db' => $this->db_name);
+        } catch (\Throwable $th) {
+            return array('query' => $query, 'error' => $this->mysqli->error, 'errno' => $this->mysqli->errno, 'db' => $this->db_name);
+        }
     }
 
     public function count($table)

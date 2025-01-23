@@ -74,7 +74,7 @@ switch ($parse) {
                                 $diskon_belanja = isset($data['discount'][$ref]) ? $data['discount'][$ref] : 0;
 
                                 foreach ($d as $da) {
-                                    $subTotal = $da['total'];
+                                    $subTotal = $da['total'] - $da['diskon'];
                                     $total += $subTotal;
                                 ?>
                                     <tr>
@@ -161,7 +161,7 @@ switch ($parse) {
                                 <?php
                                 $total = 0;
                                 foreach ($d as $da) {
-                                    $subTotal = $da['total'];
+                                    $subTotal = $da['total'] - $da['diskon'];
                                     $total += $subTotal;
                                 ?>
                                     <tr>

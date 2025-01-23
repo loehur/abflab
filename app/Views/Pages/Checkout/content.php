@@ -38,8 +38,7 @@
                         } else {
                             $ongkir = $this->model("Biteship")->cek_ongkir($d['area_id'], $d['latt'], $d['longt']);
                             $_SESSION['ongkir'][$str] = $ongkir;
-                        }
-                    ?>
+                        } ?>
                         <form id="bayar" action="<?= PC::BASE_URL ?>Checkout/ckout" method="POST">
                             <div class="form-floating mb-2">
                                 <select class="form-select shadow-none" id="kurir" name="kurir" aria-label=".form-select-sm example" required>
@@ -65,14 +64,36 @@
         <div class="col">
             <?php if (isset($_SESSION['cart'])) {
                 $berat_total = 0; ?>
+                <?php if ($_SESSION['new_user'] == true) {
+                    if (count(PC::DISKON_NEW_USER) > 0) { ?>
+                        <div class="alert alert-success">Promo Pelanggan Baru!<br>
+                            <?php foreach (PC::DISKON_NEW_USER as $key => $d) { ?>
+                                <b>Rp<?= $d['P'] ?></b> Item <?= $data['produk'][$key]['produk'] ?>. <small>(Maksimal Belanja <?= number_format($d['M']) ?>)</small>
+                            <?php } ?>
+                        </div>
+                    <?php } ?>
+                <?php } ?>
+
                 <u><small>Rincian Belanja</small></u>
                 <small>
                     <table class="table table-sm">
                         <?php
-                        foreach ($_SESSION['cart'] as $c) {
+                        $diskon_belanja = 0;
+                        foreach ($_SESSION['cart'] as $key => $c) {
+                            if (isset(PC::DISKON_NEW_USER[$c['produk_id']])) {
+                                $dn = PC::DISKON_NEW_USER[$c['produk_id']];
+                                if (!isset($_SESSION['diskon_new'])) {
+                                    if ($c['total'] >= $dn['M']) {
+                                        $diskon_new = $dn['M'] - $dn['P'];
+                                    } else {
+                                        $diskon_new = $c['total'] - $dn['P'];
+                                    }
+                                    $_SESSION['diskon_new'][$key] = $diskon_new;
+                                }
+                            }
+
                             $berat_total += $c['berat'];
                             $image = false;
-                            $total += $c['total'];
                             $imageExt   = array('png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG');
 
                             foreach ($imageExt as $ie) {
@@ -80,13 +101,20 @@
                                     $image = true;
                                 }
                             }
-                        ?>
+
+                            $diskon = 0;
+                            if (isset($_SESSION['diskon_new'][$key])) {
+                                $diskon = $_SESSION['diskon_new'][$key];
+                            }
+
+                            $total += ($c['total'] - $diskon); ?>
+
                             <tr>
                                 <td>
                                     <small><?= $c['produk'] ?>, <?= $c['detail'] ?></small><br>
                                     <small class="text-danger"><?= $c['note'] ?></small>
                                 </td>
-                                <td class="text-end"><?= $c['jumlah'] ?>pcs, Rp<?= number_format($c['total']) ?></td>
+                                <td class="text-end"><?= $c['jumlah'] ?>pcs <?= isset($_SESSION['diskon_new'][$key]) ? "<s>Rp" . number_format($c['total']) . "</s>" : "" ?> Rp<?= number_format($c['total'] - $diskon) ?></td>
                             </tr>
                         <?php } ?>
                         <tr>
@@ -107,7 +135,6 @@
 
                         //DISKON BELANJA
                         $lj2 = 0;
-                        $diskon_belanja = 0;
                         foreach (PC::DISKON_BELANJA as $key => $jumlah) {
                             if ($total >= $jumlah) {
                                 if ($jumlah > $lj2) {

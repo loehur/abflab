@@ -25,6 +25,26 @@ class Checkout extends Controller
       }
 
       $data = [];
+      $data['produk'] = $this->db(0)->get('produk', 'produk_id');
+
+      $data['list'] = [];
+      $data['step'] = [];
+
+      if (count(PC::DISKON_NEW_USER) > 0 && isset($_SESSION['log'])) {
+         $data['step'] = $this->db(0)->get_where('order_step', "customer_id = '" . $_SESSION['log']['customer_id'] . "' AND order_status <> 4 AND order_status <> 0", "order_ref");
+         $refs = array_keys($data['step']);
+
+         if (count($refs) > 0) {
+            $ref_list = "";
+            foreach ($refs as $r) {
+               $ref_list .= $r . ",";
+            }
+            $ref_list = rtrim($ref_list, ',');
+            $data['list'] = $this->db(0)->get_where('order_list', "order_ref IN (" . $ref_list . ")");
+         }
+      }
+
+      $data[''] = $this->db(0)->get('produk', 'produk_id');
       $this->view(__CLASS__, __CLASS__ . "/content", $data);
    }
 
@@ -151,12 +171,20 @@ class Checkout extends Controller
       }
 
       $total = 0;
-      foreach ($_SESSION['cart'] as $c) {
+      $diskon_belanja = 0;
+      foreach ($_SESSION['cart'] as $key => $c) {
          $subTotal = $c['total'];
          $total += $subTotal;
 
-         $cols = "order_ref, group_id, product_id, product, detail, price, qty, total, weight, length, width, height, note, file, metode_file, link_drive";
-         $vals = "'" . $ref . "'," . $c['group_id'] . "," . $c['produk_id'] . ",'" . $c['produk'] . "','" . $c['detail'] . "'," . $c['harga'] . "," . $c['jumlah'] . "," . $subTotal . "," . $c['berat'] . "," . $c['panjang'] . "," . $c['lebar'] . "," . $c['tinggi'] . ",'" . $c['note'] . "','" . $c['file'] . "'," . $c['metode_file'] . ",'" . $c['link_drive'] . "'";
+         $cols = "order_ref, group_id, product_id, product, detail, price, qty, total, weight, length, width, height, note, file, metode_file, link_drive, diskon";
+
+         $diskon = 0;
+         if (isset($_SESSION['diskon_new'][$key])) {
+            $diskon = $_SESSION['diskon_new'][$key];
+         }
+         $diskon_belanja += $diskon;
+
+         $vals = "'" . $ref . "'," . $c['group_id'] . "," . $c['produk_id'] . ",'" . $c['produk'] . "','" . $c['detail'] . "'," . $c['harga'] . "," . $c['jumlah'] . "," . $subTotal . "," . $c['berat'] . "," . $c['panjang'] . "," . $c['lebar'] . "," . $c['tinggi'] . ",'" . $c['note'] . "','" . $c['file'] . "'," . $c['metode_file'] . ",'" . $c['link_drive'] . "'," . $diskon;
          $in = $this->db(0)->insertCols("order_list", $cols, $vals);
          if ($in['errno'] <> 0) {
             $where = "order_ref = '" . $ref . "'";
@@ -185,15 +213,17 @@ class Checkout extends Controller
 
       //DISKON BELANJA
       $lj2 = 0;
-      $diskon_belanja = 0;
+      $diskon_belanja_total = 0;
       foreach (PC::DISKON_BELANJA as $key => $jumlah) {
          if ($total >= $jumlah) {
             if ($jumlah > $lj2) {
-               $diskon_belanja = ($key / 100) * $total;
+               $$diskon_belanja_total = ($key / 100) * $total;
             }
          }
          $lj2 = $jumlah;
       }
+
+      $diskon_belanja += $diskon_belanja_total;
 
       //INSERT DISCOUNT
       $cols = "order_ref, discount";
