@@ -1,7 +1,7 @@
 <?php $total = 0; ?>
 <div class="container mb-3" style="min-height: 300px;">
     <div class="row">
-        <div class="col" style="min-width: 360px;">
+        <div class="col" style="min-width: 300px;">
             <div class="row mb-2 mt-2">
                 <div class="col border rounded py-2">
                     <?php
