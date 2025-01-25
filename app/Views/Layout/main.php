@@ -10,15 +10,27 @@ if (isset($data['parse'])) {
 <?php
 //SESSION DATA
 if (isset($_SESSION['log'])) {
-	$count = $this->db(0)->count_where("order_step", "customer_id = '" . $_SESSION['log']['customer_id'] . "' AND order_status <> 0 AND order_status <> 4");
-	if ($count > 0) {
-		$_SESSION['new_user'] = false;
+	if (isset($_SESSION['new_user'])) {
+		if ($_SESSION['new_user'] == true) {
+			$count = $this->db(0)->count_where("order_step", "customer_id = '" . $_SESSION['log']['customer_id'] . "' AND order_status <> 0 AND order_status <> 4");
+			if ($count > 0) {
+				$_SESSION['new_user'] = false;
+			} else {
+				$_SESSION['new_user'] = true;
+			}
+		}
 	} else {
-		$_SESSION['new_user'] = true;
+		$count = $this->db(0)->count_where("order_step", "customer_id = '" . $_SESSION['log']['customer_id'] . "' AND order_status <> 0 AND order_status <> 4");
+		if ($count > 0) {
+			$_SESSION['new_user'] = false;
+		} else {
+			$_SESSION['new_user'] = true;
+		}
 	}
 } else {
 	$_SESSION['new_user'] = true;
 }
+
 ?>
 
 <body>
