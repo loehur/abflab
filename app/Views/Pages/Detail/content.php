@@ -193,7 +193,9 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
                 foreach ($detail_ as $k => $dd) {
                     $tab += 1; ?>
                     <div class="tab-pane <?= ($tab == 1) ? 'show active' : '' ?>" id="pills-<?= $k ?>" role="tabpanel" aria-labelledby="pills-<?= $k ?>-tab">
-                        <small id="detail_<?= $k ?>"></small>
+                        <p align="justify">
+                            <small id="detail_<?= $k ?>"></small>
+                        </p>
                     </div>
                 <?php } ?>
             </div>
