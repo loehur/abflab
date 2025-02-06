@@ -109,7 +109,7 @@
                                             <img id="image<?= $p['img'] ?>" onerror="no_image(<?= $p['img'] ?>)" src="<?= PC::ASSETS_URL ?>img/home_produk/<?= $p['img'] ?>.webp" class="img-zoom w-100 rounded-top" alt="">
                                         </a>
                                     </div>
-                                    <div class="w-100 fw-bold text-center text-dark py-2"><?= $p['produk'] ?></div>
+                                    <div class="w-100 fw-bold text-center text-dark py-2 px-1"><?= $p['produk'] ?></div>
                                 </div>
                             </div>
                         <?php
