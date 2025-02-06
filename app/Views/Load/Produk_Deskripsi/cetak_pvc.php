@@ -1,5 +1,4 @@
-<h7><b>CETAK PVC</b></h7>
-<br>Cetak kartu <b>BPJS, IDCARD, MYPERTAMINA, DLL</b>
+<br>Cetak kartu <b>BPJS, NPWP, IDCARD, MYPERTAMINA, dll</b>
 <br>Ukuran kartu PVC 85x55 MM, sama dengan ukuran kartu KTP, SIM, ATM.
 <br>Cetak kartu menggunakan bahan PVC adalah pilihan yang sangat cocok untuk memberikan identitas yang tahan lama dan profesional.
 <br>Bahan PVC, yang juga dikenal sebagai polivinil klorida, memberikan kelebihan ketahanan terhadap air, kelembaban, dan aus.
