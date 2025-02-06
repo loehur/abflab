@@ -19,9 +19,13 @@ $t = $data['title'];
 	<div class="container px-0">
 		<nav class="navbar navbar-light navbar-expand-sm">
 			<div class="container-fluid">
-				<a href="<?= PC::BASE_URL ?>Home">
-					<img style="height: 50px;" src="<?= PC::ASSETS_URL ?>img/logo.png" alt="">
-				</a>
+				<div class="row mx-0">
+					<div class="col p-0">
+						<a href="<?= PC::BASE_URL ?>Home">
+							<img style="height: 35px;" src="<?= PC::ASSETS_URL ?>img/logo.png" alt="">
+						</a>
+					</div>
+				</div>
 				<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar2" style="width: 270px;">
 					<div class="offcanvas-header">
 						<h1 class="p-0">Products</h1>

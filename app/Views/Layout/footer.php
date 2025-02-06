@@ -6,7 +6,7 @@
 					<div class="row mb-1">
 						<div class="col ps-0">
 							<a href="<?= PC::BASE_URL ?>Home" class="navbar-brand">
-								<img style="height: 40px;" src="<?= PC::ASSETS_URL ?>img/logoe.png" class="img-logo-home px-2" alt="">
+								<img style="height: 30px;" src="<?= PC::ASSETS_URL ?>img/logoe.png" class="img-logo-home px-2" alt="">
 							</a>
 						</div>
 					</div>
