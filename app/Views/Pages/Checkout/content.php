@@ -82,19 +82,21 @@
                         foreach ($_SESSION['cart'] as $key => $c) {
                             if (isset(PC::DISKON_NEW_USER[$c['produk_id']])) {
                                 $dn = PC::DISKON_NEW_USER[$c['produk_id']];
-                                if (!isset($_SESSION['diskon_new'])) {
-                                    if ($c['total'] >= $dn['M']) {
-                                        $diskon_new = $dn['M'] - $dn['P'];
-                                    } else {
-                                        $diskon_new = $c['total'] - $dn['P'];
+                                if ($c['total'] > $dn['P']) {
+                                    if (!isset($_SESSION['diskon_new'])) {
+                                        if ($c['total'] >= $dn['M']) {
+                                            $diskon_new = $dn['M'] - $dn['P'];
+                                        } else {
+                                            $diskon_new = $c['total'] - $dn['P'];
+                                        }
+                                        $_SESSION['diskon_new'][$key] = $diskon_new;
                                     }
-                                    $_SESSION['diskon_new'][$key] = $diskon_new;
                                 }
                             }
 
                             $berat_total += $c['berat'];
                             $image = false;
-                            $imageExt   = array('png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG');
+                            $imageExt = array('png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG');
 
                             foreach ($imageExt as $ie) {
                                 if (str_contains($c['file'], $ie)) {
