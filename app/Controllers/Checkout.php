@@ -19,6 +19,9 @@ class Checkout extends Controller
 
    public function content($parse)
    {
+      if (isset($_SESSION['diskon_new'])) {
+         unset($_SESSION['diskon_new']);
+      }
 
       if (!isset($_SESSION['cart_key'])) {
          $_SESSION['cart_key'] = rand(1000, 9999);
