@@ -115,7 +115,7 @@ switch ($parse) {
                                                         <td><?= $da['product'] ?>, <?= $da['detail'] ?></td>
                                                         <td><small class="text-danger"><?= $da['note'] ?></small></td>
                                                         <td class="text-end"><?= $da['qty'] ?>pcs</td>
-                                                        <td class="text-end">Rp<?= number_format($subTotal - $da['diskon']) ?></td>
+                                                        <td class="text-end">Rp<?= number_format($subTotal) ?></td>
                                                     </tr>
                                             <?php }
                                             }
