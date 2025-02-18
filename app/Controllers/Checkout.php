@@ -2,6 +2,13 @@
 
 class Checkout extends Controller
 {
+   private $target_notif = null;
+
+   public function __construct()
+   {
+      $this->target_notif = PC::NOTIF[PC::SETTING['production']];
+   }
+
    public function index()
    {
       if (!isset($_SESSION['cart'])) {
@@ -260,36 +267,76 @@ class Checkout extends Controller
       $price -= $diskon_belanja;
       $total += $price;
 
-      $cols = "order_ref, amount, expiry_time";
-      $vals = "'" . $ref . "'," . $total . ",'" . date("Y-m-d H:i:s", strtotime(date("Y-m-d H:i:s") . " +1 day")) . "'";
-      $in = $this->db(0)->insertCols("payment", $cols, $vals);
-      if ($in['errno'] <> 0) {
+      if ($total <= PC::BY_PASS_PAYMENT) {
          $where = "order_ref = '" . $ref . "'";
-         $this->db(0)->delete_where("order_step", $where);
-         $this->db(0)->delete_where("order_list", $where);
-         $this->db(0)->delete_where("delivery", $where);
-         $this->model('Log')->write("Insert payment Error, " . $in['error']);
-         header("Location: " . PC::BASE_URL . "Home");
-         exit();
-      }
+         $set = "order_status = 1";
+         $up2 = $this->db(0)->update("order_step", $set, $where);
+         if ($up2['errno'] <> 0) {
+            $text = "ERROR UPDATE *BY_PASS_PAYMENT* ORDER STEP. update DB when trigger New Status, Order Ref: " . $ref . ", New Status ORDER STEP: " . $status . " " . $up2['error'];
+            $this->model('Log')->write($text);
+            $this->model('WA')->send($this->target_notif, $text);
 
-      unset($_SESSION['cart']);
-      unset($_SESSION['diskon_new']);
+            $where = "order_ref = '" . $ref . "'";
+            $this->db(0)->delete_where("order_step", $where);
+            $this->db(0)->delete_where("order_list", $where);
+            $this->db(0)->delete_where("delivery", $where);
+            $this->model('Log')->write("Insert payment Error, " . $in['error']);
+            header("Location: " . PC::BASE_URL . "Home");
+            exit();
+         } else {
+            $cols = "order_ref, amount, expiry_time, transaction_status, fraud_status";
+            $vals = "'" . $ref . "'," . $total . ",'" . date("Y-m-d H:i:s", strtotime(date("Y-m-d H:i:s") . " +1 day")) . "','settlement','accept'";
+            $in = $this->db(0)->insertCols("payment", $cols, $vals);
+            if ($in['errno'] <> 0) {
+               $where = "order_ref = '" . $ref . "'";
+               $this->db(0)->delete_where("order_step", $where);
+               $this->db(0)->delete_where("order_list", $where);
+               $this->db(0)->delete_where("delivery", $where);
+               $this->model('Log')->write("Insert payment Error, " . $in['error']);
+               header("Location: " . PC::BASE_URL . "Home");
+               exit();
+            }
 
-      $token_midtrans = $this->model("Midtrans")->token($ref, $total, $name, $email, $hp);
-      if (isset($token_midtrans['token'])) {
-         $token = $token_midtrans['token'];
-         $redirect_url = $token_midtrans['redirect_url'];
-         $where = "order_ref = '" . $ref . "'";
-         $set = "token = '" . $token . "', redirect_url = '" . $redirect_url . "'";
-         $up = $this->db(0)->update("payment", $set, $where);
-         if ($up['errno'] <> 0) {
-            $this->model('Log')->write("Update payment Error, " . $up['error']);
+            $text_o = "VitaPictura, order baru *DITERIMA*. REF#" . $ref . ". " . PC::HOST . "/CS";
+            $this->model('WA')->send($this->target_notif, $text_o);
+
+            unset($_SESSION['cart']);
+            unset($_SESSION['diskon_new']);
+
+            header("Location: " . PC::BASE_URL . "Pesanan");
          }
-         header("Location: " . $redirect_url);
       } else {
-         $this->model('Log')->write("Error get token payment midtrans");
-         header("Location: " . PC::BASE_URL . "Pesanan");
+         $cols = "order_ref, amount, expiry_time";
+         $vals = "'" . $ref . "'," . $total . ",'" . date("Y-m-d H:i:s", strtotime(date("Y-m-d H:i:s") . " +1 day")) . "'";
+         $in = $this->db(0)->insertCols("payment", $cols, $vals);
+         if ($in['errno'] <> 0) {
+            $where = "order_ref = '" . $ref . "'";
+            $this->db(0)->delete_where("order_step", $where);
+            $this->db(0)->delete_where("order_list", $where);
+            $this->db(0)->delete_where("delivery", $where);
+            $this->model('Log')->write("Insert payment Error, " . $in['error']);
+            header("Location: " . PC::BASE_URL . "Home");
+            exit();
+         }
+
+         unset($_SESSION['cart']);
+         unset($_SESSION['diskon_new']);
+
+         $token_midtrans = $this->model("Midtrans")->token($ref, $total, $name, $email, $hp);
+         if (isset($token_midtrans['token'])) {
+            $token = $token_midtrans['token'];
+            $redirect_url = $token_midtrans['redirect_url'];
+            $where = "order_ref = '" . $ref . "'";
+            $set = "token = '" . $token . "', redirect_url = '" . $redirect_url . "'";
+            $up = $this->db(0)->update("payment", $set, $where);
+            if ($up['errno'] <> 0) {
+               $this->model('Log')->write("Update payment Error, " . $up['error']);
+            }
+            header("Location: " . $redirect_url);
+         } else {
+            $this->model('Log')->write("Error get token payment midtrans");
+            header("Location: " . PC::BASE_URL . "Pesanan");
+         }
       }
    }
 }
