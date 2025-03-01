@@ -80,16 +80,19 @@
                         <?php
                         $diskon_belanja = 0;
                         foreach ($_SESSION['cart'] as $key => $c) {
-                            if (isset(PC::DISKON_NEW_USER[$c['produk_id']])) {
-                                $dn = PC::DISKON_NEW_USER[$c['produk_id']];
-                                if ($c['total'] > $dn['P']) {
-                                    if (!isset($_SESSION['diskon_new'])) {
-                                        if ($c['total'] >= $dn['M']) {
-                                            $diskon_new = $dn['M'] - $dn['P'];
-                                        } else {
-                                            $diskon_new = $c['total'] - $dn['P'];
+
+                            if ($_SESSION['new_user'] == true) {
+                                if (isset(PC::DISKON_NEW_USER[$c['produk_id']])) {
+                                    $dn = PC::DISKON_NEW_USER[$c['produk_id']];
+                                    if ($c['total'] > $dn['P']) {
+                                        if (!isset($_SESSION['diskon_new'])) {
+                                            if ($c['total'] >= $dn['M']) {
+                                                $diskon_new = $dn['M'] - $dn['P'];
+                                            } else {
+                                                $diskon_new = $c['total'] - $dn['P'];
+                                            }
+                                            $_SESSION['diskon_new'][$key] = $diskon_new;
                                         }
-                                        $_SESSION['diskon_new'][$key] = $diskon_new;
                                     }
                                 }
                             }

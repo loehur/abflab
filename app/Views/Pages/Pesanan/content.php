@@ -75,8 +75,8 @@ switch ($parse) {
 
                                 foreach ($d as $da) {
                                     $subTotal = $da['total'];
-                                    $total += $subTotal;
-                                ?>
+                                    $total += $subTotal; ?>
+
                                     <tr>
                                         <td><?= $da['product'] ?>, <?= $da['detail'] ?></td>
                                         <td class="text=danger"><small class="text-danger"><?= $da['note'] ?></small></td>

@@ -321,6 +321,7 @@ class Checkout extends Controller
 
          unset($_SESSION['cart']);
          unset($_SESSION['diskon_new']);
+         $_SESSION['new_user'] == false;
 
          $token_midtrans = $this->model("Midtrans")->token($ref, $total, $name, $email, $hp);
          if (isset($token_midtrans['token'])) {
