@@ -37,6 +37,9 @@ class Detail extends Controller
       if (isset($_SESSION['cart_key'])) {
          unset($_SESSION['cart_key']);
       }
+      if (isset($_SESSION['diskon_aff'])) {
+         unset($_SESSION['diskon_aff']);
+      }
 
       $produk_id = $_POST['produk'];
 

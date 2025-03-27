@@ -139,6 +139,7 @@
                         }
 
                         //DISKON BELANJA
+                        $_SESSION['diskon_belanja'] = 0;
                         $lj2 = 0;
                         foreach (PC::DISKON_BELANJA as $key => $jumlah) {
                             if ($total >= $jumlah) {
@@ -148,28 +149,74 @@
                             }
                             $lj2 = $jumlah;
                         }
+
+                        $_SESSION['diskon_belanja'] = $diskon_belanja;
                         ?>
 
                         <tr>
                             <td>Diskon Ongkir</td>
                             <td class="text-end" id="dis_ongkir">0</td>
                         </tr>
-
-
                         <tr>
                             <td>Diskon Belanja</td>
                             <td class="text-end" id="dis_belanja">0</td>
                         </tr>
+                        <tr>
+                            <?php
+                            $diskon_aff = 0;
+                            $code_used = ""
+                            ?>
+                            <?php if (isset($_SESSION['diskon_aff']) && count($_SESSION['diskon_aff'])) {
+                                foreach ($_SESSION['diskon_aff'] as $da) {
+                                    $diskon_aff += $da['diskon_buyer'];
+                                    $code_used = $da['code'];
+                                } ?>
+                            <?php } ?>
+
+                            <td>
+                                <?php if (isset($_SESSION['diskon_aff']) && count($_SESSION['diskon_aff'])) { ?>
+                                    <span class="text-success">Diskon Promo (<b><?= $code_used ?></b>)</span>
+                                <?php } else { ?>
+                                    <div class="text-sm text-success" data-bs-toggle="modal" data-bs-target="#exampleModalPromo" style="cursor: pointer;">Masukkan Kode Promo</div>
+                                <?php } ?>
+                            </td>
+                            <td class="text-end">
+                                <?php if (isset($_SESSION['diskon_aff']) && count($_SESSION['diskon_aff'])) { ?>
+                                    <span class="text-success">Rp<?= number_format($diskon_aff) ?></span>
+                                <?php } ?>
+                            </td>
+                        </tr>
                     </table>
                 </small>
 
-                <div class="text-end border-0 fw-bold float-end" id="total"></div>
+                <div class="text-end border-0 fw-bold float-end pe-1" id="total"></div>
             <?php } else { ?>
                 Tidak ada data keranjang
             <?php } ?>
         </div>
     </div>
 </div>
+
+<div class="modal" id="exampleModalPromo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Masukkan Kode Promo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="<?= PC::BASE_URL ?>Afiliator/cek_promo" class="ajax" method="POST">
+                <div class="modal-body">
+                    <div class="form-floating mb-2">
+                        <input type="text" style="text-transform: uppercase;" class="form-control" name="code" required id="floatingInput11">
+                        <label for="floatingInput11">Kode Promo</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100" data-bs-dismiss="modal">Cek</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function() {
         spinner(0);
@@ -177,9 +224,26 @@
     });
     var sub = <?= $total ?>;
 
+    $("form.ajax").on("submit", function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            type: $(this).attr("method"),
+            success: function(res) {
+                if (res == 0) {
+                    content();
+                } else {
+                    alert(res)
+                }
+            },
+        });
+    });
+
     function ongkir(biaya) {
         var dis_ongkir = <?= $diskon_ongkir ?>;
         var dis_belanja = <?= $diskon_belanja ?>;
+        var dis_aff = <?= $diskon_aff ?>;
 
         if (dis_ongkir > biaya) {
             dis_ongkir = biaya;
@@ -187,7 +251,7 @@
         $("td#ongkir").html("Rp" + addCommas(biaya));
         $("td#dis_ongkir").html("Rp" + addCommas(dis_ongkir));
         $("td#dis_belanja").html("Rp" + addCommas(dis_belanja));
-        var new_total = parseInt(sub) + parseInt(biaya) - parseInt(dis_ongkir) - parseInt(dis_belanja);
+        var new_total = parseInt(sub) + parseInt(biaya) - parseInt(dis_ongkir) - parseInt(dis_belanja) - parseInt(dis_aff);
         $("#total").html("Rp" + addCommas(new_total));
     }
 

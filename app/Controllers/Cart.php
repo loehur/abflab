@@ -2,9 +2,7 @@
 
 class Cart extends Controller
 {
-   public function __construct()
-   {
-   }
+   public function __construct() {}
 
    public function index()
    {
@@ -25,6 +23,10 @@ class Cart extends Controller
    function clear()
    {
       unset($_SESSION['cart']);
+      if (isset($_SESSION['diskon_new'])) {
+         unset($_SESSION['diskon_new']);
+      }
+
       $this->index();
    }
 }

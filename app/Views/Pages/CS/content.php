@@ -64,7 +64,13 @@ switch ($parse) {
 
                         $deliv = $this->db(0)->get_where_row("delivery", $where_d);
                         $pay = $this->db(0)->get_where_row("payment", $where_d);
-                    ?>
+                        $diskon_aff = 0;
+                        if (isset($data['diskon_aff'][$ref])) {
+                            foreach ($data['diskon_aff'][$ref] as $da) {
+                                $diskon_aff += $da['diskon_buyer'];
+                            }
+                        } ?>
+
                         <div class="row">
                             <div class="col mx-2 border rounded pb-2 mb-2">
                                 <small>
@@ -107,8 +113,7 @@ switch ($parse) {
                                             foreach ($d as $da) {
                                                 if ($da['order_ref'] == $ref) {
                                                     $subTotal = $da['total'];
-                                                    $total += $subTotal;
-                                            ?>
+                                                    $total += $subTotal; ?>
                                                     <tr>
                                                         <td style="width: 10px;"><?= strlen($da['file']) > 0 ? '<a href="' . PC::BASE_PATH . '/' . $da['file'] . '" download><i class="fa-regular fa-circle-down"></i></a>' : '' ?></td>
                                                         <td style="width: 10px;"><?= strlen($da['link_drive']) > 0 ? '<a href="' . $da['link_drive'] . '" target="_blank"><i class="fa-solid fa-link"></i></a>' : '' ?></td>
@@ -124,7 +129,12 @@ switch ($parse) {
                                                 <td></td>
                                                 <td></td>
                                                 <td colspan="2">Pengiriman:
-                                                    <span class="me-2 fw-bold"><?= $deliv['courier_company'] ?> <?= $deliv['courier_type'] ?></span>
+                                                    <?php if ($deliv['courier_company'] <> "abf") { ?>
+                                                        <span class="me-2 fw-bold"><?= $deliv['courier_company'] ?> <?= $deliv['courier_type'] ?></span>
+                                                    <?php } else { ?>
+                                                        <span class="me-2 fw-bold">Jemput ke Toko</span>
+                                                    <?php } ?>
+
                                                     <?php
                                                     if ($parse == "paid") {
                                                         if ($deliv['courier_company'] <> "abf") {
@@ -145,27 +155,44 @@ switch ($parse) {
                                                 <td></td>
                                                 <td class="text-end">Rp<?= number_format($deliv['price_paid']) ?>/<?= number_format($deliv['price']) ?></td>
                                             </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td colspan="2">Diskon Ongkir:</td>
-                                                <td></td>
-                                                <td class="text-end">Rp<?= number_format($deliv['discount']) ?></td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td colspan="2">Diskon Belanja:</td>
-                                                <td></td>
-                                                <td class="text-end">Rp<?= number_format($diskon_belanja) ?></td>
-                                            </tr>
+
+                                            <?php if ($deliv['discount'] > 0) { ?>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td colspan="2">Diskon Ongkir:</td>
+                                                    <td></td>
+                                                    <td class="text-end">Rp<?= number_format($deliv['discount']) ?></td>
+                                                </tr>
+                                            <?php } ?>
+
+                                            <?php if ($diskon_belanja > 0) { ?>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td colspan="2">Diskon Belanja:</td>
+                                                    <td></td>
+                                                    <td class="text-end">Rp<?= number_format($diskon_belanja) ?></td>
+                                                </tr>
+                                            <?php } ?>
+
+                                            <?php if ($diskon_aff > 0) { ?>
+                                                <tr class="text-success">
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>Diskon Promo</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td class="text-end">Rp<?= number_format($diskon_aff) ?></td>
+                                                </tr>
+                                            <?php } ?>
                                         </table>
                                     </small>
                                 </div>
                                 <?php
                                 $total_ = $total + $deliv['price_paid'] - $deliv['discount'] - $diskon_belanja;
                                 ?>
-                                <div class="fw-bold me-1 w-100 text-end mb-1"><span class="">Rp<?= number_format($total_) ?></span></div>
+                                <div class="fw-bold me-1 w-100 text-end mb-1 pe-1"><span class="">Rp<?= number_format($total_ - $diskon_aff) ?></span></div>
                                 <div>
                                     <?php
                                     if ($parse == "sent") {

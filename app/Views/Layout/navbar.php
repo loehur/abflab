@@ -84,10 +84,10 @@ $t = $data['title'];
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">User Account</h5>
+				<h5 class="modal-title" id="exampleModalLabel">Account</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
-			<form action="<?= PC::BASE_URL ?>Session/login" method="POST">
+			<form action="<?= PC::BASE_URL ?>Session/login" class="login" method="POST">
 				<?php if (!isset($_SESSION['log'])) { ?>
 					<div class="modal-body">
 						<div class="form-floating mb-2">
@@ -106,13 +106,15 @@ $t = $data['title'];
 					</div>
 				<?php } else { ?>
 					<div class="modal-body">
-						<div class="form-floating mb-2">
-							Anda sedang Login sebagai <span class="text-success fw-bold"><?= $_SESSION['log']['name'] ?></span>.
+						<div class="form-floating mb-3">
+							Login sebagai <span class="text-success fw-bold"><?= $_SESSION['log']['name'] ?></span>.
 						</div>
-					</div>
-					<div class="modal-footer">
-						<a href="<?= PC::BASE_URL ?>Set_Password"><button type="button" class="btn btn-warning">Atur Password</button></a>
-						<button type="submit" class="btn btn-danger">Logout</button>
+
+						<a href="<?= PC::BASE_URL ?>Afiliator"><button type="button" class="btn btn-sm btn-primary me-1">Afiliator</button></a>
+						<div class="float-end">
+							<a href="<?= PC::BASE_URL ?>Set_Password"><button type="button" class="btn btn-sm btn-warning me-1">Atur Password</button></a>
+							<button type="submit" class="btn btn-sm btn-danger">Logout</button>
+						</div>
 					</div>
 				<?php } ?>
 			</form>
@@ -124,7 +126,7 @@ $t = $data['title'];
 <script src="<?= PC::ASSETS_URL ?>js/jquery-3.7.0.min.js"></script>
 
 <script>
-	$("form").on("submit", function(e) {
+	$("form.login").on("submit", function(e) {
 		e.preventDefault();
 		$.ajax({
 			url: $(this).attr('action'),
@@ -136,7 +138,7 @@ $t = $data['title'];
 					location.reload(true);
 				} else if (res == 2) {
 					alert("Logout Success!");
-					location.reload(true);
+					location.href = "<?= PC::BASE_URL ?>Home";
 				} else {
 					alert(res)
 				}

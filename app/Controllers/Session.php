@@ -34,6 +34,10 @@ class Session extends Controller
 
    function add_cart()
    {
+      if (isset($_SESSION['diskon_aff'])) {
+         unset($_SESSION['diskon_aff']);
+      }
+
       $id = $_POST['id'];
       $mode = $_POST['mode'];
       if ($mode == 1) {
@@ -41,6 +45,9 @@ class Session extends Controller
       } else {
          if ($_SESSION['cart'][$id]['jumlah'] <= 1) {
             unset($_SESSION['cart'][$id]);
+            if (isset($_SESSION['diskon_new'][$id])) {
+               unset($_SESSION['diskon_new'][$id]);
+            }
             if (count($_SESSION['cart']) == 0) {
                unset($_SESSION['cart']);
             }

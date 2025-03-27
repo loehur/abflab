@@ -48,7 +48,7 @@ class DB extends DBC
         return $reply;
     }
 
-    public function get_where($table, $where, $index, $group)
+    public function get_where($table, $where, $index, $group = 0)
     {
         $reply = [];
         $query = "SELECT * FROM $table WHERE $where";
@@ -349,7 +349,7 @@ class DB extends DBC
 
         $reply = $result->fetch_assoc();
         if ($result) {
-            return $reply["Total"];
+            return is_numeric($reply["Total"]) ? $reply["Total"] : 0;
         } else {
             return array('query' => $query, 'error' => $this->mysqli->error, 'errno' => $this->mysqli->errno, 'db' => $this->db_name);
         }

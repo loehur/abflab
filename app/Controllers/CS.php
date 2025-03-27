@@ -57,12 +57,23 @@ class CS extends Controller
             break;
       }
 
-      $step = $this->db(0)->get_where("order_step", $where);
+
       $data['order'] = [];
+      $step = $this->db(0)->get_where("order_step", $where, 'order_ref');
+      $refs = array_keys($step);
+      $ref_list = "0";
+      if (count($refs) > 0) {
+         foreach ($refs as $r) {
+            $ref_list .= $r . ",";
+         }
+         $ref_list = rtrim($ref_list, ',');
+      }
+
+      $where = "order_ref IN (" . $ref_list . ")";
+      $data['order'] = $this->db(0)->get_where("order_list", $where, 'order_ref', 1);
+      $data['diskon_aff'] = $this->db(0)->get_where("diskon_aff", $where, 'order_ref', 1);
+
       foreach ($step as $s) {
-         $where = "order_ref = '" . $s['order_ref'] . "'";
-         $get = $this->db(0)->get_where("order_list", $where);
-         $data['order'][$s['order_ref']] = $get;
          $data['step'][$s['order_ref']]['customer'] = $s['customer_id'];
          $data['step'][$s['order_ref']]['time'] = $s['insertTime'];
       }

@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col m-auto" style="max-width: 500px;">
             <label class="mb-2"><small>Login menggunakan Nomor HP CS yang terdaftar</small></label>
-            <form action="<?= PC::BASE_URL ?>CS/cs_login" method="POST">
+            <form action="<?= PC::BASE_URL ?>CS/cs_login" class="login_2" method="POST">
                 <div class="row">
                     <div class="col">
                         <div class="form-floating mb-2">
@@ -42,7 +42,7 @@
         })
     })
 
-    $("form").on("submit", function(e) {
+    $("form.login_2").on("submit", function(e) {
         e.preventDefault();
         $.ajax({
             url: $(this).attr('action'),

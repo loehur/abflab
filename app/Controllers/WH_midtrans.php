@@ -51,7 +51,6 @@ class WH_midtrans extends Controller
             case 'failure';
                $os = 4; // cancel
                $text_o = "VitaPictura, order *CANCELED* by " . $status . " Payment. REF#" . $order_ref . ". " . PC::HOST . "/CS";
-               $this->model('WA')->send($this->target_notif, $text_o);
                break;
             default:
                $os = 0; //proses
@@ -65,6 +64,8 @@ class WH_midtrans extends Controller
             $text = "ERROR UPDATE ORDER STEP PAYMENT. update DB when trigger New Status, Order Ref: " . $order_ref . ", New Status ORDER STEP: " . $status . " " . $up2['error'];
             $this->model('Log')->write($text);
             $this->model('WA')->send($this->target_notif, $text);
+         } else {
+            $this->model('WA')->send($this->target_notif, $text_o);
          }
 
          $res = [

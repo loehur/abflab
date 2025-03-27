@@ -15,3 +15,18 @@
 	<script src="<?= PC::ASSETS_URL ?>js/feather.min.js"></script>
 	<link href="<?= PC::ASSETS_URL ?>css/bootstrap-icons.css" rel="stylesheet">
 </head>
+
+<style>
+	input:focus,
+	.form-select:focus,
+	.btn:focus,
+	select:focus,
+	textarea,
+	input.form-control:focus {
+		outline: none !important;
+		outline-width: 0 !important;
+		box-shadow: none;
+		-moz-box-shadow: none;
+		-webkit-box-shadow: none;
+	}
+</style>

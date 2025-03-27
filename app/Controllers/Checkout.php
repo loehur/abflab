@@ -24,7 +24,7 @@ class Checkout extends Controller
       $this->view_layout(__CLASS__, $data);
    }
 
-   public function content($parse)
+   public function content($parse = "")
    {
       if (isset($_SESSION['diskon_new'])) {
          unset($_SESSION['diskon_new']);
@@ -182,6 +182,7 @@ class Checkout extends Controller
 
       $total = 0;
       $diskon_belanja = 0;
+      $diskon_aff = 0;
       foreach ($_SESSION['cart'] as $key => $c) {
          $subTotal = $c['total'];
          $total += $subTotal;
@@ -202,6 +203,22 @@ class Checkout extends Controller
             $this->model('Log')->write("Insert order_list Error, " . $in['error']);
             header("Location: " . PC::BASE_URL . "Home");
             exit();
+         } else {
+            if (isset($_SESSION['diskon_aff'][$key])) {
+               $dDiskon = $_SESSION['diskon_aff'][$key];
+               $diskon_aff += $dDiskon['diskon_buyer'];
+               $cols = "order_ref, produk, code, jumlah, fee_aff, diskon_buyer";
+               $vals = "'" . $ref . "'," . $dDiskon['produk'] . ",'" . $dDiskon['code'] . "'," . $dDiskon['jumlah'] . "," . $dDiskon['fee_aff'] . "," . $dDiskon['diskon_buyer'];
+               $in = $this->db(0)->insertCols("diskon_aff", $cols, $vals);
+               if ($in['errno'] <> 0) {
+                  $where = "order_ref = '" . $ref . "'";
+                  $this->db(0)->delete_where("order_step", $where);
+                  $this->db(0)->delete_where("order_list", $where);
+                  $this->model('Log')->write("Insert diskon_aff Error, " . $in['error']);
+                  header("Location: " . PC::BASE_URL . "Home");
+                  exit();
+               }
+            }
          }
       }
 
@@ -222,17 +239,7 @@ class Checkout extends Controller
       }
 
       //DISKON BELANJA
-      $lj2 = 0;
-      $diskon_belanja_total = 0;
-      foreach (PC::DISKON_BELANJA as $key => $jumlah) {
-         if ($total >= $jumlah) {
-            if ($jumlah > $lj2) {
-               $$diskon_belanja_total = ($key / 100) * $total;
-            }
-         }
-         $lj2 = $jumlah;
-      }
-
+      $diskon_belanja_total = $_SESSION['diskon_belanja'];
       $diskon_belanja += $diskon_belanja_total;
 
       //INSERT DISCOUNT
@@ -243,6 +250,7 @@ class Checkout extends Controller
          $where = "order_ref = '" . $ref . "'";
          $this->db(0)->delete_where("order_step", $where);
          $this->db(0)->delete_where("order_list", $where);
+         $this->db(0)->delete_where("diskon_aff", $where);
          $this->model('Log')->write("Insert discount Error, " . $in['error']);
          header("Location: " . PC::BASE_URL . "Home");
          exit();
@@ -257,6 +265,7 @@ class Checkout extends Controller
          $this->db(0)->delete_where("order_discount", $where);
          $this->db(0)->delete_where("order_step", $where);
          $this->db(0)->delete_where("order_list", $where);
+         $this->db(0)->delete_where("diskon_aff", $where);
          $this->model('Log')->write("Insert delivery Error, " . $in['error']);
          header("Location: " . PC::BASE_URL . "Home");
          exit();
@@ -264,7 +273,8 @@ class Checkout extends Controller
 
       //PAYMENT
       $price -= $diskon_ongkir;
-      $price -= $diskon_belanja;
+      $total -= $diskon_belanja;
+      $total -= $diskon_aff;
       $total += $price;
 
       if ($total <= PC::BY_PASS_PAYMENT) {
@@ -272,13 +282,14 @@ class Checkout extends Controller
          $set = "order_status = 1";
          $up2 = $this->db(0)->update("order_step", $set, $where);
          if ($up2['errno'] <> 0) {
-            $text = "ERROR UPDATE *BY_PASS_PAYMENT* ORDER STEP. update DB when trigger New Status, Order Ref: " . $ref . ", New Status ORDER STEP: " . $status . " " . $up2['error'];
+            $text = "ERROR UPDATE *BY_PASS_PAYMENT* ORDER STEP. update DB when trigger New Status, Order Ref: " . $ref . ", New Status ORDER STEP: BY PASS PAYMENT " . $up2['error'];
             $this->model('Log')->write($text);
             $this->model('WA')->send($this->target_notif, $text);
 
             $where = "order_ref = '" . $ref . "'";
             $this->db(0)->delete_where("order_step", $where);
             $this->db(0)->delete_where("order_list", $where);
+            $this->db(0)->delete_where("diskon_aff", $where);
             $this->db(0)->delete_where("delivery", $where);
             $this->model('Log')->write("Insert payment Error, " . $in['error']);
             header("Location: " . PC::BASE_URL . "Home");
@@ -291,6 +302,7 @@ class Checkout extends Controller
                $where = "order_ref = '" . $ref . "'";
                $this->db(0)->delete_where("order_step", $where);
                $this->db(0)->delete_where("order_list", $where);
+               $this->db(0)->delete_where("diskon_aff", $where);
                $this->db(0)->delete_where("delivery", $where);
                $this->model('Log')->write("Insert payment Error, " . $in['error']);
                header("Location: " . PC::BASE_URL . "Home");
@@ -313,6 +325,7 @@ class Checkout extends Controller
             $where = "order_ref = '" . $ref . "'";
             $this->db(0)->delete_where("order_step", $where);
             $this->db(0)->delete_where("order_list", $where);
+            $this->db(0)->delete_where("diskon_aff", $where);
             $this->db(0)->delete_where("delivery", $where);
             $this->model('Log')->write("Insert payment Error, " . $in['error']);
             header("Location: " . PC::BASE_URL . "Home");
@@ -321,6 +334,9 @@ class Checkout extends Controller
 
          unset($_SESSION['cart']);
          unset($_SESSION['diskon_new']);
+         unset($_SESSION['diskon_aff']);
+         unset($_SESSION['diskon_belanja']);
+
          $_SESSION['new_user'] == false;
 
          $token_midtrans = $this->model("Midtrans")->token($ref, $total, $name, $email, $hp);
