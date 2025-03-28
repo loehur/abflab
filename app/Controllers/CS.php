@@ -60,7 +60,6 @@ class CS extends Controller
 
       $data['order'] = [];
       $step = $this->db(0)->get_where("order_step", $where, 'order_ref');
-      ksort($step);
       $refs = array_keys($step);
       $ref_list = "0";
       if (count($refs) > 0) {
