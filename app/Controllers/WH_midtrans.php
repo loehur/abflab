@@ -66,6 +66,13 @@ class WH_midtrans extends Controller
             $this->model('WA')->send($this->target_notif, $text);
          } else {
             $this->model('WA')->send($this->target_notif, $text_o);
+            $set = "stat = " . $os;
+            $up3 = $this->db(0)->update("diskon_aff", $set, $where);
+            if ($up3['errno'] <> 0) {
+               $text = "ERROR UPDATE diskon_aff. update DB when trigger New Status, Order Ref: " . $order_ref . ", New Stat : " . $os . " " . $up3['error'];
+               $this->model('Log')->write($text);
+               $this->model('WA')->send($this->target_notif, $text);
+            }
          }
 
          $res = [
