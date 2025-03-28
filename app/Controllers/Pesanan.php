@@ -52,6 +52,7 @@ class Pesanan extends Controller
       $step = $this->db(0)->get_where("order_step", $where, 'order_ref');
       $data['order'] = [];
       $refs = array_keys($step);
+      ksort($refs);
       $ref_list = "0";
       if (count($refs) > 0) {
          foreach ($refs as $r) {
