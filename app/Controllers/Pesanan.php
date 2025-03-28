@@ -52,7 +52,6 @@ class Pesanan extends Controller
       $step = $this->db(0)->get_where("order_step", $where, 'order_ref');
       $data['order'] = [];
       $refs = array_keys($step);
-      ksort($refs);
       $ref_list = "0";
       if (count($refs) > 0) {
          foreach ($refs as $r) {
@@ -61,7 +60,7 @@ class Pesanan extends Controller
          $ref_list = rtrim($ref_list, ',');
       }
 
-      $where = "order_ref IN (" . $ref_list . ")";
+      $where = "order_ref IN (" . $ref_list . ") ORDER BY order_ref DESC";
       $data['order'] = $this->db(0)->get_where("order_list", $where, 'order_ref', 1);
       $data['diskon_aff'] = $this->db(0)->get_where("diskon_aff", $where, 'order_ref', 1);
 
