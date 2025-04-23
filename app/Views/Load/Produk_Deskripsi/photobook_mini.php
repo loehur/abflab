@@ -13,5 +13,5 @@ Foto Liburan - Ciptakan momen perjalanan yang tidak terlupakan
 <br>Siku Tumpul
 <br>Hard Paper
 <br>Hard Cover
-<br>Maksimal File 20 Foto
+<br>23 File Foto terdiri 1 Cover dan 22 Isi
 <br>Sistem PO 4 Hari
