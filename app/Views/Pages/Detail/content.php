@@ -15,18 +15,20 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
 </style>
 
 <div class="container mb-4">
-    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    <button type="button" class="btn d-none btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
         Launch modal
     </button>
     <!-- Modal -->
     <div class="modal" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Mengunggah file</h1>
+                    <h1 class="modal-title fs-5 mx-auto" id="staticBackdropLabel">Mengunggah file</h1>
                 </div>
                 <div class="modal-body">
-                    <div class="text-center fw-bold text-success border rounded-pill p-2"><span id="persen">0 </span>%</div>
+                    <div class="text-center fw-bold text-success py-2">
+                        <h4 class="fw-bold"><span id="persen">0 </span>%</h4>
+                    </div>
                 </div>
             </div>
         </div>
