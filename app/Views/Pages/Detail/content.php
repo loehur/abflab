@@ -15,11 +15,6 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
 </style>
 
 <div class="container mb-4">
-
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-        Launch static backdrop modal
-    </button>
-
     <!-- Modal -->
     <div class="modal" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm">
