@@ -38,10 +38,12 @@ class Cron extends Controller
       }
    }
 
-   function del_dir($dir = "")
+   function del_dir($date = "")
    {
-      if ($dir == "") {
+      if ($date == "") {
          $dir = "files/order/" . date("Y-m-d", strtotime("-1 month"));
+      } else {
+         $dir = "files/order/" . $date;
       }
 
       if (file_exists($dir)) {
