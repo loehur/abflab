@@ -15,6 +15,9 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
 </style>
 
 <div class="container mb-4">
+    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Launch modal
+    </button>
     <!-- Modal -->
     <div class="modal" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm">
@@ -23,10 +26,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
                     <h1 class="modal-title fs-5" id="staticBackdropLabel">Mengunggah file</h1>
                 </div>
                 <div class="modal-body">
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" id="persenBar" role="progressbar" style="width: 0%"></div>
-                    </div>
-                    <div class="w-100 text-center"><span id="persen">0 </span>%</div>
+                    <div class="text-center fw-bold text-success border rounded-pill p-2"><span id="persen">0 </span>%</div>
                 </div>
             </div>
         </div>
@@ -282,10 +282,6 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
                 xhr.upload.addEventListener("progress", function(evt) {
                     if (evt.lengthComputable) {
                         var percentComplete = (evt.loaded / evt.total) * 100;
-                        $('#persenBar').css('width', percentComplete + '%');
-                        if (percentComplete >= 99) {
-                            $("#staticBackdrop").hide();
-                        }
                         $('#persen').html('<b>' + Math.round(percentComplete) + '</b>');
                     }
                 }, false);
