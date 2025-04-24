@@ -16,7 +16,7 @@ $t = $data['title'];
 
 <!-- Navbar start -->
 <div class="fixed-top border-bottom shadow-sm bg-light" style="max-height: 80px;">
-	<div class="container px-0">
+	<div class="container px-0 pt-2">
 		<nav class="navbar navbar-light navbar-expand-sm">
 			<div class="container-fluid">
 				<div class="row mx-0">

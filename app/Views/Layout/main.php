@@ -36,7 +36,7 @@ if (isset($_SESSION['log'])) {
 <body>
 	<?php include_once("fix.php"); ?>
 	<?php include_once("navbar.php"); ?>
-	<div style="margin-top: 80px;padding-bottom:40px" id="content"></div>
+	<div style="margin-top: 90px;padding-bottom:40px" id="content"></div>
 	<?php include_once("footer.php"); ?>
 </body>
 
