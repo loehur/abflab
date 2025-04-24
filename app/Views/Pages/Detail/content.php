@@ -16,6 +16,27 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
 
 <div class="container mb-4">
 
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Launch static backdrop modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Mengunggah file</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" id="persenBar" role="progressbar" style="width: 0%"></div>
+                    </div>
+                    <div class="w-100 text-center"><span id="persen">0 </span>%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row mb-2">
         <div class="col-md-4 px-1 mb-2">
             <div id="carBanner" class="carousel" data-bs-interval="false">
@@ -92,8 +113,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
                                     <div id="radio_1" class="radio_">
                                         <label><small class="text-danger">Max. <b>400MB</b></small></label> <small class="text-danger">(.jpg .jpeg .png .zip .rar)</small>
                                         <div class="">
-                                            <input id="file" name="order[]" class="form-control form-control-sm" type="file" multiple>
-                                            <small class="float-end">Upload process <span id="persen">0</span><b> %</b></small>
+                                            <input id="file" name="order[]" class="form-control form-control-sm" max="30" type="file" multiple>
                                         </div>
                                     </div>
                                 </div>
@@ -160,7 +180,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col text-end">
+                    <div class="col-auto text-end">
                         <div class="">
                             <button type="submit" id="add_cart" class="btn btn-success">(+) Tambah</button>
                         </div>
@@ -252,6 +272,13 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
         e.preventDefault();
         var formData = new FormData(this);
         var file = $('#file')[0].files[0];
+
+        var $fileUpload = $("input[type='file']");
+        if (parseInt($fileUpload.get(0).files.length) > 25) {
+            alert("Maksimal 25 File");
+            return;
+        }
+
         formData.append('file', file);
 
         $.ajax({
@@ -260,6 +287,10 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
                 xhr.upload.addEventListener("progress", function(evt) {
                     if (evt.lengthComputable) {
                         var percentComplete = (evt.loaded / evt.total) * 100;
+                        $('#persenBar').css('width', percentComplete + '%');
+                        if (percentComplete >= 99) {
+                            $("#staticBackdrop").hide();
+                        }
                         $('#persen').html('<b>' + Math.round(percentComplete) + '</b>');
                     }
                 }, false);
@@ -275,10 +306,12 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
             processData: false,
 
             beforeSend: function() {
+                $("#staticBackdrop").show();
                 $("#add_cart").hide();
             },
 
             success: function(dataRespon) {
+                $("#staticBackdrop").hide();
                 if (dataRespon == 1) {
                     alert("Berhasil menambah order ke keranjang!");
                     cart_count();
