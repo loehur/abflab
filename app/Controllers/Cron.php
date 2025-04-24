@@ -38,6 +38,36 @@ class Cron extends Controller
       }
    }
 
+   function del_dir($dir = "")
+   {
+      if ($dir == "") {
+         $dir = "files/order/" . date("Y-m-d", strtotime("-1 month"));
+      }
+
+      if (file_exists($dir)) {
+         $this->rrmdir($dir);
+      } else {
+         echo "Invalid Directory: " . $dir . " \n";
+      }
+   }
+
+   function rrmdir($src)
+   {
+      $dir = opendir($src);
+      while (false !== ($file = readdir($dir))) {
+         if (($file != '.') && ($file != '..')) {
+            $full = $src . '/' . $file;
+            if (is_dir($full)) {
+               $this->rrmdir($full);
+            } else {
+               unlink($full);
+            }
+         }
+      }
+      closedir($dir);
+      rmdir($src);
+   }
+
    public function cek()
    {
       $where = "proses = '' AND token <> '' AND status <> 5 AND id_api = '' ORDER BY insertTime ASC";
