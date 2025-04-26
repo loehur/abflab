@@ -83,24 +83,23 @@ $t = $data['title'];
 <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Account</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
 			<form action="<?= PC::BASE_URL ?>Session/login" class="login" method="POST">
 				<?php if (!isset($_SESSION['log'])) { ?>
 					<div class="modal-body">
-						<div class="form-floating mb-2">
-							<input type="text" class="form-control" name="hp" required id="floatingInput11">
-							<label for="floatingInput11">Nomor HP (08..)</label>
+						<div class="col px-1 mb-3" style="min-width: 200px;">
+							<label class="mb-1 ms-1"><small>Nomor HP (08..)</small></label>
+							<input type="text" class="form-control py-2 shadow-none rounded-3" name="hp" required>
 						</div>
-						<div class="form-floating mb-2">
-							<input type="password" class="form-control" name="pass" id="floatingInput12">
-							<label for="floatingInput12">Password</label>
+						<div class="col px-1 mb-1" style="min-width: 200px;">
+							<label class="mb-1 ms-1"><small>Password</small></label>
+							<div class="input-group">
+								<input id="pwd" type="password" class="form-control py-2 shadow-none rounded-start-3" name="pass" required>
+								<span class="input-group-text bg-white" style="cursor: pointer;" id="eye"><i class="fa-solid fa-eye float-end" id="togglePassword"></i></span>
+							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<a href="<?= PC::BASE_URL ?>Daftar" class="me-auto"><button type="button" class="btn btn-outline-success">Register</button></a>
+						<a href="<?= PC::BASE_URL ?>Daftar" class="me-auto"><button type="button" class="btn btn-outline-success border-0">Register</button></a>
 						<a href="<?= PC::BASE_URL ?>Set_Password"><button type="button" class="btn btn-sm">Lupa Password</button></a>
 						<button type="submit" class="btn btn-primary">Login</button>
 					</div>
@@ -145,4 +144,26 @@ $t = $data['title'];
 			},
 		});
 	});
+
+	function show() {
+		var p = document.getElementById('pwd');
+		p.setAttribute('type', 'text');
+	}
+
+	function hide() {
+		var p = document.getElementById('pwd');
+		p.setAttribute('type', 'password');
+	}
+
+	var pwShown = 0;
+
+	document.getElementById("eye").addEventListener("click", function() {
+		if (pwShown == 0) {
+			pwShown = 1;
+			show();
+		} else {
+			pwShown = 0;
+			hide();
+		}
+	}, false);
 </script>
