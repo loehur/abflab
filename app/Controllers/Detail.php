@@ -122,7 +122,8 @@ class Detail extends Controller
       $allowExt   = array('png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG', 'zip', 'rar', 'ZIP', 'RAR');
 
       if (isset($_FILES['file']) && !empty($_FILES['file']) && is_array($_FILES['file'])) {
-         $uploads_dir = "files/order/" . date("Y-m-d") . "/";
+         $uploads_dir = "files/order/" . date("Y-m-d") . "/" . date('His') . rand(0, 9) . rand(0, 9) . "/";
+         $file = $uploads_dir;
          //BUAT FOLDER KALAU BELUM ADA
          if (!file_exists($uploads_dir)) {
             mkdir($uploads_dir, 0777, TRUE);
@@ -144,12 +145,22 @@ class Detail extends Controller
             }
          }
 
-         $dir_date = date('His') . rand(0, 9) . rand(0, 9);
          // $zip_file_name = $uploads_dir . $dir_date . '.zip';
          // $file = $zip_file_name;
 
-         foreach ($_FILES['order'] as $f) {
-            move_uploaded_file($f['tmp_name'], $uploads_dir . $dir_date . "/" . $f["name"]);
+         $total_file = count($_FILES['order']['name']);
+         for ($i = 0; $i < $total_file; $i++) {
+            //Get the temp file path
+            $tmpFilePath = $_FILES['order']['tmp_name'][$i];
+            //Make sure we have a file path
+            if ($tmpFilePath != "") {
+               //Setup our new file path
+               $newFilePath = $uploads_dir . $_FILES['order']['name'][$i];
+               //Upload the file into the temp dir
+               if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                  //Handle other code here
+               }
+            }
          }
 
          // $zip = new ZipArchive();
