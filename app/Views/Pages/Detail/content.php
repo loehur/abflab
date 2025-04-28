@@ -139,7 +139,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
                         <div class="col-auto">
                             <div class="dropdown">
                                 <button class="btn btn-sm btn-outline-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Download Mal/Template<i class="fa-regular fa-circle-down"></i>
+                                    Download Mal/Template <i class="fa-regular fa-circle-down"></i>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     <?php foreach (unserialize($d['mal']) as $m) { ?>
@@ -178,7 +178,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
                 <div class="row">
                     <div class="col-auto text-end">
                         <div class="">
-                            <button type="submit" id="add_cart" class="btn btn-success">(+) Tambah</button>
+                            <button type="submit" id="add_cart" class="btn btn-success">(+) Tambah ke Keranjang</button>
                         </div>
                     </div>
                 </div>

@@ -128,9 +128,6 @@ class Detail extends Controller
             mkdir($uploads_dir, 0777, TRUE);
          }
 
-         $zip = new ZipArchive();
-         $zip_file_name = $uploads_dir . date('His') . rand(0, 9) . rand(0, 9) . '.zip';
-         $file = $zip_file_name;
          foreach ($_FILES['order']['tmp_name'] as $key => $tmpName) {
             $file_name = $_FILES['order']['name'][$key];
             $fileType = pathinfo($file_name, PATHINFO_EXTENSION);
@@ -147,16 +144,25 @@ class Detail extends Controller
             }
          }
 
-         if ($zip->open($zip_file_name, ZipArchive::CREATE) || ZipArchive::OVERWRITE) {
-            foreach ($_FILES['order']['tmp_name'] as $key => $tmpName) {
-               $file_name = $_FILES['order']['name'][$key];
-               $zip->addFile($tmpName, $file_name);
-            }
-            $zip->close();
-         } else {
-            echo "MAAF, ARSIP FILE GAGAL";
-            exit();
+         $dir_date = date('His') . rand(0, 9) . rand(0, 9);
+         // $zip_file_name = $uploads_dir . $dir_date . '.zip';
+         // $file = $zip_file_name;
+
+         foreach ($_FILES['order'] as $f) {
+            move_uploaded_file($f['tmp_name'], $uploads_dir . $dir_date . "/" . $f["name"]);
          }
+
+         // $zip = new ZipArchive();
+         // if ($zip->open($zip_file_name, ZipArchive::CREATE) || ZipArchive::OVERWRITE) {
+         //    foreach ($_FILES['order']['tmp_name'] as $key => $tmpName) {
+         //       $file_name = $_FILES['order']['name'][$key];
+         //       $zip->addFile($tmpName, $file_name);
+         //    }
+         //    $zip->close();
+         // } else {
+         //    echo "MAAF, ARSIP FILE GAGAL";
+         //    exit();
+         // }
       }
 
       if ($harga == 0) {
