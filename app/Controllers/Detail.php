@@ -41,6 +41,11 @@ class Detail extends Controller
          unset($_SESSION['diskon_aff']);
       }
 
+      if (!isset($_POST['produk'])) {
+         echo "Jaringan terputus, silahkan reload halaman";
+         exit();
+      }
+
       $produk_id = $_POST['produk'];
 
       $cek = $this->db(0)->get_where_row("produk", "produk_id = " . $produk_id);
