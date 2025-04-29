@@ -323,7 +323,9 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
 
             beforeSend: function() {
                 $("#staticBackdrop").show();
-                $('.fix-menu-detail').click(false);
+                $('body').click(function() {
+                    return false;
+                });
                 $("#add_cart").hide();
             },
 
