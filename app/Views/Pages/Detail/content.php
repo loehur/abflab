@@ -237,7 +237,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
     </div>
 </div>
 
-<a href="<?= PC::HOST ?>" class="float-back text-decoration-none text-light mobile">
+<a href="<?= PC::HOST_LINK ?>" class="float-back text-decoration-none text-light mobile">
     <i class="fa-solid fa-arrow-left"></i>
 </a>
 
