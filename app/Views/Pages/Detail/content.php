@@ -329,7 +329,8 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
 
             success: function(dataRespon) {
                 $("#staticBackdrop").hide();
-                $('body').removeProp("pointer-events");
+                $('body').css("pointer-events", "auto");
+
                 if (dataRespon == 1) {
                     alert("Berhasil menambah order ke keranjang!");
                     cart_count();
