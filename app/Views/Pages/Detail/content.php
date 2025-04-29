@@ -218,7 +218,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
     </div>
 </div>
 
-<div class="fix_menu mobile bg-white" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+<div class="mobile fix-menu-detail bg-white" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
     <div class="row px-2">
         <div class="col px-0 py-1">
             <span class="btn btn-sm shadow-none">
@@ -246,6 +246,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
     $(document).ready(function() {
         device();
         totalHarga();
+        $('.fix-menu').addClass('d-none');
         var detail = <?= (is_array($detail_)) ? json_encode($detail_) : 0 ?>;
 
         if (detail != 0) {
@@ -322,6 +323,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
 
             beforeSend: function() {
                 $("#staticBackdrop").show();
+                $('.fix-menu-detail').click(false);
                 $("#add_cart").hide();
             },
 

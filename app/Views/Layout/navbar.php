@@ -3,7 +3,8 @@ $t = $data['title'];
 ?>
 
 <style>
-	.fix_menu {
+	.fix-menu,
+	.fix-menu-detail {
 		position: fixed;
 		left: 0;
 		bottom: 0;
