@@ -7,8 +7,8 @@ Foto Liburan - Ciptakan momen perjalanan yang tidak terlupakan
 <br>
 <br>Deskripsi :
 <br>Ukuran 12X12cm
-<br>VARIAN SMALL TEBAL +-15MM
-<br>VARIAN LARGE TEBAL +-20MM
+<br>VARIAN TIPIS TEBAL +-15MM
+<br>VARIAN TEBAL TEBAL +-20MM
 
 <br>Siku Tumpul
 <br>Hard Paper
