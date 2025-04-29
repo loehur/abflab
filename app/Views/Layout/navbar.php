@@ -63,7 +63,7 @@ $t = $data['title'];
 					<?php } ?>
 					<div class="col-auto px-1">
 						<a href=" <?= PC::BASE_URL ?>Cart" class="btn btn-sm bg-white pt-2 shadow-sm border-bottom position-relative">
-							<i class="fa-solid fa-cart-shopping"></i> Cart
+							&nbsp;<i class="fa-solid fa-cart-shopping"></i>&nbsp;
 							<div id="cart_count"></div>
 						</a>
 					</div>

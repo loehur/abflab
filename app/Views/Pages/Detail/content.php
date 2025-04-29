@@ -175,7 +175,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
                         <b>Rp <span id="harga_total">0</span></b>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row desktop">
                     <div class="col-auto text-end">
                         <div class="">
                             <button type="submit" id="add_cart" class="btn btn-success">(+) Tambah ke Keranjang</button>
@@ -194,10 +194,9 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
                 if (is_array($detail_)) {
                     $tab = 0;
                     foreach ($detail_ as $k => $dd) {
-                        $tab += 1;
-                ?>
+                        $tab += 1; ?>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link <?= ($tab == 1) ? 'active' : '' ?>" id="pills-<?= $k ?>-tab" data-bs-toggle="pill" data-bs-target="#pills-<?= $k ?>" type="button" role="tab" aria-controls="pills-<?= $k ?>" aria-selected="true"><?= $dd['judul'] ?></button>
+                            <button class="nav-link <?= ($tab == 1) ? 'active' : '' ?>" id="pills-<?= $k ?>-tab" data-bs-toggle="pill" data-bs-target="#pills-<?= $k ?>" type="button" role="tab" aria-controls="pills-<?= $k ?>" aria-selected="true"><small><?= $dd['judul'] ?></small></button>
                         </li>
                 <?php }
                 }
@@ -219,9 +218,33 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
     </div>
 </div>
 
+<div class="fix_menu mobile bg-white" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+    <div class="row px-2">
+        <div class="col px-0 py-1">
+            <span class="btn btn-sm shadow-none">
+                <a href="https://api.whatsapp.com/send?phone=<?= PC::SETTING['wa_float'] ?>&text=Halo <?= PC::APP_NAME ?>, Saya ingin informasi mengenai produk *<?= $d['produk'] ?>*" class="text-dark" target="_blank">
+                    <i class="fa-brands fa-whatsapp"></i><br>
+                    Tanyakan Produk
+                </a>
+            </span>
+        </div>
+        <div class="col px-0 bg-success py-1">
+            <span class="btn btn-sm shadow-none text-light" id="tambah_keranjang">
+                <i class="fa-solid fa-cart-plus"></i><br>
+                Tambahkan ke Keranjang
+            </span>
+        </div>
+    </div>
+</div>
+
+<a href="<?= PC::HOST ?>" class="float-back text-decoration-none text-light mobile">
+    <i class="fa-solid fa-arrow-left"></i>
+</a>
+
 <script src="<?= PC::ASSETS_URL ?>js/jquery.zoom.js"></script>
 <script>
     $(document).ready(function() {
+        device();
         totalHarga();
         var detail = <?= (is_array($detail_)) ? json_encode($detail_) : 0 ?>;
 
@@ -314,6 +337,10 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
                 }
             },
         });
+    });
+
+    $("#tambah_keranjang").click(function() {
+        $("#add_cart").click();
     });
 
     $('select.opHarga').change(function() {
