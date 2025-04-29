@@ -323,17 +323,13 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
 
             beforeSend: function() {
                 $("#staticBackdrop").show();
-                $('body').click(function() {
-                    return false;
-                });
+                $('body').css("pointer-events", "none");
                 $("#add_cart").hide();
             },
 
             success: function(dataRespon) {
                 $("#staticBackdrop").hide();
-                $('body').click(function() {
-                    return true;
-                });
+                $('body').removeProp("pointer-events");
                 if (dataRespon == 1) {
                     alert("Berhasil menambah order ke keranjang!");
                     cart_count();
