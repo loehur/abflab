@@ -66,11 +66,13 @@
                 $berat_total = 0; ?>
                 <?php if ($_SESSION['new_user'] == true) {
                     if (count(PC::DISKON_NEW_USER) > 0) { ?>
-                        <div class="alert alert-success">Promo Pelanggan Baru!<br>
-                            <?php foreach (PC::DISKON_NEW_USER as $key => $d) { ?>
-                                <b>Rp<?= $d['P'] ?></b> Item <?= $data['produk'][$key]['produk'] ?>. <small>(Maksimal Belanja <?= number_format($d['M']) ?>)</small>
+                        <?php foreach (PC::DISKON_NEW_USER as $key => $d) { ?>
+                            <?php if ($d['EX'] >= date("Ymd")) { ?>
+                                <div class="alert alert-success">Promo Pelanggan Baru!<br>
+                                    <b>Rp<?= $d['P'] ?></b> Item <?= $data['produk'][$key]['produk'] ?>. <small>(Maksimal Belanja <?= number_format($d['M']) ?>)</small>
+                                </div>
                             <?php } ?>
-                        </div>
+                        <?php } ?>
                     <?php } ?>
                 <?php } ?>
 
