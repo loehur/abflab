@@ -134,7 +134,7 @@ $varian = $this->db(0)->get_where("varian_grup_1", "produk_id = " . $id_produk);
                     </div>
                 <?php
                 } else { ?>
-                    <input id="file" name="order" class="form-control form-control-sm" max="30" type="hidden">
+                    <input id="file" name="order[]" class="form-control form-control-sm" max="30" type="file" style="display: none;" multiple>
                 <?php }
                 if (strlen($d['mal']) <> 0) { ?>
                     <div class="row mb-2">
