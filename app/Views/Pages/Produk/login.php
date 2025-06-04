@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col m-auto" style="max-width: 500px;">
             <label class="mb-2"><small>Login menggunakan Nomor HP <b>Admin Produk</b> yang terdaftar</small></label>
-            <form action="<?= PC::BASE_URL ?>Produk/login" method="POST">
+            <form action="<?= PC::BASE_URL ?>Produk/login" class="login_produk" method="POST">
                 <div class="row">
                     <div class="col">
                         <div class="form-floating mb-2">
@@ -42,7 +42,7 @@
         })
     })
 
-    $("form").on("submit", function(e) {
+    $("form.produk").on("submit", function(e) {
         e.preventDefault();
         $.ajax({
             url: $(this).attr('action'),
