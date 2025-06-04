@@ -10,9 +10,9 @@
     }
 </style>
 
-<form action="<?= PC::BASE_URL ?>Daftar/daftar" method="POST">
+<form action="<?= PC::BASE_URL ?>Daftar/daftar" class="ajax" method="POST">
     <div class="container">
-        <div style="max-width: 600px;" class="m-auto">
+        <div style="max-width: 600px;" class="m-auto px-1">
             <div class="row">
                 <div class="col px-1 mb-1">
                     <div class="form-floating">
@@ -29,6 +29,7 @@
             </div>
             <div class="row mt-1">
                 <div class="col px-1 mb-1">
+                    <label class="text-dark"><small>Tentukan titik koordinat pengantaran, pastikan sudah tepat.</small></label>
                     <div id="map"></div>
                 </div>
             </div>
@@ -105,21 +106,26 @@
             </div>
             <div class="row mt-1 pt-2">
                 <?php if (!isset($_SESSION['log'])) { ?>
-                    <div class="col">
+                    <div class="col px-1">
                         <div class="input-group mb-3">
                             <input type="text" class="form-control shadow-none" required name="otp" placeholder="OTP" aria-label="Recipient's username" aria-describedby="button-addon2">
                             <button class="btn btn-outline-secondary" type="button" id="otp">Minta</button>
                         </div>
                     </div>
                 <?php } ?>
-                <div class="col px-1 mb-1">
-                    <button type="submit" class="btn bg-light shadow-sm w-100">
+                <div class="col px-1">
+                    <button type="submit" class="btn btn-success shadow-sm w-100">
                         <?php if (!isset($_SESSION['log'])) { ?>
                             Register
                         <?php } else { ?>
                             Simpan
                         <?php } ?>
                     </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    <label class="text-dark"><small>OTP akan dikirim ke nomor whatsapp yang Anda cantumkan.</small></label>
                 </div>
             </div>
         </div>
@@ -198,7 +204,7 @@
         })
     })
 
-    $("form").on("submit", function(e) {
+    $("form.ajax").on("submit", function(e) {
         e.preventDefault();
         $.ajax({
             url: $(this).attr('action'),
