@@ -86,7 +86,7 @@
                             if ($_SESSION['new_user'] == true) {
                                 if (isset(PC::DISKON_NEW_USER[$c['produk_id']])) {
                                     $dn = PC::DISKON_NEW_USER[$c['produk_id']];
-                                    if ($c['total'] > $dn['P']) {
+                                    if ($c['total'] > $dn['P'] && $dn['EX'] >= date("Ymd")) {
                                         if (!isset($_SESSION['diskon_new'])) {
                                             if ($c['total'] >= $dn['M']) {
                                                 $diskon_new = $dn['M'] - $dn['P'];
